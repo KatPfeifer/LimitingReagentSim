@@ -11,6 +11,7 @@ export default class MainScene extends Phaser.Scene {
   private specButton: any;
   private tempButton: any;
   private precipButton: any;
+  private mLsLabel: any;
 
   constructor() {
     super({ key: 'MainScene' });

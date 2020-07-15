@@ -67,6 +67,10 @@ This two part simulation will illustrate the idea of limiting reactants and prov
   - How it works: Students will either click up/down arrow to increase the amount of starting material or input integer numbers to designate the amount of starting material
 - Graph Point Button
   - How it works: When students click this button, the point corresponding to the numbers in the input boxes appears on the method of continuous variation chart. The data also appears in the corresponding table
+  
+## Potential New Features
+- Create a mode in which students fill in the table or plot points themselves and receive feedback on the correctness of their calculations.
+   
 - Cuvette
   - Students will drag the cuvette to the spectrophotometer
 - Reaction Selector

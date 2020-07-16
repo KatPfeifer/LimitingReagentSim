@@ -3,6 +3,7 @@ import reactionButton from '../objects/reactionButton';
 import analysisButton from '../objects/analysisButton';
 import arrowButton from '../objects/arrowButton';
 import { cuvette } from '../objects/cuvette';
+import dataPoint from '../objects/dataPoint';
 
 export default class SpecScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
@@ -27,6 +28,13 @@ export default class SpecScene extends Phaser.Scene {
   private cuvetteOutline: any;
   private spectro: any;
   private absLabel: any;
+  private background2: any;
+  private absGraphAB: any;
+  private absGraphCD: any;
+  private absGraphEF: any;
+  private graphButton: any;
+  private dataList: any;
+  private dot: any;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -35,6 +43,8 @@ export default class SpecScene extends Phaser.Scene {
   create() {
     this.background=this.add.image(200, 200, "bluebackground");
     this.background.setScale(2.0);
+    this.background2=this.add.image(600, 200, "bluebackground");
+    this.background2.setScale(2.0);
 
     this.abs=0;
 
@@ -48,9 +58,19 @@ export default class SpecScene extends Phaser.Scene {
     this.mLsLabel2.fontSize=30;
     this.mLsLabel2.text=this.mLs2.toString();
 
-    this.absLabel=this.add.bitmapText(300, 350, "pixelFont");
+    this.absLabel=this.add.bitmapText(230, 350, "pixelFont");
     this.absLabel.fontSize=30;
-    this.absLabel.text=this.abs.toString();
+    this.absLabel.text="Absorbance: " + this.abs.toString();
+
+    this.absGraphAB=this.add.image(600, 120, "absGraphAB");
+    this.absGraphAB.setScale(0.7);
+    this.absGraphCD=this.add.image(600, 120, "absGraphCD");
+    this.absGraphCD.setScale(0.7);
+    this.absGraphCD.setAlpha(0.0);
+    this.absGraphEF=this.add.image(600, 120, "absGraphEF");
+    this.absGraphEF.setScale(0.7);
+    this.absGraphEF.setAlpha(0.0);
+
 
     this.add.text(50, 50, "Pick a \nreaction:", {fill: "#fffffff"});
     this.ABRxn=new reactionButton(this, 100, 100, "A+B", 0.2);
@@ -69,6 +89,12 @@ export default class SpecScene extends Phaser.Scene {
     .setInteractive();
     this.mixButton.on('pointerdown', ()=>this.findAbs(), this);
 
+    this.graphButton=this.add
+    .image(360, 230, "graphButton")
+    .setScale(0.5)
+    .setInteractive();
+    this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
+
     this.emptyCuvette=this.add.image(100, 300, "empty cuvette");
     this.emptyCuvette.setScale(0.15);
 
@@ -81,6 +107,11 @@ export default class SpecScene extends Phaser.Scene {
     this.spectro=this.physics.add.image(300, 300, "spectrophotometer");
     this.spectro.setScale(0.1);
     this.physics.add.overlap(this.spectro, this.fullCuvette, this.updateAbs, undefined, this);
+
+    this.dataList=[];
+
+    this.dot=this.add.image(758, 53, "blackCircle");
+    this.dot.setScale(0.05);
   }
 
   createArrowButtons(){
@@ -142,19 +173,22 @@ export default class SpecScene extends Phaser.Scene {
     let pdtmols=this.findLR();
     let pdtconc=(pdtmols*0.001)/(this.mLs+this.mLs2);
     this.abs=pdtconc*6120;
+    if (this.mLs==0||this.mLs2==0){
+      this.abs=0;
+    }
     console.log(this.abs);
     this.changeCuvette();
   }
 
   updateAbs(){
-    this.absLabel.text=this.abs.toString().substring(0,4);
+    this.absLabel.text="Absorbance: "+ this.abs.toString().substring(0,4);
   }
 
   changeCuvette(){
     this.fullCuvette.setAlpha(1.0);
     this.cuvetteOutline.setAlpha(1.0);
     this.emptyCuvette.setAlpha(0.0);
-    if (this.abs<0.2){
+    if (this.abs>0&&this.abs<0.2){
       this.fullCuvette.setTintFill(0xffb5b9);
     }
     if (this.abs>=0.2&&this.abs<0.4){
@@ -170,7 +204,7 @@ export default class SpecScene extends Phaser.Scene {
       this.fullCuvette.setTintFill(0xff2e38);
     }
     if (this.abs>=1.0&&this.abs<1.2){
-      this.fullCuvette.setTintFill(0xff1c27);
+      this.fullCuvette.setTintFill(0xff2530);
     }
     if (this.abs>=1.2&&this.abs<1.4){
       this.fullCuvette.setTintFill(0xff0512);
@@ -178,5 +212,16 @@ export default class SpecScene extends Phaser.Scene {
     if (this.abs>=1.4&&this.abs<1.6){
       this.fullCuvette.setTintFill(0xe8000c);
     }
+  }
+
+  graphPoint(){
+  }
+
+  //MF=mole Fraction
+  //Gives mole fraction of second reactant
+  findMF(){
+    let molA=0.001*this.mLs;
+    let molB=0.001*this.mLs2;
+    return molB/(molA + molB);
   }
 }

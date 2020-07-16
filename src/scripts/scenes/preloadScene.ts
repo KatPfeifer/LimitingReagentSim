@@ -9,6 +9,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("downArrow", 'assets/images/downArrow.png');
     this.load.image("A+B", "assets/images/A + B.png");
     this.load.image("mixSolBut", "assets/images/mixSolButton.png");
+    this.load.image("graphButton", "assets/images/graphButton.png");
 
     this.load.image("spec", "assets/images/specButton.png");
     this.load.image("temp", "assets/images/tempButton.png");
@@ -18,6 +19,10 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("fullCuvette", "assets/images/fullCuvette.png");
     this.load.image("cuvetteOutline", "assets/images/cuvetteOutline.png");
     this.load.image("spectrophotometer", "assets/images/spectrophotometer.png");
+    this.load.image("absGraphAB", "assets/images/absGraphAB.png");
+    this.load.image("absGraphCD", "assets/images/absGraphCD.png");
+    this.load.image("absGraphEF", "assets/images/absGraphEF.png");
+    this.load.image("blackCircle", "assets/images/blackCircle.png");
 
     this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
   }

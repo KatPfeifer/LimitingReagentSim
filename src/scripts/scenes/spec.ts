@@ -21,6 +21,9 @@ export default class SpecScene extends Phaser.Scene {
   private down2: any;
   private mixButton: any;
   private abs: any;
+  private emptyCuvette: any;
+  private fullCuvette: any;
+  private cuvetteOutline: any;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -54,10 +57,20 @@ export default class SpecScene extends Phaser.Scene {
     this.createArrowButtons();
 
     this.mixButton=this.add
-    .image(300, 200, "mixSolBut")
+    .image(360, 200, "mixSolBut")
     .setScale(0.5)
     .setInteractive();
-    this.mixButton.on('pointerdown', ()=>this.makeSol);
+    this.mixButton.on('pointerdown', ()=>this.findAbs(), this);
+
+    this.emptyCuvette=this.add.image(100, 300, "empty cuvette");
+    this.emptyCuvette.setScale(0.15);
+
+    this.fullCuvette=this.add.image(300, 300, "fullCuvette");
+    this.fullCuvette.setScale(0.15);
+    this.fullCuvette.setTintFill(0xeb1b0c);
+
+    this.cuvetteOutline=this.add.image(300,300, "cuvetteOutline");
+    this.cuvetteOutline.setScale(0.15);
   }
 
   createArrowButtons(){
@@ -106,15 +119,19 @@ export default class SpecScene extends Phaser.Scene {
   }
 
   findLR(){
-    if (this.mLs>this.mLs2){
-      return this.mLs;
+    if ((this.mLs/3)<this.mLs2){
+      return this.mLs/3;
     }
     else {
       return this.mLs2;
     }
   }
 
-  makeSol(){
-
+  findAbs(){
+    console.log("here");
+    let pdtmols=this.findLR();
+    let pdtconc=(pdtmols*0.001)/(this.mLs+this.mLs2);
+    this.abs=pdtconc*6120;
+    console.log(this.abs);
   }
 }

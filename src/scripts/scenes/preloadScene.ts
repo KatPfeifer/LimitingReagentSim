@@ -13,6 +13,9 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("spec", "assets/images/specButton.png");
     this.load.image("temp", "assets/images/tempButton.png");
     this.load.image("precip", "assets/images/precipButton.png");
+    this.load.image("empty cuvette", "assets/images/emptyCuvette.png");
+    this.load.image("fullCuvette", "assets/images/fullCuvette.png");
+    this.load.image("cuvetteOutline", "assets/images/cuvetteOutline.png");
 
     this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
   }

@@ -5,6 +5,7 @@ export default class dataPoint extends Phaser.GameObjects.Image{
 
     private dataValue: any;
     private molFraction: any;
+    private label: any;
 
     constructor(scene: Phaser.Scene, x: number, y: number, dataVal: number, molFr: number){
         super(scene, x, y, "blackCircle");
@@ -15,5 +16,9 @@ export default class dataPoint extends Phaser.GameObjects.Image{
         
         this.dataValue=dataVal;
         this.molFraction=molFr;
+
+        this.setInteractive();
     }
+
+
 }

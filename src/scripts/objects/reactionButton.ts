@@ -12,7 +12,6 @@ export default class reactionButton extends Phaser.GameObjects.Image {
         this.setInteractive();
         this.on('pointerover', this.enterHoverState, this);
         this.on('pointerout', this.enterRestState, this);
-        //this.on('pointerdown', ()=>scene.changeButtonTint(this));
     }
 
     enterHoverState(){
@@ -22,9 +21,4 @@ export default class reactionButton extends Phaser.GameObjects.Image {
     enterRestState(){
         this.clearTint();
     }
-
-    changeButtonTint(){
-        this.setTintFill(0x033dfc);
-    }
-
 }

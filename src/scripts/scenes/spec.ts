@@ -4,12 +4,16 @@ import analysisButton from '../objects/analysisButton';
 import arrowButton from '../objects/arrowButton';
 import { cuvette } from '../objects/cuvette';
 import dataPoint from '../objects/dataPoint';
+import reactionHighlights from '../objects/reactionHighlights';
 
 export default class SpecScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
   private ABRxn: any;
+  private ABRxnHighlight: any;
   private CDRxn: any;
+  private CDRxnHighlight: any;
   private EFRxn: any;
+  private EFRxnHighlight: any;
   private background: any;
   private selectedRxn: any;
   private specButton: any;
@@ -37,6 +41,8 @@ export default class SpecScene extends Phaser.Scene {
   private graphButton: any;
   private dataList: any;
   private newestDP: any;
+  private mRLabel: any;
+  private sPLabel: any;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -51,18 +57,29 @@ export default class SpecScene extends Phaser.Scene {
     this.abs=0;
 
     this.mLs=0;
-    this.mLsLabel = this.add.bitmapText(60, 200, "pixelFont");
+    this.mLsLabel = this.add.bitmapText(55, 200, "pixelFont");
     this.mLsLabel.fontSize=30;
-    this.mLsLabel.text=this.mLs.toString();
+    this.mLsLabel.text=this.mLs.toString()+"";
+    this.mLsLabel.setTintFill(0x000000);
 
     this.mLs2=0;
-    this.mLsLabel2=this.add.bitmapText(200, 200, "pixelFont");
+    this.mLsLabel2=this.add.bitmapText(195, 200, "pixelFont");
     this.mLsLabel2.fontSize=30;
     this.mLsLabel2.text=this.mLs2.toString();
+    this.mLsLabel2.setTintFill(0x000000);
 
     this.absLabel=this.add.bitmapText(230, 350, "pixelFont");
     this.absLabel.fontSize=30;
     this.absLabel.text="Absorbance: " + this.abs.toString();
+    this.absLabel.setTintFill(0x000000);
+
+    this.mRLabel=this.add.bitmapText(450, 250, "pixelFont");
+    this.mRLabel.fontSize=20;
+    this.mRLabel.setTintFill(0x000000);
+
+    this.sPLabel=this.add.bitmapText(600, 250, "pixelFont");
+    this.sPLabel.fontSize=20;
+    this.sPLabel.setTintFill(0x000000);
 
     this.absGraphAB=this.add.image(600, 120, "absGraphAB");
     this.absGraphAB.setScale(0.7);
@@ -77,10 +94,20 @@ export default class SpecScene extends Phaser.Scene {
     this.add.text(50, 50, "Pick a \nreaction:", {fill: "#fffffff"});
     this.ABRxn=new reactionButton(this, 80, 100, "A+B", 0.3);
     this.ABRxn.on('pointerdown', ()=>this.ABPicked(), this);
+    this.ABRxnHighlight= new reactionHighlights(this, 80, 100, "A+B");
+    this.ABRxnHighlight.setAlpha(0.0);
+
+
     this.CDRxn=new reactionButton(this, 80, 120, "C+D", 0.3);
     this.CDRxn.on('pointerdown', ()=>this.CDPicked(), this);
+    this.CDRxnHighlight = new reactionHighlights(this, 80, 120, "C+D");
+    this.CDRxnHighlight.setAlpha(0.0);
+
     this.EFRxn=new reactionButton(this, 80, 140, "E+F", 0.3);
     this.EFRxn.on('pointerdown', ()=>this.EFPicked(), this);
+    this.EFRxnHighlight=new reactionHighlights(this, 80, 140, "E+F");
+    this.EFRxnHighlight.setAlpha(0.0);
+    
 
     this.add.text(200, 50, "Pick a method \nof analysis:", {fill: "#fffffff"});
     this.specButton=new analysisButton(this, 270, 100, "spec", 0.4);
@@ -100,11 +127,18 @@ export default class SpecScene extends Phaser.Scene {
     .setScale(0.5)
     .setInteractive();
     this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
+      
+    this.createCuvettes();
+    
 
+    this.dataList=[];
+  }
+
+  createCuvettes(){
     this.emptyCuvette=this.add.image(100, 300, "empty cuvette");
     this.emptyCuvette.setScale(0.15);
 
-    this.fullCuvette=new cuvette(this, 101, 300, "fullCuvette");
+    this.fullCuvette=new cuvette(this, 100, 300, "fullCuvette");
     this.fullCuvette.setAlpha(0.0);
 
     this.cuvetteOutline=new cuvette(this, 100, 300, "cuvetteOutline");
@@ -113,8 +147,6 @@ export default class SpecScene extends Phaser.Scene {
     this.spectro=this.physics.add.image(300, 300, "spectrophotometer");
     this.spectro.setScale(0.1);
     this.physics.add.overlap(this.spectro, this.fullCuvette, this.updateAbs, undefined, this);
-
-    this.dataList=[];
   }
 
   createArrowButtons(){
@@ -153,15 +185,27 @@ export default class SpecScene extends Phaser.Scene {
 
   ABPicked(){
     this.selectedRxn="AB";
+    this.resetHighlights();
+    this.ABRxnHighlight.setAlpha(1.0);
     console.log(this.selectedRxn + "was picked");
   }
 
   CDPicked(){
-
+    this.selectedRxn="CD";
+    this.resetHighlights();
+    this.CDRxnHighlight.setAlpha(1.0);
   }
 
   EFPicked(){
-    
+    this.selectedRxn="EF";
+    this.resetHighlights();
+    this.EFRxnHighlight.setAlpha(1.0);
+  }
+
+  resetHighlights(){
+    this.ABRxnHighlight.setAlpha(0.0);
+    this.CDRxnHighlight.setAlpha(0.0);
+    this.EFRxnHighlight.setAlpha(0.0);
   }
 
 
@@ -180,14 +224,15 @@ export default class SpecScene extends Phaser.Scene {
   }
 
   findAbs(){
-    console.log("here");
     let pdtmols=this.findLR();
     let pdtconc=(pdtmols*0.001)/(this.mLs+this.mLs2);
     this.abs=pdtconc*6120;
     if (this.mLs==0||this.mLs2==0){
       this.abs=0;
     }
-    console.log(this.abs);
+    if (this.selectedRxn=="CD"||this.selectedRxn=="EF"){
+      this.abs=0;
+    }
     this.changeCuvette();
   }
 
@@ -231,7 +276,11 @@ export default class SpecScene extends Phaser.Scene {
     let y=185-(this.abs/1.6)*132;
 
     this.newestDP = new dataPoint(this, x, y, this.abs, MFB); 
+    this.newestDP.on('pointerover', ()=>this.updateSPLabel(), this);
+    this.newestDP.on('pointeroff', ()=>this.clearSPLabel(), this);
     this.dataList.push(this.newestDP);
+
+    this.updateMRLabel();
   }
 
   //MF=mole Fraction
@@ -240,5 +289,34 @@ export default class SpecScene extends Phaser.Scene {
     let molA=0.001*this.mLs;
     let molB=0.001*this.mLs2;
     return molB/(molA + molB);
+  }
+
+  updateMRLabel(){
+    if (this.selectedRxn=="AB"){
+      this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs.toString().substring(0,4));
+    }
+    if (this.selectedRxn=="CD"){
+      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs);
+    }
+    if (this.selectedRxn=="EF"){
+      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs);
+    }
+  }
+
+  updateSPLabel(){
+    if (this.selectedRxn=="AB"){
+      this.sPLabel.text="Selected Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs.toString().substring(0,4));
+    }
+    if (this.selectedRxn=="CD"){
+      this.sPLabel.text="Selected Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs);
+    }
+    if (this.selectedRxn=="EF"){
+      this.sPLabel.text="Selected Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs);
+    }
+  }
+
+  clearSPLabel(){
+
+    this.sPLabel.text="";
   }
 }

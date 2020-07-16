@@ -2,6 +2,7 @@ import ExampleObject from '../objects/exampleObject';
 import reactionButton from '../objects/reactionButton';
 import analysisButton from '../objects/analysisButton';
 import arrowButton from '../objects/arrowButton';
+import { cuvette } from '../objects/cuvette';
 
 export default class SpecScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
@@ -24,6 +25,8 @@ export default class SpecScene extends Phaser.Scene {
   private emptyCuvette: any;
   private fullCuvette: any;
   private cuvetteOutline: any;
+  private spectro: any;
+  private absLabel: any;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -45,6 +48,10 @@ export default class SpecScene extends Phaser.Scene {
     this.mLsLabel2.fontSize=30;
     this.mLsLabel2.text=this.mLs2.toString();
 
+    this.absLabel=this.add.bitmapText(300, 350, "pixelFont");
+    this.absLabel.fontSize=30;
+    this.absLabel.text=this.abs.toString();
+
     this.add.text(50, 50, "Pick a \nreaction:", {fill: "#fffffff"});
     this.ABRxn=new reactionButton(this, 100, 100, "A+B", 0.2);
     this.ABRxn.on('pointerdown', this.ABPicked);
@@ -65,12 +72,15 @@ export default class SpecScene extends Phaser.Scene {
     this.emptyCuvette=this.add.image(100, 300, "empty cuvette");
     this.emptyCuvette.setScale(0.15);
 
-    this.fullCuvette=this.add.image(300, 300, "fullCuvette");
-    this.fullCuvette.setScale(0.15);
-    this.fullCuvette.setTintFill(0xeb1b0c);
+    this.fullCuvette=new cuvette(this, 100, 300, "fullCuvette");
+    this.fullCuvette.setAlpha(0.0);
 
-    this.cuvetteOutline=this.add.image(300,300, "cuvetteOutline");
-    this.cuvetteOutline.setScale(0.15);
+    this.cuvetteOutline=new cuvette(this, 100, 300, "cuvetteOutline");
+    this.cuvetteOutline.setAlpha(0.0);
+
+    this.spectro=this.physics.add.image(300, 300, "spectrophotometer");
+    this.spectro.setScale(0.1);
+    this.physics.add.overlap(this.spectro, this.fullCuvette, this.updateAbs, undefined, this);
   }
 
   createArrowButtons(){
@@ -133,5 +143,40 @@ export default class SpecScene extends Phaser.Scene {
     let pdtconc=(pdtmols*0.001)/(this.mLs+this.mLs2);
     this.abs=pdtconc*6120;
     console.log(this.abs);
+    this.changeCuvette();
+  }
+
+  updateAbs(){
+    this.absLabel.text=this.abs.toString().substring(0,4);
+  }
+
+  changeCuvette(){
+    this.fullCuvette.setAlpha(1.0);
+    this.cuvetteOutline.setAlpha(1.0);
+    this.emptyCuvette.setAlpha(0.0);
+    if (this.abs<0.2){
+      this.fullCuvette.setTintFill(0xffb5b9);
+    }
+    if (this.abs>=0.2&&this.abs<0.4){
+      this.fullCuvette.setTintFill(0xff9197);
+    }
+    if (this.abs>=0.4&&this.abs<0.6){
+      this.fullCuvette.setTintFill(0xff7077);
+    }
+    if (this.abs>=0.6&&this.abs<0.8){
+      this.fullCuvette.setTintFill(0xff545d);
+    }
+    if (this.abs>=0.8&&this.abs<1.0){
+      this.fullCuvette.setTintFill(0xff2e38);
+    }
+    if (this.abs>=1.0&&this.abs<1.2){
+      this.fullCuvette.setTintFill(0xff1c27);
+    }
+    if (this.abs>=1.2&&this.abs<1.4){
+      this.fullCuvette.setTintFill(0xff0512);
+    }
+    if (this.abs>=1.4&&this.abs<1.6){
+      this.fullCuvette.setTintFill(0xe8000c);
+    }
   }
 }

@@ -8,6 +8,8 @@ import dataPoint from '../objects/dataPoint';
 export default class SpecScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
   private ABRxn: any;
+  private CDRxn: any;
+  private EFRxn: any;
   private background: any;
   private selectedRxn: any;
   private specButton: any;
@@ -34,7 +36,7 @@ export default class SpecScene extends Phaser.Scene {
   private absGraphEF: any;
   private graphButton: any;
   private dataList: any;
-  private dot: any;
+  private newestDP: any;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -73,8 +75,12 @@ export default class SpecScene extends Phaser.Scene {
 
 
     this.add.text(50, 50, "Pick a \nreaction:", {fill: "#fffffff"});
-    this.ABRxn=new reactionButton(this, 100, 100, "A+B", 0.2);
-    this.ABRxn.on('pointerdown', this.ABPicked);
+    this.ABRxn=new reactionButton(this, 80, 100, "A+B", 0.3);
+    this.ABRxn.on('pointerdown', ()=>this.ABPicked(), this);
+    this.CDRxn=new reactionButton(this, 80, 120, "C+D", 0.3);
+    this.CDRxn.on('pointerdown', ()=>this.CDPicked(), this);
+    this.EFRxn=new reactionButton(this, 80, 140, "E+F", 0.3);
+    this.EFRxn.on('pointerdown', ()=>this.EFPicked(), this);
 
     this.add.text(200, 50, "Pick a method \nof analysis:", {fill: "#fffffff"});
     this.specButton=new analysisButton(this, 270, 100, "spec", 0.4);
@@ -98,7 +104,7 @@ export default class SpecScene extends Phaser.Scene {
     this.emptyCuvette=this.add.image(100, 300, "empty cuvette");
     this.emptyCuvette.setScale(0.15);
 
-    this.fullCuvette=new cuvette(this, 100, 300, "fullCuvette");
+    this.fullCuvette=new cuvette(this, 101, 300, "fullCuvette");
     this.fullCuvette.setAlpha(0.0);
 
     this.cuvetteOutline=new cuvette(this, 100, 300, "cuvetteOutline");
@@ -109,9 +115,6 @@ export default class SpecScene extends Phaser.Scene {
     this.physics.add.overlap(this.spectro, this.fullCuvette, this.updateAbs, undefined, this);
 
     this.dataList=[];
-
-    this.dot=this.add.image(758, 53, "blackCircle");
-    this.dot.setScale(0.05);
   }
 
   createArrowButtons(){
@@ -151,6 +154,14 @@ export default class SpecScene extends Phaser.Scene {
   ABPicked(){
     this.selectedRxn="AB";
     console.log(this.selectedRxn + "was picked");
+  }
+
+  CDPicked(){
+
+  }
+
+  EFPicked(){
+    
   }
 
 
@@ -215,6 +226,12 @@ export default class SpecScene extends Phaser.Scene {
   }
 
   graphPoint(){
+    let MFB=this.findMF();
+    let x=480+MFB*278;
+    let y=185-(this.abs/1.6)*132;
+
+    this.newestDP = new dataPoint(this, x, y, this.abs, MFB); 
+    this.dataList.push(this.newestDP);
   }
 
   //MF=mole Fraction

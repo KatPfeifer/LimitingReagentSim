@@ -276,7 +276,7 @@ export default class SpecScene extends Phaser.Scene {
 
     this.newestDP = new dataPoint(this, x, y, this.abs, MFB); 
     this.newestDP.on('pointerover', ()=>this.updateSPLabel(), this);
-    this.newestDP.on('pointeroff', ()=>this.clearSPLabel(), this);
+    this.newestDP.on('pointerout', ()=>this.clearSPLabel(), this);
     this.dataList.push(this.newestDP);
 
     this.updateMRLabel();

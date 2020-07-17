@@ -33,6 +33,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("tempGraphAB", "assets/images/tempGraphAB.png");
     this.load.image("emptyBeaker", "assets/images/emptyBeaker.png");
     this.load.image("fullBeaker", "assets/images/fullBeaker.png");
+    this.load.image("thermoHead", "assets/images/thermoHead.png");
   }
 
   create() {

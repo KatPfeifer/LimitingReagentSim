@@ -4,12 +4,12 @@ import analysisButton from '../objects/analysisButton';
 
 export default class PrecipScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
-  private ABRxn: any;
-  private background: any;
-  private selectedRxn: any;
-  private specButton: any;
-  private tempButton: any;
-  private precipButton: any;
+  private ABRxn: reactionButton;
+  private background: Phaser.GameObjects.Image;
+  private selectedRxn: string;
+  private specButton: analysisButton;
+  private tempButton: analysisButton;
+  private precipButton: analysisButton;
 
   constructor() {
     super({ key: 'PrecipScene' });

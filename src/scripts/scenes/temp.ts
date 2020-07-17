@@ -34,7 +34,11 @@ export default class TempScene extends Phaser.Scene {
   private newestDP: any;
   private mRLabel: any;
   private sPLabel: any;
-  private temp: any;
+  private temp: number;
+  private tempChange: number;
+  private tempGraphAB: any;
+  private tempGraphCD: any;
+  private tempGraphEF: any;
 
   constructor() {
     super({ key: 'TempScene' });
@@ -91,12 +95,15 @@ export default class TempScene extends Phaser.Scene {
     this.precipButton=new analysisButton(this, 258, 140, "precip", 0.3);
 
     this.createArrowButtons();
+    this.createGraphs();
+
+    this.dataList=[];
 
     this.mixButton=this.add
     .image(360, 200, "mixSolBut")
     .setScale(0.5)
     .setInteractive();
-    //this.mixButton.on('pointerdown', ()=>this.findAbs(), this);
+    this.mixButton.on('pointerdown', ()=>this.findTemp(), this);
 
     this.graphButton=this.add
     .image(360, 230, "graphButton")
@@ -114,6 +121,17 @@ export default class TempScene extends Phaser.Scene {
     this.up2.on('pointerdown', ()=>this.changemLs("up2"));
     this.down2=new arrowButton(this, 200, 230, "downArrow", "down2");
     this.down2.on('pointerdown', ()=>this.changemLs("down2"));
+  }
+
+  createGraphs(){
+    this.tempGraphAB=this.add.image(600, 120, "tempGraphAB");
+    this.tempGraphAB.setScale(0.7);
+    this.tempGraphCD=this.add.image(600, 120, "tempGraphCD");
+    this.tempGraphCD.setScale(0.7);
+    this.tempGraphCD.setAlpha(0.0);
+    this.tempGraphEF=this.add.image(600, 120, "tempGraphCD");
+    this.tempGraphEF.setScale(0.7);
+    this.tempGraphEF.setAlpha(0.0);
   }
 
   update() {
@@ -162,27 +180,40 @@ export default class TempScene extends Phaser.Scene {
     this.EFRxnHighlight.setAlpha(0.0);
   }
 
-
+/*
   changeButtonTint(button: reactionButton){
     button.setTintFill(0x033dfc);
     console.log("here");
   }
+  */
 
+  //LR = Limiting Reactant. Ratio for reaction is 1:2
   findLR(){
-    if ((this.mLs/3)<this.mLs2){
-      return this.mLs/3;
+    if ((this.mLs)<this.mLs2/2){
+      return this.mLs;
     }
     else {
-      return this.mLs2;
+      return this.mLs2/2;
     }
+  }
+
+  //Uses 485000J/mol - an arbitrary enthalpy of formation - shows an endothermic reaction
+  //4.19 is the specific heat of water
+  findTemp(){
+    let LR=this.findLR();
+    let mol=(LR*0.1)/1000;
+    let Js=mol*485000;
+    this.tempChange=((-1)*Js)/((this.mLs+this.mLs2)*4.19);
+    this.temp=25+this.tempChange;
+    console.log(this.tempChange);
   }
 
   graphPoint(){
     let MFB=this.findMF();
     let x=480+MFB*278;
-    let y=185-(this.temp/1.6)*132;
+    let y=66-108*(this.tempChange/4);
 
-    this.newestDP = new dataPoint(this, x, y, this.temp, MFB); 
+    this.newestDP = new dataPoint(this, x, y, this.tempChange, MFB); 
     this.newestDP.on('pointerover', ()=>this.updateSPLabel(), this);
     this.newestDP.on('pointeroff', ()=>this.clearSPLabel(), this);
     this.dataList.push(this.newestDP);

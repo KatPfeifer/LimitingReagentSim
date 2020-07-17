@@ -27,6 +27,12 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("blackCircle", "assets/images/blackCircle.png");
 
     this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
+
+    this.load.image("tempGraphAB", "assets/images/tempGraphAB.png");
+    this.load.image("tempGraphAB", "assets/images/tempGraphAB.png");
+    this.load.image("tempGraphAB", "assets/images/tempGraphAB.png");
+    this.load.image("emptyBeaker", "assets/images/emptyBeaker.png");
+    this.load.image("fullBeaker", "assets/images/fullBeaker.png");
   }
 
   create() {

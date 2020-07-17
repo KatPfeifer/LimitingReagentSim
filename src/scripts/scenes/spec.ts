@@ -7,7 +7,6 @@ import dataPoint from '../objects/dataPoint';
 import reactionHighlights from '../objects/reactionHighlights';
 
 export default class SpecScene extends Phaser.Scene {
-  private exampleObject: ExampleObject;
   private ABRxn: any;
   private ABRxnHighlight: any;
   private CDRxn: any;

@@ -183,6 +183,7 @@ export default class SpecScene extends Phaser.Scene {
   }
 
   ABPicked(){
+    this.clearGraph()
     this.selectedRxn="AB";
     this.resetHighlights();
     this.ABRxnHighlight.setAlpha(1.0);
@@ -190,12 +191,14 @@ export default class SpecScene extends Phaser.Scene {
   }
 
   CDPicked(){
+    this.clearGraph();
     this.selectedRxn="CD";
     this.resetHighlights();
     this.CDRxnHighlight.setAlpha(1.0);
   }
 
   EFPicked(){
+    this.clearGraph();
     this.selectedRxn="EF";
     this.resetHighlights();
     this.EFRxnHighlight.setAlpha(1.0);
@@ -317,5 +320,12 @@ export default class SpecScene extends Phaser.Scene {
   clearSPLabel(){
 
     this.sPLabel.text="";
+  }
+  
+  clearGraph(){
+    console.log("in clear graph")
+    for (let i=this.dataList.length-1; i>-1; i--){
+      this.dataList[i].setAlpha(0.0);
+    }
   }
 }

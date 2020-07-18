@@ -7,41 +7,41 @@ import dataPoint from '../objects/dataPoint';
 import reactionHighlights from '../objects/reactionHighlights';
 
 export default class TempScene extends Phaser.Scene {
-  private ABRxn: any; //need to figure out the type of an image
-  private ABRxnHighlight: any;
-  private CDRxn: any;
-  private CDRxnHighlight: any;
-  private EFRxn: any;
-  private EFRxnHighlight: any;
-  private background: any;
-  private selectedRxn: any;
-  private specButton: any;
-  private tempButton: any;
-  private precipButton: any;
-  private mLsLabel: any;
+  private ABRxn: reactionButton; //need to figure out the type of an image
+  private ABRxnHighlight: reactionHighlights;
+  private CDRxn: reactionButton;
+  private CDRxnHighlight: reactionHighlights;
+  private EFRxn: reactionButton;
+  private EFRxnHighlight: reactionHighlights;
+  private background: Phaser.GameObjects.Image;;
+  private selectedRxn: string;
+  private specButton: analysisButton;
+  private tempButton: analysisButton;
+  private precipButton: analysisButton;
+  private mLsLabel: any; //figure out type of labels
   private mLsLabel2: any;
   private mLs: any;
   private mLs2: any;
-  private up1: any;
-  private up2: any;
-  private down1: any;
-  private down2: any;
+  private up1: arrowButton;
+  private up2: arrowButton;
+  private down1: arrowButton;
+  private down2: arrowButton;
   private mixButton: any;
   private absLabel: any;
-  private background2: any;
+  private background2: Phaser.GameObjects.Image;
   private graphButton: any;
   private dataList: any;
-  private newestDP: any;
+  private newestDP: dataPoint;
   private mRLabel: any;
   private sPLabel: any;
   private temp: number;
   private tempChange: number;
-  private tempGraphAB: any;
-  private tempGraphCD: any;
-  private tempGraphEF: any;
-  private emptyBeaker: any;
-  private fullBeaker: any;
-  private thermoHead: any;
+  private tempGraphAB: Phaser.GameObjects.Image;
+  private tempGraphCD: Phaser.GameObjects.Image;
+  private tempGraphEF: Phaser.GameObjects.Image;
+  private emptyBeaker: Phaser.GameObjects.Image;
+  private fullBeaker: Phaser.GameObjects.Image;
+  private thermoHead: Phaser.GameObjects.Image;
   private tempLabel: any;
 
   constructor() {
@@ -177,6 +177,7 @@ export default class TempScene extends Phaser.Scene {
   }
 
   ABPicked(){
+    this.clearGraph();
     this.selectedRxn="AB";
     this.resetHighlights();
     this.ABRxnHighlight.setAlpha(1.0);
@@ -184,12 +185,14 @@ export default class TempScene extends Phaser.Scene {
   }
 
   CDPicked(){
+    this.clearGraph();
     this.selectedRxn="CD";
     this.resetHighlights();
     this.CDRxnHighlight.setAlpha(1.0);
   }
 
   EFPicked(){
+    this.clearGraph();
     this.selectedRxn="EF";
     this.resetHighlights();
     this.EFRxnHighlight.setAlpha(1.0);
@@ -287,5 +290,12 @@ export default class TempScene extends Phaser.Scene {
   updateTempLabel(){
     console.log("here");
     this.tempLabel.text=this.temp.toString().substring(0,4)+ " C";
+  }
+
+  clearGraph(){
+    console.log("in clear graph")
+    for (let i=this.dataList.length-1; i>-1; i--){
+      this.dataList[i].setAlpha(0.0);
+    }
   }
 }

@@ -5,14 +5,22 @@ import arrowButton from '../objects/arrowButton';
 import { cuvette } from '../objects/cuvette';
 import dataPoint from '../objects/dataPoint';
 import reactionHighlights from '../objects/reactionHighlights';
+import button from '../objects/button';
+import productImage from '../objects/productImage';
 
 export default class SpecScene extends Phaser.Scene {
   private ABRxn: any;
   private ABRxnHighlight: any;
+  private ABPdt: reactionButton;
+  private ABPdtImage: Phaser.GameObjects.Image;
   private CDRxn: any;
   private CDRxnHighlight: any;
+  private CDPdtImage: Phaser.GameObjects.Image;
+  private CDPdt: reactionButton;
   private EFRxn: any;
   private EFRxnHighlight: any;
+  private EFPdt: reactionButton;
+  private EFPdtImage: Phaser.GameObjects.Image;
   private background: any;
   private selectedRxn: any;
   private specButton: any;
@@ -42,6 +50,7 @@ export default class SpecScene extends Phaser.Scene {
   private newestDP: any;
   private mRLabel: any;
   private sPLabel: any;
+  private backButton: button;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -95,18 +104,23 @@ export default class SpecScene extends Phaser.Scene {
     this.ABRxn.on('pointerdown', ()=>this.ABPicked(), this);
     this.ABRxnHighlight= new reactionHighlights(this, 80, 100, "A+B");
     this.ABRxnHighlight.setAlpha(0.0);
+    this.ABPdt=new reactionButton(this, 135, 100, "Pdt", 0.4);
+    this.ABPdt.on('pointerdown', ()=>this.showABPdt(), this);
 
 
     this.CDRxn=new reactionButton(this, 80, 120, "C+D", 0.3);
     this.CDRxn.on('pointerdown', ()=>this.CDPicked(), this);
     this.CDRxnHighlight = new reactionHighlights(this, 80, 120, "C+D");
     this.CDRxnHighlight.setAlpha(0.0);
+    this.CDPdt=new reactionButton(this, 135, 120, "Pdt", 0.4);
+    this.CDPdt.on('pointerdown', ()=>this.showCDPdt(), this);
 
     this.EFRxn=new reactionButton(this, 80, 140, "E+F", 0.3);
     this.EFRxn.on('pointerdown', ()=>this.EFPicked(), this);
     this.EFRxnHighlight=new reactionHighlights(this, 80, 140, "E+F");
     this.EFRxnHighlight.setAlpha(0.0);
-    
+    this.EFPdt = new reactionButton(this, 135, 140, "Pdt", 0.4);
+    this.EFPdt.on('pointerdown', ()=>this.showEFPdt(), this);
 
     this.add.text(200, 50, "Pick a method \nof analysis:", {fill: "#fffffff"});
     this.specButton=new analysisButton(this, 270, 100, "spec", 0.4);
@@ -131,6 +145,13 @@ export default class SpecScene extends Phaser.Scene {
     
 
     this.dataList=[];
+
+    this.backButton=new button(this, 750, 375, "backButton", 0.7);
+    this.backButton.on('pointerdown', ()=>this.goToMain(), this);
+
+    this.ABPdtImage=new productImage(this, 400, 200, "ABPdt", 0.4);
+    this.CDPdtImage=new productImage(this, 400, 200, "CDPdt", 0.5);
+    this.EFPdtImage=new productImage(this, 400, 200, "EFPdt", 0.8);
   }
 
   createCuvettes(){
@@ -190,11 +211,19 @@ export default class SpecScene extends Phaser.Scene {
     console.log(this.selectedRxn + "was picked");
   }
 
+  showABPdt(){
+    this.ABPdtImage.setAlpha(1.0);
+  }
+
   CDPicked(){
     this.clearGraph();
     this.selectedRxn="CD";
     this.resetHighlights();
     this.CDRxnHighlight.setAlpha(1.0);
+  }
+  
+  showCDPdt(){
+    this.CDPdtImage.setAlpha(1.0);
   }
 
   EFPicked(){
@@ -202,6 +231,10 @@ export default class SpecScene extends Phaser.Scene {
     this.selectedRxn="EF";
     this.resetHighlights();
     this.EFRxnHighlight.setAlpha(1.0);
+  }
+
+  showEFPdt(){
+    this.EFPdtImage.setAlpha(1.0);
   }
 
   resetHighlights(){
@@ -327,5 +360,9 @@ export default class SpecScene extends Phaser.Scene {
     for (let i=this.dataList.length-1; i>-1; i--){
       this.dataList[i].setAlpha(0.0);
     }
+  }
+
+  goToMain(){
+    this.scene.start('MainScene');
   }
 }

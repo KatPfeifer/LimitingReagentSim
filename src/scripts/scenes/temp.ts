@@ -6,6 +6,7 @@ import { cuvette } from '../objects/cuvette';
 import dataPoint from '../objects/dataPoint';
 import reactionHighlights from '../objects/reactionHighlights';
 import productImage from '../objects/productImage';
+import button from '../objects/button';
 
 export default class TempScene extends Phaser.Scene {
   private ABRxn: reactionButton; //need to figure out the type of an image
@@ -50,6 +51,7 @@ export default class TempScene extends Phaser.Scene {
   private fullBeaker: Phaser.GameObjects.Image;
   private thermoHead: Phaser.GameObjects.Image;
   private tempLabel: any;
+  private backButton: button;
 
   constructor() {
     super({ key: 'TempScene' });
@@ -144,6 +146,9 @@ export default class TempScene extends Phaser.Scene {
     this.tempLabel.fontSize=30;
     this.tempLabel.setTintFill(0x000000);
     this.tempLabel.text=this.temp.toString().substring(0,4)+ " C";
+    
+    this.backButton=new button(this, 750, 375, "backButton", 0.7);
+   this.backButton.on('pointerdown', ()=>this.goToMain(), this);
 
     this.ABPdtImage=new productImage(this, 400, 200, "ABPdt", 0.4);
     this.CDPdtImage=new productImage(this, 400, 200, "CDPdt", 0.5);
@@ -326,5 +331,9 @@ export default class TempScene extends Phaser.Scene {
     for (let i=this.dataList.length-1; i>-1; i--){
       this.dataList[i].setAlpha(0.0);
     }
+  }
+  
+  goToMain(){
+    this.scene.start('MainScene');
   }
 }

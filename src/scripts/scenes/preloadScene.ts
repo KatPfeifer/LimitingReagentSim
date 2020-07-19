@@ -12,6 +12,11 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("E+F", "assets/images/E + F.png");
     this.load.image("mixSolBut", "assets/images/mixSolButton.png");
     this.load.image("graphButton", "assets/images/graphButton.png");
+    this.load.image("Pdt", "assets/images/Pdt.png");
+    this.load.image("ABPdt", "assets/images/ABPdt.png");
+    this.load.image("CDPdt", "assets/images/CDPdt.png");
+    this.load.image("EFPdt", "assets/images/EFPdt.png");
+
 
     this.load.image("spec", "assets/images/specButton.png");
     this.load.image("temp", "assets/images/tempButton.png");
@@ -34,6 +39,13 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("emptyBeaker", "assets/images/emptyBeaker.png");
     this.load.image("fullBeaker", "assets/images/fullBeaker.png");
     this.load.image("thermoHead", "assets/images/thermoHead.png");
+
+    this.load.image("fullVial", "assets/images/fullVial.png");
+    this.load.image("emptyVial", "assets/images/emptyVial.png");
+    this.load.image("scale", "assets/images/scale.png");
+    this.load.image("precipGraphAB", "assets/images/precipGraphAB.png");
+    this.load.image("precipGraphCD", "assets/images/precipGraphCD.png");
+    this.load.image("precipGraphEF", "assets/images/precipGraphEF.png");
   }
 
   create() {

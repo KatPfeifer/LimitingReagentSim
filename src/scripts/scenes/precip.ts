@@ -4,15 +4,23 @@ import analysisButton from '../objects/analysisButton';
 import reactionHighlights from '../objects/reactionHighlights';
 import arrowButton from '../objects/arrowButton';
 import dataPoint from '../objects/dataPoint';
+import productImage from '../objects/productImage';
+import { vial } from '../objects/vial';
 
 export default class PrecipScene extends Phaser.Scene {
   private ABRxn: reactionButton; //need to figure out the type of an image
   private ABRxnHighlight: reactionHighlights;
+  private ABPdt: reactionButton;
+  private ABPdtImage: Phaser.GameObjects.Image;
   private CDRxn: reactionButton;
   private CDRxnHighlight: reactionHighlights;
+  private CDPdtImage: Phaser.GameObjects.Image;
+  private CDPdt: reactionButton;
   private EFRxn: reactionButton;
   private EFRxnHighlight: reactionHighlights;
-  private background: Phaser.GameObjects.Image;;
+  private EFPdt: reactionButton;
+  private EFPdtImage: Phaser.GameObjects.Image;
+  private background: Phaser.GameObjects.Image;
   private selectedRxn: string;
   private specButton: analysisButton;
   private tempButton: analysisButton;
@@ -26,7 +34,6 @@ export default class PrecipScene extends Phaser.Scene {
   private down1: arrowButton;
   private down2: arrowButton;
   private mixButton: any;
-  private absLabel: any;
   private background2: Phaser.GameObjects.Image;
   private graphButton: any;
   private dataList: any;
@@ -37,6 +44,11 @@ export default class PrecipScene extends Phaser.Scene {
   private precipGraphCD: Phaser.GameObjects.Image;
   private precipGraphEF: Phaser.GameObjects.Image;
   private mass: number;
+  //mass of empty vial = 1.30g;
+  private emptyVial: Phaser.GameObjects.Image;
+  private fullVial: Phaser.GameObjects.Image;
+  private balance: Phaser.Physics.Arcade.Image;
+  private massLabel: any; //figure out type of bitmap;
 
 
   constructor() {
@@ -44,6 +56,7 @@ export default class PrecipScene extends Phaser.Scene {
   }
 
   create() {
+    this.mass=0.0001;
     this.background=this.add.image(200, 200, "bluebackground");
     this.background.setScale(2.0);
     this.background2=this.add.image(600, 200, "bluebackground");
@@ -92,6 +105,20 @@ export default class PrecipScene extends Phaser.Scene {
     this.createArrowButtons();
     this.createGraphs();
 
+    this.balance=this.physics.add.image(300, 300, "scale");
+    this.balance.setScale(0.50);
+
+    this.emptyVial=this.add.image(100, 300, "emptyVial");
+    this.emptyVial.setScale(0.4);
+
+    this.fullVial=new vial(this, 100, 300);
+    
+    this.physics.add.overlap(this.fullVial, this.balance, ()=> this.updateMassLabel(), undefined, this);
+
+    this.massLabel=this.add.bitmapText(290, 350, "pixelFont");
+    this.massLabel.fontSize=20;
+    this.massLabel.setTintFill(0x000000);
+    this.massLabel.text=this.mass.toString().substring(0,4)+" g";
     /*
     this.add.text(200, 50, "Pick a method \nof analysis:", {fill: "#fffffff"});
     this.specButton=new analysisButton(this, 270, 100, "spec", 0.4);
@@ -102,13 +129,13 @@ export default class PrecipScene extends Phaser.Scene {
    this.dataList=[];
 
    this.mixButton=this.add
-   .image(250, 230, "mixSolBut")
+   .image(250, 170, "mixSolBut")
    .setScale(0.5)
    .setInteractive();
    this.mixButton.on('pointerdown', ()=>this.findMass(), this);
 
    this.graphButton=this.add
-   .image(360, 230, "graphButton")
+   .image(360, 170, "graphButton")
    .setScale(0.5)
    .setInteractive();
    this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
@@ -126,7 +153,7 @@ export default class PrecipScene extends Phaser.Scene {
   }
 
   createGraphs(){
-    this.precipGraphAB=this.add.image(600, 120, "tempGraphAB");
+    this.precipGraphAB=this.add.image(600, 120, "precipGraphAB");
     this.precipGraphAB.setScale(0.7);
     this.precipGraphCD=this.add.image(600, 120, "tempGraphCD");
     this.precipGraphCD.setScale(0.7);
@@ -137,6 +164,11 @@ export default class PrecipScene extends Phaser.Scene {
   }
 
   update() {
+  }
+
+  doDrag(pointer){
+    this.fullVial.x=pointer.x;
+    this.fullVial.y=pointer.y;
   }
 
   changemLs(name: string){
@@ -204,14 +236,26 @@ export default class PrecipScene extends Phaser.Scene {
   }
 
   findMass(){
-    let mmol=this.findLR()*10;
-    this.mass=(mmol*452.8)/1000;
+    if (this.selectedRxn=="CD"){
+      let mmol=this.findLR()*10;
+      this.mass=(mmol*452.8)/1000;
+      this.emptyVial.setAlpha(0.0);
+      this.fullVial.setAlpha(1.0);
+    }
+    else {
+      this.mass=0.00;
+    }
+  }
+
+  updateMassLabel(){
+    //mass of vial = 1.3g
+    this.massLabel.text=(this.mass+1.3).toString().substring(0,4)+ " g";
   }
 
   graphPoint(){
     let MFB=this.findMF();
-    let x=480+MFB*278;
-    let y=66-108*(this.mass/4);
+    let x=486+MFB*264;
+    let y=174-108*(this.mass/4.6);
 
     this.newestDP = new dataPoint(this, x, y, this.mass, MFB); 
     this.newestDP.on('pointerover', ()=>this.updateSPLabel(), this);
@@ -234,7 +278,7 @@ export default class PrecipScene extends Phaser.Scene {
       this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass.toString().substring(0,4));
     }
     if (this.selectedRxn=="CD"){
-      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass);
+      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass.toString().substring(0,4));
     }
     if (this.selectedRxn=="EF"){
       this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass.toString().substring(0,4));
@@ -246,7 +290,7 @@ export default class PrecipScene extends Phaser.Scene {
       this.sPLabel.text="Selected Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass.toString().substring(0,4));
     }
     if (this.selectedRxn=="CD"){
-      this.sPLabel.text="Selected Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass);
+      this.sPLabel.text="Selected Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass.toString().substring(0,4));
     }
     if (this.selectedRxn=="EF"){
       this.sPLabel.text="Selected Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass.toString().substring(0,4));

@@ -23,9 +23,6 @@ export default class TempScene extends Phaser.Scene {
   private EFPdtImage: Phaser.GameObjects.Image;
   private background: Phaser.GameObjects.Image;;
   private selectedRxn: string;
-  private specButton: analysisButton;
-  private tempButton: analysisButton;
-  private precipButton: analysisButton;
   private mLsLabel: any; //figure out type of labels
   private mLsLabel2: any;
   private mLs: any;
@@ -109,12 +106,6 @@ export default class TempScene extends Phaser.Scene {
     this.EFPdt = new reactionButton(this, 135, 140, "Pdt", 0.4);
     this.EFPdt.on('pointerdown', ()=>this.showEFPdt(), this);
 
-    /*this.add.text(200, 50, "Pick a method \nof analysis:", {fill: "#fffffff"});
-    this.specButton=new analysisButton(this, 270, 100, "spec", 0.4);
-    this.tempButton=new analysisButton(this, 245, 120, "temp", 0.26);
-    this.precipButton=new analysisButton(this, 258, 140, "precip", 0.3);
-    */
-
     this.createArrowButtons();
     this.createGraphs();
 
@@ -148,7 +139,7 @@ export default class TempScene extends Phaser.Scene {
     this.tempLabel.text=this.temp.toString().substring(0,4)+ " C";
     
     this.backButton=new button(this, 750, 375, "backButton", 0.7);
-   this.backButton.on('pointerdown', ()=>this.goToMain(), this);
+    this.backButton.on('pointerdown', ()=>this.goToMain(), this);
 
     this.ABPdtImage=new productImage(this, 400, 200, "ABPdt", 0.4);
     this.CDPdtImage=new productImage(this, 400, 200, "CDPdt", 0.5);
@@ -332,7 +323,7 @@ export default class TempScene extends Phaser.Scene {
       this.dataList[i].setAlpha(0.0);
     }
   }
-  
+
   goToMain(){
     this.scene.start('MainScene');
   }

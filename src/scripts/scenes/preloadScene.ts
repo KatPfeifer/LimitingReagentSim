@@ -4,6 +4,11 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   preload() {
+    this.load.image("box", "assets/images/box.png");
+    this.load.image("rBox", "assets/images/rBox.png");
+    this.load.image("pBox", "assets/images/pBox.png");
+    this.load.image("compoundBox", "assets/images/compoundBox.png");
+
     this.load.image("bluebackground", "assets/images/blue.png");
     this.load.image('upArrow', "assets/images/upArrow.png");
     this.load.image("downArrow", 'assets/images/downArrow.png');
@@ -50,6 +55,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('PrecipScene');
+    this.scene.start('GramScene');
   }
 }

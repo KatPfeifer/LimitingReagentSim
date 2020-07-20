@@ -8,6 +8,13 @@ export default class gramScene extends Phaser.Scene{
     private CO2: number;
     private Fe2O3Left: number;
     private CLeft: number;
+    private Fe2O3pic: Phaser.GameObjects.Image;
+    private Cpic: Phaser.GameObjects.Image;
+    private Fepic: Phaser.GameObjects.Image;
+    private CO2pic: Phaser.GameObjects.Image;
+    private Fe2O3leftPic: Phaser.GameObjects.Image;
+    private CLeftPic: Phaser.GameObjects.Image;
+    private FeRxn: Phaser.GameObjects.Image;
     private Fe2O3Label: compoundLabel;
     private CLabel: compoundLabel;
     private FeLabel: compoundLabel;
@@ -47,6 +54,7 @@ export default class gramScene extends Phaser.Scene{
 
         this.createArrowButtons();
         this.createLabels();
+        this.createPics();
 
         this.Fe2O3box=this.add.image(90, 183, "compoundBox");
         this.Fe2O3box.setScale(0.3);
@@ -84,6 +92,28 @@ export default class gramScene extends Phaser.Scene{
           this.CLeftLabel=new compoundLabel(this, 700, 290, this.CLeft.toString().substring(0,3));
       }
 
+      createPics(){
+        this.FeRxn=this.add.image(250, 40, "FeRxn");
+        this.FeRxn.setScale(0.5);
+
+        this.Fe2O3pic=this.add.image(125, 300, "Fe2O3");
+        this.Fe2O3pic.setScale(0.1);
+        this.Fe2O3pic.setTintFill(0xff0040);
+
+        this.Fe2O3leftPic=this.add.image(660, 300, "Fe2O3");
+        this.Fe2O3leftPic.setScale(0.1);
+        this.Fe2O3leftPic.setTintFill(0xff0040);
+
+        this.Cpic=this.add.image(210, 300, "C");
+        this.Cpic.setScale(0.06);
+        this.Cpic.setTintFill(0xff0040);
+
+        this.CLeftPic=this.add.image(740, 300, "C");
+        this.CLeftPic.setScale(0.06);
+        this.CLeftPic.setTintFill(0xff0040);
+
+      }
+
     update(){
 
     }
@@ -100,16 +130,16 @@ export default class gramScene extends Phaser.Scene{
     }
 
     changeGrams(name: string){
-        if (name=="up1"&&this.Fe2O3<10){
+        if (name=="up1"&&this.Fe2O3<20){
             this.Fe2O3+=0.5;
         }
-        if (name=="up2"){
+        if (name=="up2"&&this.C<20){
             this.C+=0.5;
         }
-        if (name=="down1"){
+        if (name=="down1"&&this.Fe2O3>0){
             this.Fe2O3-=0.5;
         }
-        if (name=="down2"){
+        if (name=="down2"&&this.C>0){
             this.C-=0.5;
         }
         
@@ -120,6 +150,7 @@ export default class gramScene extends Phaser.Scene{
 
     findPdts(){
         let mol=this.findLR();
+        console.log(mol);
         let molFe2O3 = this.Fe2O3/159.69;
         let molC = this.C/12.01;
         this.Fe=mol*4*55.85;
@@ -130,19 +161,19 @@ export default class gramScene extends Phaser.Scene{
     }
 
     updateBoxHeights(){
-        this.Fe2O3box.setCrop(0, this.Fe2O3box.height-(this.Fe2O3box.height*(this.Fe2O3/10)), this.Fe2O3box.width, this.Fe2O3box.height);
-        this.Cbox.setCrop(0, this.Cbox.height-(this.Cbox.height*(this.C/10)), this.Cbox.width, this.Cbox.height);
-        this.Febox.setCrop(0, this.Febox.height-(this.Febox.height*(this.Fe/10)), this.Febox.width, this.Febox.height);
-        this.CO2box.setCrop(0, this.CO2box.height-(this.CO2box.height*(this.CO2/10)), this.CO2box.width, this.CO2box.height);
-        this.Fe2O3LeftBox.setCrop(0, this.Fe2O3LeftBox.height-(this.Fe2O3LeftBox.height*(this.Fe2O3Left/10)), this.Fe2O3LeftBox.width, this.Fe2O3LeftBox.height);
-        this.CLeftBox.setCrop(0, this.CLeftBox.height-(this.CLeftBox.height*(this.CLeft/10)), this.CLeftBox.width, this.CLeftBox.height);
+        this.Fe2O3box.setCrop(0, this.Fe2O3box.height-(this.Fe2O3box.height*(this.Fe2O3/20)), this.Fe2O3box.width, this.Fe2O3box.height);
+        this.Cbox.setCrop(0, this.Cbox.height-(this.Cbox.height*(this.C/20)), this.Cbox.width, this.Cbox.height);
+        this.Febox.setCrop(0, this.Febox.height-(this.Febox.height*(this.Fe/20)), this.Febox.width, this.Febox.height);
+        this.CO2box.setCrop(0, this.CO2box.height-(this.CO2box.height*(this.CO2/20)), this.CO2box.width, this.CO2box.height);
+        this.Fe2O3LeftBox.setCrop(0, this.Fe2O3LeftBox.height-(this.Fe2O3LeftBox.height*(this.Fe2O3Left/20)), this.Fe2O3LeftBox.width, this.Fe2O3LeftBox.height);
+        this.CLeftBox.setCrop(0, this.CLeftBox.height-(this.CLeftBox.height*(this.CLeft/20)), this.CLeftBox.width, this.CLeftBox.height);
     }
 
     updateLabels(){
         this.Fe2O3Label.text=this.Fe2O3.toFixed(1);
         this.CLabel.text=this.C.toFixed(1);
         this.FeLabel.text=this.Fe.toFixed(1);
-        this.CO2Label.text=this.C.toFixed(1);
+        this.CO2Label.text=this.CO2.toFixed(1);
         this.Fe2O3LeftLabel.text=this.Fe2O3Left.toFixed(1);
         this.CLeftLabel.text=this.CLeft.toFixed(1);
     }

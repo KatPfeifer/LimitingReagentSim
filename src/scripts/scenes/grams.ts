@@ -33,6 +33,7 @@ export default class gramScene extends Phaser.Scene{
     private CLeftBox:Phaser.GameObjects.Image;
     private Rbox: Phaser.GameObjects.Image;
     private Pbox: Phaser.GameObjects.Image;
+    private blueArrow: Phaser.GameObjects.Image;
     
     
     constructor(){
@@ -56,6 +57,9 @@ export default class gramScene extends Phaser.Scene{
         this.createLabels();
         this.createPics();
 
+        this.blueArrow=this.add.image(320, 180, "blueArrow");
+        this.blueArrow.setScale(0.25);
+
         this.Fe2O3box=this.add.image(90, 183, "compoundBox");
         this.Fe2O3box.setScale(0.3);
         this.Cbox=this.add.image(190, 183, "compoundBox");
@@ -69,6 +73,8 @@ export default class gramScene extends Phaser.Scene{
         this.CLeftBox=this.add.image(720, 183, "compoundBox");
         this.CLeftBox.setScale(0.3);
         this.updateBoxHeights();
+
+        this.add.text(500, 5, "Use the arrows to change the \nnumber of grams of each\nreactant and see how the grams\nof product change", {fill: "000000"});
     }
 
     createArrowButtons(){
@@ -83,7 +89,6 @@ export default class gramScene extends Phaser.Scene{
       }
 
       createLabels(){
-          console.log('in create labels');
           this.Fe2O3Label= new compoundLabel(this, 67, 290, this.Fe2O3.toString().substring(0,3));
           this.CLabel=new compoundLabel(this, 167, 290, this.C.toString().substring(0,3));
           this.FeLabel= new compoundLabel(this, 400, 290, this.Fe.toString().substring(0,3));
@@ -112,6 +117,13 @@ export default class gramScene extends Phaser.Scene{
         this.CLeftPic.setScale(0.06);
         this.CLeftPic.setTintFill(0xff0040);
 
+        this.Fepic=this.add.image(450, 300, "Fe");
+        this.Fepic.setScale(0.05);
+        this.Fepic.setTintFill(0xff0040);
+
+        this.CO2pic=this.add.image(555, 300, "CO2");
+        this.CO2pic.setScale(0.08);
+        this.CO2pic.setTintFill(0xff0040);
       }
 
     update(){
@@ -150,14 +162,12 @@ export default class gramScene extends Phaser.Scene{
 
     findPdts(){
         let mol=this.findLR();
-        console.log(mol);
         let molFe2O3 = this.Fe2O3/159.69;
         let molC = this.C/12.01;
         this.Fe=mol*4*55.85;
         this.CO2=mol*3*44.01;
         this.Fe2O3Left=(molFe2O3-2*mol)*159.69;
         this.CLeft=(molC-3*mol)*12.01;
-        console.log(this.Fe2O3Left);
     }
 
     updateBoxHeights(){

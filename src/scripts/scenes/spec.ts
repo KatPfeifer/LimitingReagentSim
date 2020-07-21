@@ -9,23 +9,20 @@ import button from '../objects/button';
 import productImage from '../objects/productImage';
 
 export default class SpecScene extends Phaser.Scene {
-  private ABRxn: any;
-  private ABRxnHighlight: any;
+  private ABRxn: reactionButton;
+  private ABRxnHighlight: reactionHighlights;
   private ABPdt: reactionButton;
   private ABPdtImage: Phaser.GameObjects.Image;
-  private CDRxn: any;
-  private CDRxnHighlight: any;
+  private CDRxn: reactionButton;
+  private CDRxnHighlight: reactionHighlights;
   private CDPdtImage: Phaser.GameObjects.Image;
   private CDPdt: reactionButton;
-  private EFRxn: any;
-  private EFRxnHighlight: any;
+  private EFRxn: reactionButton;
+  private EFRxnHighlight: reactionHighlights;
   private EFPdt: reactionButton;
   private EFPdtImage: Phaser.GameObjects.Image;
-  private background: any;
-  private selectedRxn: any;
-  private specButton: any;
-  private tempButton: any;
-  private precipButton: any;
+  private background: Phaser.GameObjects.Image;
+  private selectedRxn: string;
   private mLsLabel: any;
   private mLsLabel2: any;
   private mLs: any;
@@ -51,6 +48,12 @@ export default class SpecScene extends Phaser.Scene {
   private mRLabel: any;
   private sPLabel: any;
   private backButton: button;
+  private mLA: Phaser.GameObjects.Image;
+  private mLB: Phaser.GameObjects.Image;
+  private mLC: Phaser.GameObjects.Image;
+  private mLD: Phaser.GameObjects.Image;
+  private mLE: Phaser.GameObjects.Image;
+  private mLF: Phaser.GameObjects.Image;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -65,13 +68,13 @@ export default class SpecScene extends Phaser.Scene {
     this.abs=0;
 
     this.mLs=0;
-    this.mLsLabel = this.add.bitmapText(55, 200, "pixelFont");
+    this.mLsLabel = this.add.bitmapText(195, 60, "pixelFont");
     this.mLsLabel.fontSize=30;
     this.mLsLabel.text=this.mLs.toString()+"";
     this.mLsLabel.setTintFill(0x000000);
 
     this.mLs2=0;
-    this.mLsLabel2=this.add.bitmapText(195, 200, "pixelFont");
+    this.mLsLabel2=this.add.bitmapText(305, 60, "pixelFont");
     this.mLsLabel2.fontSize=30;
     this.mLsLabel2.text=this.mLs2.toString();
     this.mLsLabel2.setTintFill(0x000000);
@@ -122,26 +125,22 @@ export default class SpecScene extends Phaser.Scene {
     this.EFPdt = new reactionButton(this, 135, 140, "Pdt", 0.4);
     this.EFPdt.on('pointerdown', ()=>this.showEFPdt(), this);
 
-    this.add.text(200, 50, "Pick a method \nof analysis:", {fill: "#fffffff"});
-    this.specButton=new analysisButton(this, 270, 100, "spec", 0.4);
-    this.tempButton=new analysisButton(this, 245, 120, "temp", 0.26);
-    this.precipButton=new analysisButton(this, 258, 140, "precip", 0.3);
-
     this.createArrowButtons();
 
     this.mixButton=this.add
-    .image(360, 200, "mixSolBut")
+    .image(250, 170, "mixSolBut")
     .setScale(0.5)
     .setInteractive();
     this.mixButton.on('pointerdown', ()=>this.findAbs(), this);
 
     this.graphButton=this.add
-    .image(360, 230, "graphButton")
+    .image(360, 170, "graphButton")
     .setScale(0.5)
     .setInteractive();
     this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
       
     this.createCuvettes();
+    this.createmLs();
     
 
     this.dataList=[];
@@ -152,6 +151,8 @@ export default class SpecScene extends Phaser.Scene {
     this.ABPdtImage=new productImage(this, 400, 200, "ABPdt", 0.4);
     this.CDPdtImage=new productImage(this, 400, 200, "CDPdt", 0.5);
     this.EFPdtImage=new productImage(this, 400, 200, "EFPdt", 0.8);
+
+    this.add.text(180, 120, "[All solutions]=0.001M", {fill: "000000"});
   }
 
   createCuvettes(){
@@ -169,14 +170,40 @@ export default class SpecScene extends Phaser.Scene {
     this.physics.add.overlap(this.spectro, this.fullCuvette, this.updateAbs, undefined, this);
   }
 
+  createmLs(){
+    this.mLA=this.add.image(245, 70, "mLsA");
+    this.mLA.setScale(0.3);
+    this.mLB=this.add.image(350, 70, "mLsB");
+    this.mLB.setScale(0.3);
+    this.mLC=this.add.image(245, 70, "mLsC");
+    this.mLC.setScale(0.3);
+    this.mLD=this.add.image(350, 70, "mLsD");
+    this.mLD.setScale(0.3);    
+    this.mLE=this.add.image(245, 70, "mLsE");
+    this.mLE.setScale(0.3);
+    this.mLF=this.add.image(350, 70, "mLsF");
+    this.mLF.setScale(0.3);
+    
+    this.resetmLs();
+  }
+
+  resetmLs(){
+    this.mLA.setAlpha(0.0);
+    this.mLB.setAlpha(0.0);
+    this.mLC.setAlpha(0.0);
+    this.mLD.setAlpha(0.0);
+    this.mLE.setAlpha(0.0);
+    this.mLF.setAlpha(0.0);
+  }
+
   createArrowButtons(){
-    this.up1=new arrowButton(this, 60, 190, "upArrow", "up1");
+    this.up1=new arrowButton(this, 200, 50, "upArrow", "up1");
     this.up1.on('pointerdown', ()=>this.changemLs("up1"));
-    this.down1=new arrowButton(this, 60, 230, "downArrow", "down1");
+    this.down1=new arrowButton(this, 200, 90, "downArrow", "down1");
     this.down1.on('pointerdown', ()=>this.changemLs("down1"));
-    this.up2=new arrowButton(this, 200, 190, "upArrow", "up2");
+    this.up2=new arrowButton(this, 310, 50, "upArrow", "up2");
     this.up2.on('pointerdown', ()=>this.changemLs("up2"));
-    this.down2=new arrowButton(this, 200, 230, "downArrow", "down2");
+    this.down2=new arrowButton(this, 310, 90, "downArrow", "down2");
     this.down2.on('pointerdown', ()=>this.changemLs("down2"));
   }
   
@@ -207,8 +234,11 @@ export default class SpecScene extends Phaser.Scene {
     this.clearGraph()
     this.selectedRxn="AB";
     this.resetHighlights();
+    this.resetmLs();
     this.ABRxnHighlight.setAlpha(1.0);
     console.log(this.selectedRxn + "was picked");
+    this.mLA.setAlpha(1.0);
+    this.mLB.setAlpha(1.0);
   }
 
   showABPdt(){
@@ -220,6 +250,9 @@ export default class SpecScene extends Phaser.Scene {
     this.selectedRxn="CD";
     this.resetHighlights();
     this.CDRxnHighlight.setAlpha(1.0);
+    this.resetmLs();
+    this.mLC.setAlpha(1.0);
+    this.mLD.setAlpha(1.0);
   }
   
   showCDPdt(){
@@ -231,6 +264,9 @@ export default class SpecScene extends Phaser.Scene {
     this.selectedRxn="EF";
     this.resetHighlights();
     this.EFRxnHighlight.setAlpha(1.0);
+    this.resetmLs();
+    this.mLE.setAlpha(1.0);
+    this.mLF.setAlpha(1.0);
   }
 
   showEFPdt(){

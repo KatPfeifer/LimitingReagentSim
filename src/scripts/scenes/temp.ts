@@ -49,6 +49,13 @@ export default class TempScene extends Phaser.Scene {
   private thermoHead: Phaser.GameObjects.Image;
   private tempLabel: any;
   private backButton: button;
+  private mLA: Phaser.GameObjects.Image;
+  private mLB: Phaser.GameObjects.Image;
+  private mLC: Phaser.GameObjects.Image;
+  private mLD: Phaser.GameObjects.Image;
+  private mLE: Phaser.GameObjects.Image;
+  private mLF: Phaser.GameObjects.Image;
+
 
   constructor() {
     super({ key: 'TempScene' });
@@ -81,7 +88,7 @@ export default class TempScene extends Phaser.Scene {
     this.sPLabel.fontSize=20;
     this.sPLabel.setTintFill(0x000000);
 
-    this.add.text(0, 0, "Temp Scene");
+    //this.add.text(0, 0, "Temp Scene");
 
     this.add.text(50, 50, "Pick a \nreaction:", {fill: "#fffffff"});
     this.ABRxn=new reactionButton(this, 80, 100, "A+B", 0.3);
@@ -112,13 +119,13 @@ export default class TempScene extends Phaser.Scene {
     this.dataList=[];
 
     this.mixButton=this.add
-    .image(250, 230, "mixSolBut")
+    .image(250, 170, "mixSolBut")
     .setScale(0.5)
     .setInteractive();
     this.mixButton.on('pointerdown', ()=>this.findTemp(), this);
 
     this.graphButton=this.add
-    .image(360, 230, "graphButton")
+    .image(360, 170, "graphButton")
     .setScale(0.5)
     .setInteractive();
     this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
@@ -144,7 +151,35 @@ export default class TempScene extends Phaser.Scene {
     this.ABPdtImage=new productImage(this, 400, 200, "ABPdt", 0.4);
     this.CDPdtImage=new productImage(this, 400, 200, "CDPdt", 0.5);
     this.EFPdtImage=new productImage(this, 400, 200, "EFPdt", 0.8);
+
+    this.add.text(180, 120, "[All solutions]=0.1M", {fill: "000000"});
   }
+
+  createmLs(){
+    this.mLA=this.add.image(245, 70, "mLsA");
+    this.mLA.setScale(0.3);
+    this.mLB=this.add.image(350, 70, "mLsB");
+    this.mLB.setScale(0.3);
+    this.mLC=this.add.image(245, 70, "mLsC");
+    this.mLC.setScale(0.3);
+    this.mLD=this.add.image(350, 70, "mLsD");
+    this.mLD.setScale(0.3);    
+    this.mLE=this.add.image(245, 70, "mLsE");
+    this.mLE.setScale(0.3);
+    this.mLF=this.add.image(350, 70, "mLsF");
+    this.mLF.setScale(0.3);
+    
+    this.resetmLs();
+  }
+
+  resetmLs(){
+    this.mLA.setAlpha(0.0);
+    this.mLB.setAlpha(0.0);
+    this.mLC.setAlpha(0.0);
+    this.mLD.setAlpha(0.0);
+    this.mLE.setAlpha(0.0);
+    this.mLF.setAlpha(0.0);
+  }  
 
   createArrowButtons(){
     this.up1=new arrowButton(this, 200, 50, "upArrow", "up1");
@@ -195,6 +230,9 @@ export default class TempScene extends Phaser.Scene {
     this.resetHighlights();
     this.ABRxnHighlight.setAlpha(1.0);
     console.log(this.selectedRxn + "was picked");
+    this.resetmLs();
+    this.mLA.setAlpha(1.0);
+    this.mLB.setAlpha(1.0);
   }
 
   showABPdt(){
@@ -206,6 +244,9 @@ export default class TempScene extends Phaser.Scene {
     this.selectedRxn="CD";
     this.resetHighlights();
     this.CDRxnHighlight.setAlpha(1.0);
+    this.resetmLs();
+    this.mLC.setAlpha(1.0);
+    this.mLD.setAlpha(1.0);
   }
 
   showCDPdt(){
@@ -217,6 +258,9 @@ export default class TempScene extends Phaser.Scene {
     this.selectedRxn="EF";
     this.resetHighlights();
     this.EFRxnHighlight.setAlpha(1.0);
+    this.resetmLs();
+    this.mLE.setAlpha(1.0);
+    this.mLF.setAlpha(1.0);
   }
 
   showEFPdt(){

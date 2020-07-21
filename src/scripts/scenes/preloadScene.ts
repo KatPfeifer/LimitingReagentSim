@@ -8,6 +8,9 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("rBox", "assets/images/rBox.png");
     this.load.image("pBox", "assets/images/pBox.png");
     this.load.image("compoundBox", "assets/images/compoundBox.png");
+    this.load.image("MCVshot", "assets/images/MCVshot.png");
+    this.load.image("LRshot", "assets/images/LRshot.png");
+    this.load.image("blackBox", "assets/images/blackBox.png");
 
     this.load.image("Fe2O3", "assets/images/Fe2O3.png");
     this.load.image("FeRxn", "assets/images/FeRxn.png");
@@ -42,6 +45,15 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("spec", "assets/images/specButton.png");
     this.load.image("temp", "assets/images/tempButton.png");
     this.load.image("precip", "assets/images/precipButton.png");
+    this.load.image("MCVLabel", "assets/images/MCV Label.png");
+    this.load.image("LRLabel", "assets/images/LRLabel.png");
+
+    this.load.image("mLsA", "assets/images/mLsA.png");
+    this.load.image("mLsB", "assets/images/mLsB.png");
+    this.load.image("mLsC", "assets/images/mLsC.png");
+    this.load.image("mLsD", "assets/images/mLsD.png");
+    this.load.image("mLsE", "assets/images/mLsE.png");
+    this.load.image("mLsF", "assets/images/mLsF.png");
 
     this.load.image("empty cuvette", "assets/images/emptyCuvette.png");
     this.load.image("fullCuvette", "assets/images/fullCuvette.png");
@@ -70,6 +82,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('MoleculeScene');
+    this.scene.start('MainScene');
   }
 }

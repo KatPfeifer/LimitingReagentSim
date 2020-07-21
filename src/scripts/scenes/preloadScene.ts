@@ -19,6 +19,10 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("O2stack", "assets/images/O2stack.png");
     this.load.image("H2stack", "assets/images/H2stack.png");
     this.load.image("H2Ostack", "assets/images/H2Ostack.png");
+    this.load.image("O2Rxn", "assets/images/O2Rxn.png");
+    this.load.image("O2", "assets/images/O2.png");
+    this.load.image("H2", "assets/images/H2.png");
+    this.load.image("H2O", "assets/images/H2O.png");
 
     this.load.image("bluebackground", "assets/images/blue.png");
     this.load.image('upArrow', "assets/images/upArrow.png");

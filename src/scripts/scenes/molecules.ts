@@ -1,5 +1,6 @@
 import arrowButton from "../objects/arrowButton";
 import compoundLabel from "../objects/compoundLabel";
+import button from "../objects/button";
 
 export default class moleculeScene extends Phaser.Scene{
     private O2stack: Phaser.GameObjects.Image;
@@ -24,6 +25,13 @@ export default class moleculeScene extends Phaser.Scene{
     private H2OLabel: compoundLabel;
     private O2LeftLabel: compoundLabel;
     private H2LeftLabel: compoundLabel;
+    private rxn: Phaser.GameObjects.Image;
+    private O2: Phaser.GameObjects.Image;
+    private H2: Phaser.GameObjects.Image;
+    private H2O: Phaser.GameObjects.Image;
+    private O2Left: Phaser.GameObjects.Image;
+    private H2Left: Phaser.GameObjects.Image;
+    private backButton: button;
 
     constructor(){
         super({ key: 'MoleculeScene'});
@@ -36,6 +44,8 @@ export default class moleculeScene extends Phaser.Scene{
         this.Pbox.setScale(0.3);
         this.blueArrow=this.add.image(320, 180, "blueArrow");
         this.blueArrow.setScale(0.25);
+        this.rxn=this.add.image(180, 40, "O2Rxn");
+        this.rxn.setScale(0.3);
 
         this.O2molec=0;
         this.H2molec=0;
@@ -49,15 +59,19 @@ export default class moleculeScene extends Phaser.Scene{
         this.H2stack.setScale(0.19);
         this.H2Ostack=this.add.image(450, 170, "H2Ostack");
         this.H2Ostack.setScale(0.19);
-        this.O2LeftStack=this.add.image(550, 170, "O2stack");
+        this.O2LeftStack=this.add.image(580, 170, "O2stack");
         this.O2LeftStack.setScale(0.19);
-        this.H2LeftStack=this.add.image(650, 170, "H2stack");
+        this.H2LeftStack=this.add.image(710, 170, "H2stack");
         this.H2LeftStack.setScale(0.19);
 
+        this.backButton=new button(this, 750, 375, "backButton", 0.7);
+        this.backButton.on('pointerdown', ()=>this.goToMain(), this);
+
+        this.add.text(400, 20, "Use the arrow buttons to change the\nnumber of reactant molecules", {fill: "000000"});
 
         this.createArrowButtons();
         this.createLabels();
-        
+        this.createPics();
         this.updateStacks();
     }
 
@@ -75,9 +89,27 @@ export default class moleculeScene extends Phaser.Scene{
     createLabels(){
         this.O2Label=new compoundLabel(this, 75, 290, this.O2molec.toString());
         this.H2Label=new compoundLabel(this, 175, 290, this.H2molec.toString());
-        this.H2OLabel=new compoundLabel(this, 450, 290, this.H2Omolec.toString());
-        this.O2LeftLabel=new compoundLabel(this, 600, 290, this.O2molecLeft.toString());
-        this.H2LeftLabel=new compoundLabel(this, 750, 290, this.H2molecLeft.toString());
+        this.H2OLabel=new compoundLabel(this, 430, 290, this.H2Omolec.toString());
+        this.O2LeftLabel=new compoundLabel(this, 570, 290, this.O2molecLeft.toString());
+        this.H2LeftLabel=new compoundLabel(this, 710, 290, this.H2molecLeft.toString());
+    }
+
+    createPics(){
+        this.O2=this.add.image(105, 300, "O2");
+        this.O2.setScale(0.1);
+        this.O2.setTintFill(0xff0040);
+        this.H2=this.add.image(205, 300, "H2");
+        this.H2.setScale(0.1);
+        this.H2.setTintFill(0xff0040);
+        this.H2O=this.add.image(460, 300, "H2O");
+        this.H2O.setScale(0.1);
+        this.H2O.setTintFill(0xff0040);
+        this.O2Left=this.add.image(595, 300, "O2");
+        this.O2Left.setScale(0.1);
+        this.O2Left.setTintFill(0xff0040);
+        this.H2Left=this.add.image(735, 300, "H2");
+        this.H2Left.setScale(0.1);
+        this.H2Left.setTintFill(0xff0040);
     }
 
     update(){
@@ -138,5 +170,9 @@ export default class moleculeScene extends Phaser.Scene{
         this.H2OLabel.text=this.H2Omolec.toString();
         this.O2LeftLabel.text=this.O2molecLeft.toString();
         this.H2LeftLabel.text=this.H2molecLeft.toString();
+    }
+
+    goToMain(){
+        this.scene.start('MainScene');
     }
 }

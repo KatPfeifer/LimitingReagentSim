@@ -1,5 +1,6 @@
 import compoundLabel from "../objects/compoundLabel";
 import arrowButton from "../objects/arrowButton";
+import button from "../objects/button";
 
 export default class gramScene extends Phaser.Scene{
     private Fe2O3: number;
@@ -34,6 +35,7 @@ export default class gramScene extends Phaser.Scene{
     private Rbox: Phaser.GameObjects.Image;
     private Pbox: Phaser.GameObjects.Image;
     private blueArrow: Phaser.GameObjects.Image;
+    private backButton: button;
     
     
     constructor(){
@@ -75,6 +77,9 @@ export default class gramScene extends Phaser.Scene{
         this.updateBoxHeights();
 
         this.add.text(500, 5, "Use the arrows to change the \nnumber of grams of each\nreactant and see how the grams\nof product change", {fill: "000000"});
+
+        this.backButton=new button(this, 750, 375, "backButton", 0.7);
+        this.backButton.on('pointerdown', ()=>this.goToMain(), this);
     }
 
     createArrowButtons(){
@@ -186,5 +191,9 @@ export default class gramScene extends Phaser.Scene{
         this.CO2Label.text=this.CO2.toFixed(1);
         this.Fe2O3LeftLabel.text=this.Fe2O3Left.toFixed(1);
         this.CLeftLabel.text=this.CLeft.toFixed(1);
+    }
+
+    goToMain(){
+        this.scene.start('MainScene');
     }
 }

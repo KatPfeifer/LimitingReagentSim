@@ -16,6 +16,10 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("blueArrow", "assets/images/blueArrow.png");
     this.load.image("CO2", "assets/images/CO2.png");
 
+    this.load.image("O2stack", "assets/images/O2stack.png");
+    this.load.image("H2stack", "assets/images/H2stack.png");
+    this.load.image("H2Ostack", "assets/images/H2Ostack.png");
+
     this.load.image("bluebackground", "assets/images/blue.png");
     this.load.image('upArrow', "assets/images/upArrow.png");
     this.load.image("downArrow", 'assets/images/downArrow.png');
@@ -62,6 +66,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('GramScene');
+    this.scene.start('MoleculeScene');
   }
 }

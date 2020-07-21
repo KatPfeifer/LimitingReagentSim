@@ -121,7 +121,7 @@ export default class gramScene extends Phaser.Scene{
         this.Fepic.setScale(0.05);
         this.Fepic.setTintFill(0xff0040);
 
-        this.CO2pic=this.add.image(555, 300, "CO2");
+        this.CO2pic=this.add.image(550, 300, "CO2");
         this.CO2pic.setScale(0.08);
         this.CO2pic.setTintFill(0xff0040);
       }

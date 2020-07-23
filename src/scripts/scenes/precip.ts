@@ -9,31 +9,14 @@ import { vial } from '../objects/vial';
 import button from '../objects/button';
 
 export default class PrecipScene extends Phaser.Scene {
-  private ABRxn: reactionButton; //need to figure out the type of an image
-  private ABRxnHighlight: reactionHighlights;
-  private ABPdt: reactionButton;
-  private ABPdtImage: Phaser.GameObjects.Image;
-  private CDRxn: reactionButton;
-  private CDRxnHighlight: reactionHighlights;
-  private CDPdtImage: Phaser.GameObjects.Image;
-  private CDPdt: reactionButton;
-  private EFRxn: reactionButton;
-  private EFRxnHighlight: reactionHighlights;
-  private EFPdt: reactionButton;
-  private EFPdtImage: Phaser.GameObjects.Image;
   private background: Phaser.GameObjects.Image;
   private selectedRxn: string;
-  private specButton: analysisButton;
-  private tempButton: analysisButton;
-  private precipButton: analysisButton;
   private mLsLabel: any; //figure out type of labels
   private mLsLabel2: any;
   private mLs: any;
   private mLs2: any;
   private up1: arrowButton;
-  private up2: arrowButton;
   private down1: arrowButton;
-  private down2: arrowButton;
   private mixButton: any;
   private background2: Phaser.GameObjects.Image;
   private graphButton: any;
@@ -92,28 +75,6 @@ export default class PrecipScene extends Phaser.Scene {
     this.sPLabel.setTintFill(0x000000);
 
     this.add.text(50, 50, "Pick a \nreaction:", {fill: "#fffffff"});
-    
-    this.ABRxn=new reactionButton(this, 80, 100, "A+B", 0.3);
-    this.ABRxn.on('pointerdown', ()=>this.ABPicked(), this);
-    this.ABRxnHighlight= new reactionHighlights(this, 80, 100, "A+B");
-    this.ABRxnHighlight.setAlpha(0.0);
-    this.ABPdt=new reactionButton(this, 135, 100, "Pdt", 0.4);
-    this.ABPdt.on('pointerdown', ()=>this.showABPdt(), this);
-
-
-    this.CDRxn=new reactionButton(this, 80, 120, "C+D", 0.3);
-    this.CDRxn.on('pointerdown', ()=>this.CDPicked(), this);
-    this.CDRxnHighlight = new reactionHighlights(this, 80, 120, "C+D");
-    this.CDRxnHighlight.setAlpha(0.0);
-    this.CDPdt=new reactionButton(this, 135, 120, "Pdt", 0.4);
-    this.CDPdt.on('pointerdown', ()=>this.showCDPdt(), this);
-
-    this.EFRxn=new reactionButton(this, 80, 140, "E+F", 0.3);
-    this.EFRxn.on('pointerdown', ()=>this.EFPicked(), this);
-    this.EFRxnHighlight=new reactionHighlights(this, 80, 140, "E+F");
-    this.EFRxnHighlight.setAlpha(0.0);
-    this.EFPdt = new reactionButton(this, 135, 140, "Pdt", 0.4);
-    this.EFPdt.on('pointerdown', ()=>this.showEFPdt(), this);
 
     this.createArrowButtons();
     this.createGraphs();
@@ -151,9 +112,6 @@ export default class PrecipScene extends Phaser.Scene {
 
    this.backButton=new button(this, 750, 375, "backButton", 0.7);
    this.backButton.on('pointerdown', ()=>this.goToMain(), this);
-   this.ABPdtImage=new productImage(this, 400, 200, "ABPdt", 0.4);
-   this.CDPdtImage=new productImage(this, 400, 200, "CDPdt", 0.5);
-   this.EFPdtImage=new productImage(this, 400, 200, "EFPdt", 0.8);
   }
 
   createmLs(){
@@ -171,6 +129,7 @@ export default class PrecipScene extends Phaser.Scene {
     this.mLF.setScale(0.3);
     
     this.resetmLs();
+    this.setmLs();
   }
 
   resetmLs(){
@@ -187,10 +146,6 @@ export default class PrecipScene extends Phaser.Scene {
     this.up1.on('pointerdown', ()=>this.changemLs("up1"));
     this.down1=new arrowButton(this, 200, 90, "downArrow", "down1");
     this.down1.on('pointerdown', ()=>this.changemLs("down1"));
-    this.up2=new arrowButton(this, 310, 50, "upArrow", "up2");
-    this.up2.on('pointerdown', ()=>this.changemLs("up2"));
-    this.down2=new arrowButton(this, 310, 90, "downArrow", "down2");
-    this.down2.on('pointerdown', ()=>this.changemLs("down2"));
   }
 
   createGraphs(){
@@ -211,86 +166,41 @@ export default class PrecipScene extends Phaser.Scene {
     let ar=data;
     this.selectedRxn=ar[0].toString();
   }
-  
+
   doDrag(pointer){
     this.fullVial.x=pointer.x;
     this.fullVial.y=pointer.y;
   }
 
   changemLs(name: string){
-    if (name=="up1"){
+    if (name=="up1"&&this.mLs<20){
       this.mLs+=1;
+      this.mLs2=20-this.mLs;
       this.mLsLabel.text=this.mLs.toString();
-    }
-    if (name=="up2"){
-      this.mLs2+=1;
       this.mLsLabel2.text=this.mLs2.toString();
     }
     if (name=="down1"&&this.mLs>0){
       this.mLs-=1;
+      this.mLs2=20-this.mLs;
       this.mLsLabel.text=this.mLs.toString();
-    }
-    if (name=="down2"&&this.mLs2>0){
-      this.mLs2-=1;
       this.mLsLabel2.text=this.mLs2.toString();
     }
   }
 
-  ABPicked(){
-    this.clearGraph();
-    this.selectedRxn="AB";
-    this.resetHighlights();
-    this.ABRxnHighlight.setAlpha(1.0);
-    console.log(this.selectedRxn + "was picked");
-    this.resetmLs();
-    this.mLA.setAlpha(1.0);
-    this.mLB.setAlpha(1.0);
+  setmLs(){
+    if (this.selectedRxn=="AB"){
+      this.mLA.setAlpha(1.0);
+      this.mLB.setAlpha(1.0);
+    }
+    if(this.selectedRxn=="CD"){
+      this.mLC.setAlpha(1.0);
+      this.mLD.setAlpha(1.0);
+    }
+    if (this.selectedRxn="EF"){
+      this.mLE.setAlpha(1.0);
+      this.mLF.setAlpha(1.0);
+    }
   }
-
-  showABPdt(){
-    this.ABPdtImage.setAlpha(1.0);
-  }
-
-  CDPicked(){
-    this.clearGraph();
-    this.selectedRxn="CD";
-    this.resetHighlights();
-    this.CDRxnHighlight.setAlpha(1.0);
-    this.resetmLs();
-    this.mLC.setAlpha(1.0);
-    this.mLD.setAlpha(1.0);
-  }
-
-  showCDPdt(){
-    this.CDPdtImage.setAlpha(1.0);
-  }
-
-  EFPicked(){
-    this.clearGraph();
-    this.selectedRxn="EF";
-    this.resetHighlights();
-    this.EFRxnHighlight.setAlpha(1.0);
-    this.resetmLs();
-    this.mLE.setAlpha(1.0);
-    this.mLF.setAlpha(1.0);
-  }
-
-  showEFPdt(){
-    this.EFPdtImage.setAlpha(1.0);
-  }
-  
-  resetHighlights(){
-    this.ABRxnHighlight.setAlpha(0.0);
-    this.CDRxnHighlight.setAlpha(0.0);
-    this.EFRxnHighlight.setAlpha(0.0);
-  }
-
-
-  /*changeButtonTint(button: reactionButton){
-    button.setTintFill(0x033dfc);
-    console.log("here");
-  }
-  */
 
   //LR = Limiting Reactant. Ratio for reaction is 2:3, based on reaction to form strontium phosphate
   findLR(){

@@ -1,4 +1,5 @@
 import analysisButton from "../objects/analysisButton";
+import button from "../objects/button";
 
 export default class ab extends Phaser.Scene{
     private background: Phaser.GameObjects.Image;
@@ -7,6 +8,7 @@ export default class ab extends Phaser.Scene{
     private spec: analysisButton;
     private temp: analysisButton;
     private precip: analysisButton;
+    private backButton: button;
 
 
     constructor(){
@@ -32,6 +34,9 @@ export default class ab extends Phaser.Scene{
 
         this.temp=new analysisButton(this, 475, 300, "temp", 0.3);
         this.temp.on('pointerdown', ()=>this.goToTemp(), this);
+
+        this.backButton=new button(this, 750, 375, "backButton", 0.7);
+        this.backButton.on('pointerdown', ()=>this.goToMain(), this);
     }
 
     update(){
@@ -48,5 +53,9 @@ export default class ab extends Phaser.Scene{
 
     goToTemp(){
         this.scene.start('TempScene', ["AB"]);
+    }
+
+    goToMain(){
+        this.scene.start('MainScene');
     }
 }

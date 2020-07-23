@@ -2,6 +2,7 @@ import ExampleObject from '../objects/exampleObject';
 import reactionButton from '../objects/reactionButton';
 import analysisButton from '../objects/analysisButton';
 import moleculeScene from './molecules';
+import button from '../objects/button';
 
 export default class MainScene extends Phaser.Scene {
   private background: Phaser.GameObjects.Image;
@@ -16,6 +17,9 @@ export default class MainScene extends Phaser.Scene {
   private LRshot: Phaser.GameObjects.Image;
   private blackBox: Phaser.GameObjects.Image;
   private blackBox2: Phaser.GameObjects.Image;
+  private ABbutton: button;
+  private CDbutton: button;
+  private EFbutton: button;
 
   constructor() {
     super({ key: 'MainScene' });
@@ -39,15 +43,12 @@ export default class MainScene extends Phaser.Scene {
     this.FeButton=new analysisButton(this, 145, 180, "FeRxn", 0.25);
     this.FeButton.on('pointerdown', this.FePicked, this);
 
-    this.add.text(425, 100, "Pick a method of \nanalysis to begin:", {fill: "#fffffff"});
-    this.specButton=new analysisButton(this, 500, 150, "spec", 0.4);
-    this.specButton.on('pointerdown', this.specPicked, this);
-
-    this.tempButton=new analysisButton(this, 476, 170, "temp", 0.26);
-    this.tempButton.on('pointerdown', this.tempPicked, this);
-
-    this.precipButton=new analysisButton(this, 489, 190, "precip", 0.3);
-    this.precipButton.on('pointerdown', this.precipPicked, this);
+    this.ABbutton=new button(this, 500, 100, "ABbutton", 0.3);
+    this.ABbutton.on('pointerdown', ()=>this.abPicked(), this);
+    this.CDbutton=new button(this, 500, 150, "CDbutton", 0.28);
+    this.CDbutton.on('pointerdown', ()=>this.cdPicked(), this);
+    this.EFbutton=new button(this, 500, 200, "EFbutton", 0.31);
+    this.EFbutton.on('pointerdown', ()=>this.efPicked(), this);
 
     this.blackBox=this.add.image(600, 300, "blackBox");
     this.blackBox.setScale(0.36);
@@ -64,16 +65,16 @@ export default class MainScene extends Phaser.Scene {
   update(){
   }
 
-  specPicked(){
-      this.scene.start('SpecScene');
+  abPicked(){
+    this.scene.start('abScene');
   }
 
-  tempPicked(){
-      this.scene.start('TempScene');
+  cdPicked(){
+    this.scene.start('cdScene');
   }
 
-  precipPicked(){
-      this.scene.start('PrecipScene');
+  efPicked(){
+    this.scene.start('efScene');
   }
 
   O2Picked(){

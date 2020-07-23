@@ -5,7 +5,8 @@ import PreloadScene from './scenes/preloadScene';
 import TempScene from './scenes/temp';
 import PrecipScene from './scenes/precip';
 import GramScene from './scenes/grams';
-import MoleculeScene from './scenes/molecules'
+import MoleculeScene from './scenes/molecules';
+import abScene from './scenes/ab';
 import GameConfig = Phaser.Types.Core.GameConfig;
 
 const DEFAULT_WIDTH = 800;
@@ -21,7 +22,7 @@ const config: GameConfig = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT
     },
-    scene: [PreloadScene, SpecScene, MainScene, TempScene, PrecipScene, GramScene, MoleculeScene],
+    scene: [PreloadScene, SpecScene, MainScene, TempScene, PrecipScene, GramScene, abScene, MoleculeScene],
     physics: {
         default: 'arcade',
         arcade: {

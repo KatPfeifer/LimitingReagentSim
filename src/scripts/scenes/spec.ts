@@ -209,6 +209,12 @@ export default class SpecScene extends Phaser.Scene {
   
 
   update() {
+    console.log(this.selectedRxn);
+  }
+
+  init(data){
+    let ar=data;
+    this.selectedRxn=ar[0].toString();
   }
 
   changemLs(name: string){

@@ -205,6 +205,12 @@ export default class TempScene extends Phaser.Scene {
 
   update() {
   }
+
+  init(data){
+    let ar=data;
+    this.selectedRxn=ar[0].toString();
+  }
+  
   changemLs(name: string){
     if (name=="up1"){
       this.mLs+=1;

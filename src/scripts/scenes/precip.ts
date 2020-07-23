@@ -207,6 +207,11 @@ export default class PrecipScene extends Phaser.Scene {
   update() {
   }
 
+  init(data){
+    let ar=data;
+    this.selectedRxn=ar[0].toString();
+  }
+  
   doDrag(pointer){
     this.fullVial.x=pointer.x;
     this.fullVial.y=pointer.y;
@@ -325,6 +330,11 @@ export default class PrecipScene extends Phaser.Scene {
     this.dataList.push(this.newestDP);
 
     this.updateMRLabel();
+    this.emptyVial.setAlpha(1.0);
+    this.fullVial.setAlpha(0.0);
+    this.fullVial.x=100;
+    this.fullVial.y=300;
+    this.massLabel.text="0.00 g";
   }
 
   //MF=mole Fraction

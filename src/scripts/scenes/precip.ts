@@ -44,6 +44,11 @@ export default class PrecipScene extends Phaser.Scene {
   private molarity: number;
   private Ccoefficient: number;
   private Dcoefficient: number;
+  private version: number;
+  private button1: button;
+  private button2: button;
+  private button3: button;
+  private dot: any;
 
   constructor() {
     super({ key: 'PrecipScene' });
@@ -51,9 +56,10 @@ export default class PrecipScene extends Phaser.Scene {
 
   create() {
     this.molarity=2;
-    this.Ccoefficient=2;
-    this.Dcoefficient=3;
+    this.Ccoefficient=3;
+    this.Dcoefficient=1;
     this.mass=0.0001;
+    this.version=1;
     this.background=this.add.image(200, 200, "bluebackground");
     this.background.setScale(2.0);
     this.background2=this.add.image(600, 200, "bluebackground");
@@ -122,6 +128,18 @@ export default class PrecipScene extends Phaser.Scene {
 
    this.mainButton=new button(this, 650, 375, "mainButton", 0.7);
    this.mainButton.on('pointerdown', ()=>this.goToMain(), this);
+
+   this.button1=new button(this, 50, 50, "button1", 0.7);
+   this.button1.on('pointerdown', ()=>this.changeCoefficients(1), this);
+   this.button2=new button(this, 50, 100, "button2", 0.7);
+   this.button2.on('pointerdown', ()=>this.changeCoefficients(2), this);
+   this.button3=new button(this, 50, 150, "button3", 0.7);
+   this.button3.on('pointerdown', ()=>this.changeCoefficients(3), this);
+
+   this.dot=this.add.image(463, 58, "blackCircle");
+   this.dot.setScale(0.05);
+
+
   }
 
   createmLs(){
@@ -160,13 +178,31 @@ export default class PrecipScene extends Phaser.Scene {
 
   createGraphs(){
     this.precipGraphAB=this.add.image(600, 120, "precipGraphAB");
-    this.precipGraphAB.setScale(0.7);
-    this.precipGraphCD=this.add.image(600, 120, "tempGraphCD");
-    this.precipGraphCD.setScale(0.7);
-    this.precipGraphCD.setAlpha(0.0);
-    this.precipGraphEF=this.add.image(600, 120, "tempGraphCD");
-    this.precipGraphEF.setScale(0.7);
-    this.precipGraphEF.setAlpha(0.0);
+    this.precipGraphAB.setScale(0.65);
+    this.precipGraphCD=this.add.image(600, 120, "precipGraphCD");
+    this.precipGraphCD.setScale(0.65);
+    this.precipGraphEF=this.add.image(600, 120, "precipGraphCD");
+    this.precipGraphEF.setScale(0.65);
+    this.changeGraphs();
+  }
+
+  changeGraphs(){
+    console.log("in change graphs");
+    if (this.selectedRxn=='AB'){
+      this.precipGraphAB.setAlpha(1.0);
+      this.precipGraphCD.setAlpha(0.0);
+      this.precipGraphEF.setAlpha(0.0);
+    }
+    if (this.selectedRxn=="CD"){
+      this.precipGraphAB.setAlpha(0.0);
+      this.precipGraphCD.setAlpha(1.0);
+      this.precipGraphEF.setAlpha(0.0);
+    }
+    if (this.selectedRxn=="EF"){
+      this.precipGraphAB.setAlpha(0.0);
+      this.precipGraphCD.setAlpha(0.0);
+      this.precipGraphEF.setAlpha(1.0);
+    }
   }
 
   update() {
@@ -251,9 +287,10 @@ export default class PrecipScene extends Phaser.Scene {
   }
 
   graphPoint(){
+    //MFB = mole fraction B
     let MFB=this.findMF();
-    let x=486+MFB*264;
-    let y=174-108*(this.mass/4.6);
+    let x=463+MFB*303;
+    let y=182-124*(this.mass/4);
 
     this.newestDP = new dataPoint(this, x, y, this.mass, MFB); 
     this.newestDP.on('pointerover', ()=>this.updateSPLabel(), this);
@@ -322,6 +359,29 @@ export default class PrecipScene extends Phaser.Scene {
     if(this.selectedRxn=="EF"){
       this.scene.start('efScene');
     }
+  }
+
+  changeCoefficients(version: number){
+    this.version=version;
+    if (this.selectedRxn=="CD"){
+      if (this.version==1){
+        this.Ccoefficient=3;
+        this.Dcoefficient=1;
+      }
+      if (this.version==2){
+        this.Ccoefficient=1;
+        this.Dcoefficient=1;
+      }
+      if (this.version==3){
+        this.Ccoefficient=2;
+        this.Dcoefficient=1;
+      }
+    }
+
+    this.mLs=0;
+    this.mLs2=20;
+    this.clearGraph();
+    this.mRLabel.text="";
   }
 
   goToMain(){

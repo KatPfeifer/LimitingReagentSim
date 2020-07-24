@@ -74,8 +74,8 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
 
     this.load.image("tempGraphAB", "assets/images/tempGraphAB.png");
-    this.load.image("tempGraphAB", "assets/images/tempGraphAB.png");
-    this.load.image("tempGraphAB", "assets/images/tempGraphAB.png");
+    this.load.image("tempGraphCD", "assets/images/tempGraphCD.png");
+    this.load.image("tempGraphEF", "assets/images/tempGraphEF.png");
     this.load.image("emptyBeaker", "assets/images/emptyBeaker.png");
     this.load.image("fullBeaker", "assets/images/fullBeaker.png");
     this.load.image("thermoHead", "assets/images/thermoHead.png");
@@ -89,6 +89,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('cdScene');
+    this.scene.start('PrecipScene', ["AB"]);
   }
 }

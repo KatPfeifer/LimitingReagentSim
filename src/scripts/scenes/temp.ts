@@ -13,8 +13,8 @@ export default class TempScene extends Phaser.Scene {
   private selectedRxn: string;
   private mLsLabel: any; //figure out type of labels
   private mLsLabel2: any;
-  private mLs: any;
-  private mLs2: any;
+  private mLs: number;
+  private mLs2: number;
   private up1: arrowButton;
   private down1: arrowButton;
   private mixButton: any;
@@ -42,15 +42,25 @@ export default class TempScene extends Phaser.Scene {
   private mLE: Phaser.GameObjects.Image;
   private mLF: Phaser.GameObjects.Image;
   private mainButton: button;
-
-
+  private Ecoefficient: number;
+  private Fcoefficient: number;
+  private molarity: number;
+  private version: number;
+  private button1: button;
+  private button2: button;
+  private button3: button;
+  private dot: any;
 
   constructor() {
     super({ key: 'TempScene' });
   }
 
   create() {
+    this.molarity=0.1;
     this.temp=25.001;
+    this.Ecoefficient=4;
+    this.Fcoefficient=3;
+    this.version=1;
     this.background=this.add.image(200, 200, "bluebackground");
     this.background.setScale(2.0);
     this.background2=this.add.image(600, 200, "bluebackground");
@@ -117,7 +127,14 @@ export default class TempScene extends Phaser.Scene {
     this.mainButton=new button(this, 650, 375, "mainButton", 0.7);
     this.mainButton.on('pointerdown', ()=>this.goToMain(), this);
 
+    this.button1=new button(this, 50, 50, "button1", 0.7);
+    this.button1.on('pointerdown', ()=>this.changeCoefficients(1), this);
+    this.button2=new button(this, 50, 100, "button2", 0.7);
+    this.button2.on('pointerdown', ()=>this.changeCoefficients(2), this);
+    this.button3=new button(this, 50, 150, "button3", 0.7);
+    this.button3.on('pointerdown', ()=>this.changeCoefficients(3), this);
 
+   
     this.add.text(180, 120, "[All solutions]=0.1M", {fill: "000000"});
     
   }
@@ -158,13 +175,31 @@ export default class TempScene extends Phaser.Scene {
 
   createGraphs(){
     this.tempGraphAB=this.add.image(600, 120, "tempGraphAB");
-    this.tempGraphAB.setScale(0.7);
+    this.tempGraphAB.setScale(0.65);
     this.tempGraphCD=this.add.image(600, 120, "tempGraphCD");
-    this.tempGraphCD.setScale(0.7);
-    this.tempGraphCD.setAlpha(0.0);
-    this.tempGraphEF=this.add.image(600, 120, "tempGraphCD");
-    this.tempGraphEF.setScale(0.7);
-    this.tempGraphEF.setAlpha(0.0);
+    this.tempGraphCD.setScale(0.65);
+    this.tempGraphEF=this.add.image(600, 120, "tempGraphEF");
+    this.tempGraphEF.setScale(0.65);
+    this.changeGraphs();
+  }
+
+  changeGraphs(){
+    console.log(this.selectedRxn);
+    if (this.selectedRxn=='AB'){
+      this.tempGraphAB.setAlpha(1.0);
+      this.tempGraphCD.setAlpha(0.0);
+      this.tempGraphEF.setAlpha(0.0);
+    }
+    if (this.selectedRxn=="CD"){
+      this.tempGraphAB.setAlpha(0.0);
+      this.tempGraphCD.setAlpha(1.0);
+      this.tempGraphEF.setAlpha(0.0);
+    }
+    if (this.selectedRxn=="EF"){
+      this.tempGraphAB.setAlpha(0.0);
+      this.tempGraphCD.setAlpha(0.0);
+      this.tempGraphEF.setAlpha(1.0);
+    }
   }
 
   update() {
@@ -175,6 +210,7 @@ export default class TempScene extends Phaser.Scene {
     let ar=data;
     this.selectedRxn=ar[0].toString();
     console.log("in init");
+    console.log(this.selectedRxn);
   }
 
   changemLs(name: string){
@@ -220,24 +256,33 @@ export default class TempScene extends Phaser.Scene {
   //Uses 485000J/mol - an arbitrary enthalpy of formation - shows an endothermic reaction
   //4.19 is the specific heat of water
   findTemp(){
-    let LR=this.findLR();
-    let mol=(LR*0.1)/1000;
-    let Js=mol*485000;
-    this.tempChange=((-1)*Js)/((this.mLs+this.mLs2)*4.19);
-    this.temp=25+this.tempChange;
-    console.log(this.tempChange);
-    if (this.selectedRxn=="AB"||this.selectedRxn=="CD"){
-      this.temp=25;
+    if (this.selectedRxn=="EF"){
+    console.log(this.Ecoefficient);
+    console.log(this.Fcoefficient);
+    let E=(this.mLs*this.molarity*485000)/(1000*this.Ecoefficient*4.19*(this.mLs+this.mLs2));
+    let F=(this.mLs2*this.molarity*485000)/(1000*this.Fcoefficient*4.19*(this.mLs+this.mLs2));
+      if (E>=F){
+        this.tempChange=E;
+        console.log("E is "+ E);
+      }
+      else {
+        this.tempChange=F;
+        console.log("F is " + F);
+      }
+    }
+    else {
       this.tempChange=0;
     }
+    this.temp=25+this.tempChange;
+    console.log(this.tempChange);
     this.updateTempLabel();
     this.fullBeaker.setAlpha(1.0);
   }
 
   graphPoint(){
     let MFB=this.findMF();
-    let x=480+MFB*278;
-    let y=66-108*(this.tempChange/4);
+    let x=467+MFB*302;
+    let y=56-124*(this.tempChange/4);
 
     this.newestDP = new dataPoint(this, x, y, this.tempChange, MFB); 
     this.newestDP.on('pointerover', ()=>this.updateSPLabel(), this);
@@ -297,6 +342,29 @@ export default class TempScene extends Phaser.Scene {
     for (let i=this.dataList.length-1; i>-1; i--){
       this.dataList[i].setAlpha(0.0);
     }
+  }
+
+  changeCoefficients(version: number){
+    this.version=version;
+    if (this.selectedRxn=="EF"){
+      if (this.version==1){
+        this.Ecoefficient=4;
+        this.Fcoefficient=3;
+      }
+      if (this.version==2){
+        this.Ecoefficient=2;
+        this.Fcoefficient=3;
+      }
+      if (this.version==3){
+        this.Ecoefficient=1;
+        this.Fcoefficient=4;
+      }
+    }
+
+    this.mLs=0;
+    this.mLs2=20;
+    this.clearGraph();
+    this.mRLabel.text="";
   }
 
   goBack(){

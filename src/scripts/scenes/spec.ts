@@ -50,6 +50,7 @@ export default class SpecScene extends Phaser.Scene {
   private button1: button;
   private button2: button;
   private button3: button;
+  private dot: any;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -59,10 +60,13 @@ export default class SpecScene extends Phaser.Scene {
     this.molarity=0.001;
     this.Acoefficient=3;
     this.Bcoefficient=2;
+    this.version=1;
     this.background=this.add.image(200, 200, "bluebackground");
     this.background.setScale(2.0);
     this.background2=this.add.image(600, 200, "bluebackground");
     this.background2.setScale(2.0);
+
+    
 
     this.abs=0;
 
@@ -92,13 +96,12 @@ export default class SpecScene extends Phaser.Scene {
     this.sPLabel.setTintFill(0x000000);
 
     this.absGraphAB=this.add.image(600, 120, "absGraphAB");
-    this.absGraphAB.setScale(0.7);
+    this.absGraphAB.setScale(0.65);
     this.absGraphCD=this.add.image(600, 120, "absGraphCD");
-    this.absGraphCD.setScale(0.7);
-    this.absGraphCD.setAlpha(0.0);
+    this.absGraphCD.setScale(0.65);
     this.absGraphEF=this.add.image(600, 120, "absGraphEF");
-    this.absGraphEF.setScale(0.7);
-    this.absGraphEF.setAlpha(0.0);
+    this.absGraphEF.setScale(0.65);
+    this.changeGraphs();
 
     this.createArrowButtons();
 
@@ -127,11 +130,11 @@ export default class SpecScene extends Phaser.Scene {
     this.mainButton.on('pointerdown', ()=>this.goToMain(), this);
 
     this.button1=new button(this, 50, 50, "button1", 0.7);
-    this.button1.on('pointerdown', ()=>this.changeCoefficients(), this);
+    this.button1.on('pointerdown', ()=>this.changeCoefficients(1), this);
     this.button2=new button(this, 50, 100, "button2", 0.7);
-    this.button2.on('pointerdown', ()=>this.changeCoefficients(), this);
+    this.button2.on('pointerdown', ()=>this.changeCoefficients(2), this);
     this.button3=new button(this, 50, 150, "button3", 0.7);
-    this.button3.on('pointerdown', ()=>this.changeCoefficients(), this);
+    this.button3.on('pointerdown', ()=>this.changeCoefficients(3), this);
 
     this.add.text(180, 120, "[All solutions]=0.001M", {fill: "000000"});
   }
@@ -167,6 +170,24 @@ export default class SpecScene extends Phaser.Scene {
     
     this.resetmLs();
     this.setmLs();
+  }
+
+  changeGraphs(){
+    if (this.selectedRxn=='AB'){
+      this.absGraphAB.setAlpha(1.0);
+      this.absGraphCD.setAlpha(0.0);
+      this.absGraphEF.setAlpha(0.0);
+    }
+    if (this.selectedRxn=="CD"){
+      this.absGraphAB.setAlpha(0.0);
+      this.absGraphCD.setAlpha(1.0);
+      this.absGraphEF.setAlpha(0.0);
+    }
+    if (this.selectedRxn=="EF") {
+      this.absGraphAB.setAlpha(0.0);
+      this.absGraphCD.setAlpha(0.0);
+      this.absGraphEF.setAlpha(1.0);
+    }
   }
 
   resetmLs(){
@@ -302,8 +323,8 @@ export default class SpecScene extends Phaser.Scene {
 
   graphPoint(){
     let MFB=this.findMF();
-    let x=480+MFB*278;
-    let y=185-(this.abs/1.6)*132;
+    let x=464+MFB*304;
+    let y=180-(this.abs/2.5)*124;
 
     this.newestDP = new dataPoint(this, x, y, this.abs, MFB); 
     this.newestDP.on('pointerover', ()=>this.updateSPLabel(), this);
@@ -363,7 +384,8 @@ export default class SpecScene extends Phaser.Scene {
     }
   }
 
-  changeCoefficients(){
+  changeCoefficients(version: number){
+    this.version=version;
     if (this.selectedRxn=="AB"){
       if (this.version==1){
         this.Acoefficient=3;
@@ -378,6 +400,11 @@ export default class SpecScene extends Phaser.Scene {
         this.Bcoefficient=2;
       }
     }
+
+    this.mLs=0;
+    this.mLs2=0;
+    this.clearGraph();
+    this.mRLabel.text="";
   }
 
   goBack(){

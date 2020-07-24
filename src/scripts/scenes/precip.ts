@@ -40,12 +40,19 @@ export default class PrecipScene extends Phaser.Scene {
   private mLD: Phaser.GameObjects.Image;
   private mLE: Phaser.GameObjects.Image;
   private mLF: Phaser.GameObjects.Image;
+  private mainButton: button;
+  private molarity: number;
+  private Ccoefficient: number;
+  private Dcoefficient: number;
 
   constructor() {
     super({ key: 'PrecipScene' });
   }
 
   create() {
+    this.molarity=2;
+    this.Ccoefficient=2;
+    this.Dcoefficient=3;
     this.mass=0.0001;
     this.background=this.add.image(200, 200, "bluebackground");
     this.background.setScale(2.0);
@@ -74,10 +81,9 @@ export default class PrecipScene extends Phaser.Scene {
     this.sPLabel.fontSize=20;
     this.sPLabel.setTintFill(0x000000);
 
-    this.add.text(50, 50, "Pick a \nreaction:", {fill: "#fffffff"});
-
     this.createArrowButtons();
     this.createGraphs();
+    this.createmLs();
 
     this.balance=this.physics.add.image(300, 300, "scale");
     this.balance.setScale(0.50);
@@ -97,6 +103,7 @@ export default class PrecipScene extends Phaser.Scene {
    this.dataList=[];
 
    this.add.text(180, 120, "[All solutions]=10.0M", {fill: "000000"});
+   this.add.text(20, 350, "Vial + cap mass: \n1.30g", {fill: "000000"});
 
    this.mixButton=this.add
    .image(250, 170, "mixSolBut")
@@ -111,7 +118,10 @@ export default class PrecipScene extends Phaser.Scene {
    this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
 
    this.backButton=new button(this, 750, 375, "backButton", 0.7);
-   this.backButton.on('pointerdown', ()=>this.goToMain(), this);
+   this.backButton.on('pointerdown', ()=>this.goBack(), this);
+
+   this.mainButton=new button(this, 650, 375, "mainButton", 0.7);
+   this.mainButton.on('pointerdown', ()=>this.goToMain(), this);
   }
 
   createmLs(){
@@ -188,6 +198,7 @@ export default class PrecipScene extends Phaser.Scene {
   }
 
   setmLs(){
+    console.log(this.selectedRxn);
     if (this.selectedRxn=="AB"){
       this.mLA.setAlpha(1.0);
       this.mLB.setAlpha(1.0);
@@ -196,7 +207,7 @@ export default class PrecipScene extends Phaser.Scene {
       this.mLC.setAlpha(1.0);
       this.mLD.setAlpha(1.0);
     }
-    if (this.selectedRxn="EF"){
+    if (this.selectedRxn=="EF"){
       this.mLE.setAlpha(1.0);
       this.mLF.setAlpha(1.0);
     }
@@ -213,15 +224,25 @@ export default class PrecipScene extends Phaser.Scene {
   }
 
   findMass(){
+    console.log("in find mass");
+    console.log(this.selectedRxn);
     if (this.selectedRxn=="CD"){
-      let mmol=this.findLR()*10;
-      this.mass=(mmol*452.8)/1000;
-      this.emptyVial.setAlpha(0.0);
+      let C =(this.mLs*this.molarity*452.8)/(1000*this.Ccoefficient);
+      let D=(this.mLs2*this.molarity*452.8)/(1000*this.Dcoefficient);
+      if (C<=D){
+        this.mass=C;
+      }
+      else {
+        this.mass=D;
+      }
+      console.log(this.mass);
       this.fullVial.setAlpha(1.0);
+      this.emptyVial.setAlpha(0.0);
     }
     else {
       this.mass=0.00;
     }
+    
   }
 
   updateMassLabel(){
@@ -257,25 +278,25 @@ export default class PrecipScene extends Phaser.Scene {
 
   updateMRLabel(){
     if (this.selectedRxn=="AB"){
-      this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass.toString().substring(0,4));
+      this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nPM: "+(this.mass.toString().substring(0,4));
     }
     if (this.selectedRxn=="CD"){
-      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass.toString().substring(0,4));
+      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nPM: "+(this.mass.toString().substring(0,4));
     }
     if (this.selectedRxn=="EF"){
-      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass.toString().substring(0,4));
+      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nPM: "+(this.mass.toString().substring(0,4));
     }
   }
 
   updateSPLabel(){
     if (this.selectedRxn=="AB"){
-      this.sPLabel.text="Selected Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass.toString().substring(0,4));
+      this.sPLabel.text="Selected Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nPM: "+(this.mass.toString().substring(0,4));
     }
     if (this.selectedRxn=="CD"){
-      this.sPLabel.text="Selected Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass.toString().substring(0,4));
+      this.sPLabel.text="Selected Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nPM: "+(this.mass.toString().substring(0,4));
     }
     if (this.selectedRxn=="EF"){
-      this.sPLabel.text="Selected Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.mass.toString().substring(0,4));
+      this.sPLabel.text="Selected Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nPM: "+(this.mass.toString().substring(0,4));
     }
   }
 
@@ -288,6 +309,18 @@ export default class PrecipScene extends Phaser.Scene {
     console.log("in clear graph")
     for (let i=this.dataList.length-1; i>-1; i--){
       this.dataList[i].setAlpha(0.0);
+    }
+  }
+
+  goBack(){
+    if (this.selectedRxn=="AB"){
+      this.scene.start('abScene');
+    }
+    if(this.selectedRxn=="CD"){
+      this.scene.start('cdScene');
+    }
+    if(this.selectedRxn=="EF"){
+      this.scene.start('efScene');
     }
   }
 

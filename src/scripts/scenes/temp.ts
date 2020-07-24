@@ -41,7 +41,8 @@ export default class TempScene extends Phaser.Scene {
   private mLD: Phaser.GameObjects.Image;
   private mLE: Phaser.GameObjects.Image;
   private mLF: Phaser.GameObjects.Image;
-  private mLsSet: boolean;
+  private mainButton: button;
+
 
 
   constructor() {
@@ -49,7 +50,6 @@ export default class TempScene extends Phaser.Scene {
   }
 
   create() {
-    this.mLsSet=false;
     this.temp=25.001;
     this.background=this.add.image(200, 200, "bluebackground");
     this.background.setScale(2.0);
@@ -112,7 +112,11 @@ export default class TempScene extends Phaser.Scene {
     this.tempLabel.text=this.temp.toString().substring(0,4)+ " C";
     
     this.backButton=new button(this, 750, 375, "backButton", 0.7);
-    this.backButton.on('pointerdown', ()=>this.goToMain(), this);
+    this.backButton.on('pointerdown', ()=>this.goBack(), this);
+
+    this.mainButton=new button(this, 650, 375, "mainButton", 0.7);
+    this.mainButton.on('pointerdown', ()=>this.goToMain(), this);
+
 
     this.add.text(180, 120, "[All solutions]=0.1M", {fill: "000000"});
     
@@ -197,7 +201,7 @@ export default class TempScene extends Phaser.Scene {
       this.mLC.setAlpha(1.0);
       this.mLD.setAlpha(1.0);
     }
-    if (this.selectedRxn="EF"){
+    if (this.selectedRxn=="EF"){
       this.mLE.setAlpha(1.0);
       this.mLF.setAlpha(1.0);
     }
@@ -292,6 +296,18 @@ export default class TempScene extends Phaser.Scene {
     console.log("in clear graph")
     for (let i=this.dataList.length-1; i>-1; i--){
       this.dataList[i].setAlpha(0.0);
+    }
+  }
+
+  goBack(){
+    if (this.selectedRxn=="AB"){
+      this.scene.start('abScene');
+    }
+    if(this.selectedRxn=="CD"){
+      this.scene.start('cdScene');
+    }
+    if(this.selectedRxn=="EF"){
+      this.scene.start('efScene');
     }
   }
 

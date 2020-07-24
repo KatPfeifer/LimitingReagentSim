@@ -42,6 +42,7 @@ export default class SpecScene extends Phaser.Scene {
   private mLD: Phaser.GameObjects.Image;
   private mLE: Phaser.GameObjects.Image;
   private mLF: Phaser.GameObjects.Image;
+  private mainButton: button;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -110,7 +111,10 @@ export default class SpecScene extends Phaser.Scene {
     this.dataList=[];
 
     this.backButton=new button(this, 750, 375, "backButton", 0.7);
-    this.backButton.on('pointerdown', ()=>this.goToMain(), this);
+    this.backButton.on('pointerdown', ()=>this.goBack(), this);
+
+    this.mainButton=new button(this, 650, 375, "mainButton", 0.7);
+    this.mainButton.on('pointerdown', ()=>this.goToMain(), this);
 
     this.add.text(180, 120, "[All solutions]=0.001M", {fill: "000000"});
   }
@@ -171,6 +175,7 @@ export default class SpecScene extends Phaser.Scene {
   init(data){
     let ar=data;
     this.selectedRxn=ar[0].toString();
+    console.log("in init: "+ this.selectedRxn);
   }
 
   changemLs(name: string){
@@ -192,6 +197,7 @@ export default class SpecScene extends Phaser.Scene {
   }
 
   setmLs(){
+    this.resetmLs();
     if (this.selectedRxn=="AB"){
       this.mLA.setAlpha(1.0);
       this.mLB.setAlpha(1.0);
@@ -200,10 +206,11 @@ export default class SpecScene extends Phaser.Scene {
       this.mLC.setAlpha(1.0);
       this.mLD.setAlpha(1.0);
     }
-    if (this.selectedRxn="EF"){
+    if (this.selectedRxn=="EF"){
       this.mLE.setAlpha(1.0);
       this.mLF.setAlpha(1.0);
     }
+    console.log(this.selectedRxn);
   }
 
   findLR(){
@@ -322,6 +329,18 @@ export default class SpecScene extends Phaser.Scene {
   clearGraph(){
     for (let i=this.dataList.length-1; i>-1; i--){
       this.dataList[i].setAlpha(0.0);
+    }
+  }
+
+  goBack(){
+    if (this.selectedRxn=="AB"){
+      this.scene.start('abScene');
+    }
+    if(this.selectedRxn=="CD"){
+      this.scene.start('cdScene');
+    }
+    if(this.selectedRxn=="EF"){
+      this.scene.start('efScene');
     }
   }
 

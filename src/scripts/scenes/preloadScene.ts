@@ -43,6 +43,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("CDPdt", "assets/images/CDPdt.png");
     this.load.image("EFPdt", "assets/images/EFPdt.png");
     this.load.image("backButton", "assets/images/backButton.png");
+    this.load.image("mainButton", "assets/images/mainButton.png");
 
 
     this.load.image("spec", "assets/images/specButton.png");
@@ -85,6 +86,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('MainScene');
+    this.scene.start('cdScene');
   }
 }

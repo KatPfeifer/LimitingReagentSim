@@ -30,7 +30,7 @@ export default class cd extends Phaser.Scene{
         this.spec.on('pointerdown', ()=>this.goToSpec(), this);
 
         this.precip=new analysisButton(this, 475, 200, "precip", 0.4);
-        this.precip.on('pointerdown', ()=>this.goToTemp(), this);
+        this.precip.on('pointerdown', ()=>this.goToPrecip(), this);
 
         this.temp=new analysisButton(this, 475, 300, "temp", 0.3);
         this.temp.on('pointerdown', ()=>this.goToTemp(), this);

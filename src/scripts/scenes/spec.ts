@@ -43,12 +43,22 @@ export default class SpecScene extends Phaser.Scene {
   private mLE: Phaser.GameObjects.Image;
   private mLF: Phaser.GameObjects.Image;
   private mainButton: button;
+  private Acoefficient: number;
+  private Bcoefficient: number;
+  private molarity: number;
+  private version: number;
+  private button1: button;
+  private button2: button;
+  private button3: button;
 
   constructor() {
     super({ key: 'SpecScene' });
   }
 
   create() {
+    this.molarity=0.001;
+    this.Acoefficient=3;
+    this.Bcoefficient=2;
     this.background=this.add.image(200, 200, "bluebackground");
     this.background.setScale(2.0);
     this.background2=this.add.image(600, 200, "bluebackground");
@@ -115,6 +125,13 @@ export default class SpecScene extends Phaser.Scene {
 
     this.mainButton=new button(this, 650, 375, "mainButton", 0.7);
     this.mainButton.on('pointerdown', ()=>this.goToMain(), this);
+
+    this.button1=new button(this, 50, 50, "button1", 0.7);
+    this.button1.on('pointerdown', ()=>this.changeCoefficients(), this);
+    this.button2=new button(this, 50, 100, "button2", 0.7);
+    this.button2.on('pointerdown', ()=>this.changeCoefficients(), this);
+    this.button3=new button(this, 50, 150, "button3", 0.7);
+    this.button3.on('pointerdown', ()=>this.changeCoefficients(), this);
 
     this.add.text(180, 120, "[All solutions]=0.001M", {fill: "000000"});
   }
@@ -222,13 +239,27 @@ export default class SpecScene extends Phaser.Scene {
     }
   }
 
+  //calculate the absorbance for both A and B, use whichever one is lower
+  //6120 = molar extinction coefficient (uses Beer's law)
   findAbs(){
+    if (this.selectedRxn=="AB"){
+      let A=(this.mLs*this.molarity*6120)/(this.Acoefficient*(this.mLs+this.mLs2));
+      let B=(this.mLs2*this.molarity*6120)/(this.Bcoefficient*(this.mLs+this.mLs2));
+      if (A<=B){
+        this.abs=A;
+      }
+      else {
+        this.abs=B;
+      }
+    }
+    /*
     let pdtmols=this.findLR();
     let pdtconc=(pdtmols*0.001)/(this.mLs+this.mLs2);
     this.abs=pdtconc*6120;
     if (this.mLs==0||this.mLs2==0){
       this.abs=0;
     }
+    */
     if (this.selectedRxn=="CD"||this.selectedRxn=="EF"){
       this.abs=0;
     }
@@ -329,6 +360,23 @@ export default class SpecScene extends Phaser.Scene {
   clearGraph(){
     for (let i=this.dataList.length-1; i>-1; i--){
       this.dataList[i].setAlpha(0.0);
+    }
+  }
+
+  changeCoefficients(){
+    if (this.selectedRxn=="AB"){
+      if (this.version==1){
+        this.Acoefficient=3;
+        this.Bcoefficient=2;
+      }
+      if (this.version==2){
+        this.Acoefficient=4;
+        this.Bcoefficient=1;
+      }
+      if (this.version==3){
+        this.Acoefficient=1;
+        this.Bcoefficient=2;
+      }
     }
   }
 

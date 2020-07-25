@@ -1,6 +1,7 @@
 import arrowButton from "../objects/arrowButton";
 import compoundLabel from "../objects/compoundLabel";
 import button from "../objects/button";
+import buttonOutline from '../objects/buttonOutline';
 
 export default class moleculeScene extends Phaser.Scene{
     private O2stack: Phaser.GameObjects.Image;
@@ -32,6 +33,11 @@ export default class moleculeScene extends Phaser.Scene{
     private O2Left: Phaser.GameObjects.Image;
     private H2Left: Phaser.GameObjects.Image;
     private backButton: button;
+    private gramButton: button;
+    private moleculeButton: button;
+    private selectedVisual: string;
+    private gBOutline: buttonOutline;
+    private mBOutline: buttonOutline;
 
     constructor(){
         super({ key: 'MoleculeScene'});
@@ -52,6 +58,7 @@ export default class moleculeScene extends Phaser.Scene{
         this.H2Omolec=0;
         this.O2molecLeft=0;
         this.H2molecLeft=0;
+        this.selectedVisual="moleculeButton";
 
         this.O2stack=this.add.image(100, 170, "O2stack");
         this.O2stack.setScale(0.19);
@@ -63,6 +70,17 @@ export default class moleculeScene extends Phaser.Scene{
         this.O2LeftStack.setScale(0.19);
         this.H2LeftStack=this.add.image(710, 170, "H2stack");
         this.H2LeftStack.setScale(0.19);
+
+        this.gramButton=new button(this, 50, 375, "gramButton", 0.7);
+        this.gBOutline= new buttonOutline(this, 50, 375, "gramButton", 0.7);
+        this.gramButton.on('pointerover', ()=>this.gBOutline.enterHoverState(), this);
+        this.gramButton.on('pointerout', ()=>this.gBOutline.exitHoverState(this.selectedVisual));
+        this.moleculeButton= new button(this, 150, 375, "moleculeButton", 0.7);
+        this.mBOutline=new buttonOutline(this, 150, 375, "moleculeButton", 0.7);
+        this.mBOutline.setAlpha(0.3);
+        this.moleculeButton.on('pointerover', ()=>this.mBOutline.enterHoverState(), this);
+        this.moleculeButton.on('pointerout', ()=>this.mBOutline.exitHoverState(this.selectedVisual), this);
+        this.gramButton.on('pointerdown', ()=>this.goToGrams(), this);
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goToMain(), this);
@@ -170,6 +188,10 @@ export default class moleculeScene extends Phaser.Scene{
         this.H2OLabel.text=this.H2Omolec.toString();
         this.O2LeftLabel.text=this.O2molecLeft.toString();
         this.H2LeftLabel.text=this.H2molecLeft.toString();
+    }
+
+    goToGrams(){
+        this.scene.start('O2gsScene');
     }
 
     goToMain(){

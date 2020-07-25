@@ -36,6 +36,12 @@ export default class FeMolec extends Phaser.Scene{
     private selectedVisual: string;
     private gBOutline: buttonOutline;
     private mBOutline: buttonOutline;
+    private Fe2O3stack: Phaser.GameObjects.Image;
+    private Cstack: Phaser.GameObjects.Image;
+    private Festack: Phaser.GameObjects.Image;
+    private CO2stack: Phaser.GameObjects.Image;
+    private Fe2O3leftStack: Phaser.GameObjects.Image;
+    private CleftStack: Phaser.GameObjects.Image;
 
     constructor(){
         super({ key: 'FeMolecScene'});
@@ -60,6 +66,7 @@ export default class FeMolec extends Phaser.Scene{
         this.createArrowButtons();
         this.createLabels();
         this.createPics();
+        
 
         this.blueArrow=this.add.image(320, 180, "blueArrow");
         this.blueArrow.setScale(0.25);
@@ -78,6 +85,7 @@ export default class FeMolec extends Phaser.Scene{
         this.moleculeButton.on('pointerout', ()=>this.mBOutline.exitHoverState(this.selectedVisual), this);
         this.moleculeButton.on('pointerdown', ()=>this.goToGrams(), this);
 
+        this.createStacks();
     }
 
     createArrowButtons(){
@@ -98,6 +106,23 @@ export default class FeMolec extends Phaser.Scene{
           this.CO2Label=new compoundLabel(this, 500, 290, this.CO2.toString().substring(0,3));
           this.Fe2O3LeftLabel= new compoundLabel(this, 600, 290, this.Fe2O3Left.toString().substring(0,3));
           this.CLeftLabel=new compoundLabel(this, 700, 290, this.CLeft.toString().substring(0,3));
+      }
+
+      createStacks(){
+          this.Fe2O3stack=this.add.image(100, 170, "Fe2O3stack");
+          this.Fe2O3stack.setScale(0.19);
+          this.Cstack=this.add.image(200, 170, "Cstack");
+          this.Cstack.setScale(0.19);
+          this.Festack=this.add.image(450, 172, "Festack");
+          this.Festack.setScale(0.16);
+          this.CO2stack=this.add.image(525, 170, "CO2stack");
+          this.CO2stack.setScale(0.19);
+          this.Fe2O3leftStack=this.add.image(600, 170, "Fe2O3stack");
+          this.Fe2O3leftStack.setScale(0.19);
+          this.CleftStack=this.add.image(675, 170, "Cstack");
+          this.CleftStack.setScale(0.19);
+
+          this.updateStacks();
       }
 
       createPics(){
@@ -149,6 +174,7 @@ export default class FeMolec extends Phaser.Scene{
 
         this.findPdts();
         this.updateLabels();
+        this.updateStacks();
     }
 
     findPdts(){
@@ -166,6 +192,15 @@ export default class FeMolec extends Phaser.Scene{
             this.CO2=3*num;
             this.Fe2O3Left=this.Fe2O3-num*2;
         }
+    }
+
+    updateStacks(){
+        this.Fe2O3stack.setCrop(0, this.Fe2O3stack.height-((this.Fe2O3stack.height)*(this.Fe2O3/10)), this.Fe2O3stack.width, this.Fe2O3stack.height);
+        this.Cstack.setCrop(0, this.Cstack.height-(this.Cstack.height*(this.C/10)), this.Cstack.width, this.Cstack.height);
+        this.Festack.setCrop(0, this.Festack.height-(this.Festack.height*(this.Fe/12)), this.Festack.width, this.Festack.height);
+        this.CO2stack.setCrop(0, this.CO2stack.height-(this.CO2stack.height*(this.CO2/10)), this.CO2stack.width, this.CO2stack.height);
+        this.Fe2O3leftStack.setCrop(0, this.Fe2O3leftStack.height-(this.Fe2O3leftStack.height*(this.Fe2O3Left/10)), this.Fe2O3leftStack.width, this.Fe2O3leftStack.height);
+        this.CleftStack.setCrop(0, this.CleftStack.height-(this.CleftStack.height*(this.CLeft/10)), this.CleftStack.width, this.CleftStack.height);
     }
 
     updateLabels(){

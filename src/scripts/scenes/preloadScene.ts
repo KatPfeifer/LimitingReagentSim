@@ -91,6 +91,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('MoleculeScene');
+    this.scene.start('FeMolecScene');
   }
 }

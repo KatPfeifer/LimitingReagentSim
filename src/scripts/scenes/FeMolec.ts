@@ -1,9 +1,9 @@
-import compoundLabel from "../objects/compoundLabel";
 import arrowButton from "../objects/arrowButton";
+import compoundLabel from "../objects/compoundLabel";
 import button from "../objects/button";
 import buttonOutline from "../objects/buttonOutline";
 
-export default class gramScene extends Phaser.Scene{
+export default class FeMolec extends Phaser.Scene{
     private Fe2O3: number;
     private C: number;
     private Fe: number;
@@ -27,12 +27,6 @@ export default class gramScene extends Phaser.Scene{
     private up2: arrowButton;
     private down1: arrowButton;
     private down2: arrowButton;
-    private Fe2O3box: Phaser.GameObjects.Image;
-    private Cbox:Phaser.GameObjects.Image;
-    private Febox:Phaser.GameObjects.Image;
-    private CO2box: Phaser.GameObjects.Image;
-    private Fe2O3LeftBox:Phaser.GameObjects.Image;
-    private CLeftBox:Phaser.GameObjects.Image;
     private Rbox: Phaser.GameObjects.Image;
     private Pbox: Phaser.GameObjects.Image;
     private blueArrow: Phaser.GameObjects.Image;
@@ -42,10 +36,9 @@ export default class gramScene extends Phaser.Scene{
     private selectedVisual: string;
     private gBOutline: buttonOutline;
     private mBOutline: buttonOutline;
-    
-    
+
     constructor(){
-        super({ key: 'GramScene'});
+        super({ key: 'FeMolecScene'});
     }
 
     create(){
@@ -54,13 +47,15 @@ export default class gramScene extends Phaser.Scene{
         this.Pbox=this.add.image(570, 170, "pBox");
         this.Pbox.setScale(0.3);
 
-        this.Fe2O3=0.0001;
-        this.C=0.0001;
-        this.Fe=0.0001;
-        this.CO2=0.0001;
-        this.Fe2O3Left=0.0001;
-        this.CLeft=0.0001;
-        this.selectedVisual="gramButton";
+        console.log(Math.floor(5/2));
+
+        this.Fe2O3=0;
+        this.C=0;
+        this.Fe=0;
+        this.CO2=0;
+        this.Fe2O3Left=0;
+        this.CLeft=0;
+        this.selectedVisual="moleculeButton";
 
         this.createArrowButtons();
         this.createLabels();
@@ -69,46 +64,31 @@ export default class gramScene extends Phaser.Scene{
         this.blueArrow=this.add.image(320, 180, "blueArrow");
         this.blueArrow.setScale(0.25);
 
-        this.Fe2O3box=this.add.image(90, 183, "compoundBox");
-        this.Fe2O3box.setScale(0.3);
-        this.Cbox=this.add.image(190, 183, "compoundBox");
-        this.Cbox.setScale(0.3);
-        this.Febox=this.add.image(420, 183, "compoundBox");
-        this.Febox.setScale(0.3);
-        this.CO2box=this.add.image(520, 183, "compoundBox");
-        this.CO2box.setScale(0.3);
-        this.Fe2O3LeftBox=this.add.image(620, 183, "compoundBox");
-        this.Fe2O3LeftBox.setScale(0.3);
-        this.CLeftBox=this.add.image(720, 183, "compoundBox");
-        this.CLeftBox.setScale(0.3);
-        this.updateBoxHeights();
-
-        this.add.text(500, 5, "Use the arrows to change the \nnumber of grams of each\nreactant and see how the grams\nof product change", {fill: "000000"});
-
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goToMain(), this);
 
         this.gramButton=new button(this, 50, 375, "gramButton", 0.7);
         this.gBOutline= new buttonOutline(this, 50, 375, "gramButton", 0.7);
-        this.gBOutline.setAlpha(0.3);
         this.gramButton.on('pointerover', ()=>this.gBOutline.enterHoverState(), this);
         this.gramButton.on('pointerout', ()=>this.gBOutline.exitHoverState(this.selectedVisual));
         this.moleculeButton= new button(this, 150, 375, "moleculeButton", 0.7);
         this.mBOutline=new buttonOutline(this, 150, 375, "moleculeButton", 0.7);
+        this.mBOutline.setAlpha(0.3);
         this.moleculeButton.on('pointerover', ()=>this.mBOutline.enterHoverState(), this);
         this.moleculeButton.on('pointerout', ()=>this.mBOutline.exitHoverState(this.selectedVisual), this);
-        this.moleculeButton.on('pointerdown', ()=>this.goToMolecules(), this);
+        this.moleculeButton.on('pointerdown', ()=>this.goToGrams(), this);
+
     }
 
     createArrowButtons(){
         this.up1=new arrowButton(this, 80, 280, "upArrow", "up1");
-        this.up1.on('pointerdown', ()=>this.changeGrams("up1"));
+        this.up1.on('pointerdown', ()=>this.changeMolecs("up1"));
         this.down1=new arrowButton(this, 80, 320, "downArrow", "down1");
-        this.down1.on('pointerdown', ()=>this.changeGrams("down1"));
+        this.down1.on('pointerdown', ()=>this.changeMolecs("down1"));
         this.up2=new arrowButton(this, 180, 280, "upArrow", "up2");
-        this.up2.on('pointerdown', ()=>this.changeGrams("up2"));
+        this.up2.on('pointerdown', ()=>this.changeMolecs("up2"));
         this.down2=new arrowButton(this, 180, 320, "downArrow", "down2");
-        this.down2.on('pointerdown', ()=>this.changeGrams("down2"));
+        this.down2.on('pointerdown', ()=>this.changeMolecs("down2"));
       }
 
       createLabels(){
@@ -153,69 +133,56 @@ export default class gramScene extends Phaser.Scene{
 
     }
 
-    findLR(){
-        let molFe2O3 = this.Fe2O3/159.69;
-        let molC = this.C/12.01;
-        if (molFe2O3/2<molC/3){
-            return molFe2O3/2;
+    changeMolecs(name: string){
+        if(name=="up1"&&this.Fe2O3<10){
+            this.Fe2O3+=1;
         }
-        else {
-            return molC/3;
+        if(name=="down1"&&this.Fe2O3>0){
+            this.Fe2O3-=1;
         }
-    }
+        if(name=="up2"&&this.C<10){
+            this.C+=1;
+        }
+        if(name=="down2"&&this.C>0){
+            this.C-=1;
+        }
 
-    changeGrams(name: string){
-        if (name=="up1"&&this.Fe2O3<10){
-            this.Fe2O3+=0.5;
-        }
-        if (name=="up2"&&this.C<10){
-            this.C+=0.5;
-        }
-        if (name=="down1"&&this.Fe2O3>0){
-            this.Fe2O3-=0.5;
-        }
-        if (name=="down2"&&this.C>0){
-            this.C-=0.5;
-        }
-        
         this.findPdts();
-        this.updateBoxHeights();
         this.updateLabels();
     }
 
     findPdts(){
-        let mol=this.findLR();
-        let molFe2O3 = this.Fe2O3/159.69;
-        let molC = this.C/12.01;
-        this.Fe=mol*4*55.85;
-        this.CO2=mol*3*44.01;
-        this.Fe2O3Left=(molFe2O3-2*mol)*159.69;
-        this.CLeft=(molC-3*mol)*12.01;
-    }
-
-    updateBoxHeights(){
-        this.Fe2O3box.setCrop(0, this.Fe2O3box.height-(this.Fe2O3box.height*(this.Fe2O3/20)), this.Fe2O3box.width, this.Fe2O3box.height);
-        this.Cbox.setCrop(0, this.Cbox.height-(this.Cbox.height*(this.C/20)), this.Cbox.width, this.Cbox.height);
-        this.Febox.setCrop(0, this.Febox.height-(this.Febox.height*(this.Fe/20)), this.Febox.width, this.Febox.height);
-        this.CO2box.setCrop(0, this.CO2box.height-(this.CO2box.height*(this.CO2/20)), this.CO2box.width, this.CO2box.height);
-        this.Fe2O3LeftBox.setCrop(0, this.Fe2O3LeftBox.height-(this.Fe2O3LeftBox.height*(this.Fe2O3Left/20)), this.Fe2O3LeftBox.width, this.Fe2O3LeftBox.height);
-        this.CLeftBox.setCrop(0, this.CLeftBox.height-(this.CLeftBox.height*(this.CLeft/20)), this.CLeftBox.width, this.CLeftBox.height);
+        if (Math.floor(this.Fe2O3/2)<=Math.floor(this.C/3)){
+            let num=Math.floor(this.Fe2O3/2);
+            this.Fe2O3Left=this.Fe2O3-num*2;
+            this.Fe=4*num;
+            this.CO2=3*num;
+            this.CLeft=this.C-3*num;
+        }
+        if (Math.floor(this.C/3)<Math.floor(this.Fe2O3/2)){
+            let num=Math.floor(this.C/3);
+            this.CLeft=this.C-num*3;
+            this.Fe=4*num;
+            this.CO2=3*num;
+            this.Fe2O3Left=this.Fe2O3-num*2;
+        }
     }
 
     updateLabels(){
-        this.Fe2O3Label.text=this.Fe2O3.toFixed(1);
-        this.CLabel.text=this.C.toFixed(1);
-        this.FeLabel.text=this.Fe.toFixed(1);
-        this.CO2Label.text=this.CO2.toFixed(1);
-        this.Fe2O3LeftLabel.text=this.Fe2O3Left.toFixed(1);
-        this.CLeftLabel.text=this.CLeft.toFixed(1);
-    }
-
-    goToMolecules(){
+        this.Fe2O3Label.text=this.Fe2O3.toString();
+        this.CLabel.text=this.C.toString();
+        this.FeLabel.text=this.Fe.toString();
+        this.CO2Label.text=this.CO2.toString();
+        this.Fe2O3LeftLabel.text=this.Fe2O3Left.toString();
+        this.CLeftLabel.text=this.CLeft.toString();
 
     }
 
     goToMain(){
-        this.scene.start('MainScene');
+        this.scene.start("MainScene");
+    }
+
+    goToGrams(){
+        this.scene.start("gramScene");
     }
 }

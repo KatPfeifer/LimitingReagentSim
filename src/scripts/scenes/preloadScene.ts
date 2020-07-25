@@ -31,6 +31,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("H2O", "assets/images/H2O.png");
 
     this.load.image("bluebackground", "assets/images/blue.png");
+    this.load.image("redArrow", "assets/images/redArrow.png");
     this.load.image('upArrow', "assets/images/upArrow.png");
     this.load.image("downArrow", 'assets/images/downArrow.png');
     this.load.image("A+B", "assets/images/A + B.png");
@@ -89,6 +90,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('PrecipScene', ["AB"]);
+    this.scene.start('SpecScene', ["AB"]);
   }
 }

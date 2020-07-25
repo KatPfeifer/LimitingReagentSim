@@ -1,12 +1,8 @@
-import ExampleObject from '../objects/exampleObject';
 import reactionButton from '../objects/reactionButton';
-import analysisButton from '../objects/analysisButton';
 import arrowButton from '../objects/arrowButton';
 import { cuvette } from '../objects/cuvette';
 import dataPoint from '../objects/dataPoint';
-import reactionHighlights from '../objects/reactionHighlights';
 import button from '../objects/button';
-import productImage from '../objects/productImage';
 import arrowIndic from '../objects/arrowIndic';
 
 export default class SpecScene extends Phaser.Scene {
@@ -17,9 +13,7 @@ export default class SpecScene extends Phaser.Scene {
   private mLs: any;
   private mLs2: any;
   private up1: any;
-  private up2: any;
   private down1: any;
-  private down2: any;
   private mixButton: any;
   private abs: any;
   private emptyCuvette: any;

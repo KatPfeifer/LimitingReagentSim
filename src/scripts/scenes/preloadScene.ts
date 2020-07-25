@@ -49,7 +49,6 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("button2", "assets/images/2button.png");
     this.load.image("button3", "assets/images/3button.png");
 
-
     this.load.image("spec", "assets/images/specButton.png");
     this.load.image("temp", "assets/images/tempButton.png");
     this.load.image("precip", "assets/images/precipButton.png");
@@ -90,6 +89,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('SpecScene', ["AB"]);
+    this.scene.start('O2gsScene');
   }
 }

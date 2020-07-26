@@ -1,14 +1,14 @@
 export default class buttonOutline extends Phaser.GameObjects.Image{
     private myName: string;
     
-    constructor(scene: Phaser.Scene, x: number, y: number, name: string, scale: number){
+    constructor(scene: Phaser.Scene, x: number, y: number, name: string, scale: number, tint: number){
         super(scene, x, y, name);
         scene.add.existing(this);
 
         this.setScale(scale);
         this.setAlpha(0.0);
         this.myName=name;
-        this.setTintFill(0x3d0a57);
+        this.setTintFill(tint);
     }
 
     enterHoverState(){

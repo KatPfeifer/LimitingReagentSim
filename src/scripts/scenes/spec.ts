@@ -4,6 +4,7 @@ import { cuvette } from '../objects/cuvette';
 import dataPoint from '../objects/dataPoint';
 import button from '../objects/button';
 import arrowIndic from '../objects/arrowIndic';
+import buttonOutline from '../objects/buttonOutline';
 
 export default class SpecScene extends Phaser.Scene {
   private background: Phaser.GameObjects.Image;
@@ -45,10 +46,10 @@ export default class SpecScene extends Phaser.Scene {
   private button1: button;
   private button2: button;
   private button3: button;
-  private arrow1: arrowIndic;
-  private arrow2: arrowIndic;
-  private arrow3: arrowIndic;
   private selectedVersion: string;
+  private outline1: buttonOutline;
+  private outline2: buttonOutline;
+  private outline3: buttonOutline;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -59,7 +60,7 @@ export default class SpecScene extends Phaser.Scene {
     this.Acoefficient=3;
     this.Bcoefficient=2;
     this.version=1;
-    this.selectedVersion="arrow1";
+    this.selectedVersion="button1";
 
     this.background=this.add.image(200, 200, "bluebackground");
     this.background.setScale(2.0);
@@ -136,24 +137,20 @@ export default class SpecScene extends Phaser.Scene {
     this.button3=new button(this, 50, 150, "button3", 0.7);
     this.button3.on('pointerdown', ()=>this.changeCoefficients(3), this);
 
+    this.outline1=new buttonOutline(this, 50, 50, "button1", 0.7, 0x000061);
+    this.outline1.setAlpha(0.3);
+    this.button1.on('pointerover', ()=>this.outline1.enterHoverState(), this);
+    this.button1.on('pointerout', ()=>this.outline1.exitHoverState(this.selectedVersion), this);
+    this.outline2=new buttonOutline(this, 50, 100, "button2", 0.7, 0x000061);
+    this.button2.on('pointerover', ()=>this.outline2.enterHoverState(), this);
+    this.button2.on('pointerout', ()=>this.outline2.exitHoverState(this.selectedVersion), this);
+    this.outline3=new buttonOutline(this, 50, 150, "button3", 0.7, 0x000061);
+    this.button3.on('pointerover', ()=>this.outline3.enterHoverState(), this);
+    this.button3.on('pointerout', ()=>this.outline3.exitHoverState(this.selectedVersion), this);
+
     this.add.text(180, 120, "[All solutions]=0.001M", {fill: "000000"});
 
     this.add.text(10, 10, "Version: ", {fill: "000000"});
-
-   this.arrow1=new arrowIndic(this, 100, 50, "arrow1");
-   this.button1.on('pointerover', ()=>this.arrow1.enterHoverState(), this);
-   this.button1.on('pointerout', ()=>this.arrow1.exitHoverState(this.selectedVersion), this);
-
-   this.arrow2=new arrowIndic(this, 100, 100, "arrow2");
-   this.button2.on('pointerover', ()=>this.arrow2.enterHoverState(), this);
-   this.button2.on('pointerout', ()=>this.arrow2.exitHoverState(this.selectedVersion), this);
-
-   this.arrow3=new arrowIndic(this, 100, 150, "arrow3");
-   this.button3.on('pointerover', ()=>this.arrow3.enterHoverState(), this);
-   this.button3.on('pointerout', ()=>this.arrow3.exitHoverState(this.selectedVersion), this);
-
-   this.arrow2.setAlpha(0.0);
-   this.arrow3.setAlpha(0.0);
   }
 
   createCuvettes(){
@@ -418,22 +415,22 @@ export default class SpecScene extends Phaser.Scene {
       }
     }
     if (this.version==1){
-      this.selectedVersion="arrow1";
-      this.arrow1.setAlpha(1.0);
-      this.arrow2.setAlpha(0.0);
-      this.arrow3.setAlpha(0.0);
+      this.selectedVersion="button1";
+      this.outline1.setAlpha(0.3);
+      this.outline2.setAlpha(0.0);
+      this.outline3.setAlpha(0.0);
     }
     if (this.version==2){
-      this.selectedVersion="arrow2";
-      this.arrow1.setAlpha(0.0);
-      this.arrow2.setAlpha(1.0);
-      this.arrow3.setAlpha(0.0);
+      this.selectedVersion="button2";
+      this.outline1.setAlpha(0.0);
+      this.outline2.setAlpha(0.3);
+      this.outline3.setAlpha(0.0);
     }
     if (this.version==3){
-      this.selectedVersion="arrow3";
-      this.arrow1.setAlpha(0.0);
-      this.arrow2.setAlpha(0.0);
-      this.arrow3.setAlpha(1.0);
+      this.selectedVersion="button3";
+      this.outline1.setAlpha(0.0);
+      this.outline2.setAlpha(0.0);
+      this.outline3.setAlpha(0.3);
     }
 
     this.mLs=0;

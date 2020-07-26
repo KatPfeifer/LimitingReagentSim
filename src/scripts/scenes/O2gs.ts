@@ -75,12 +75,12 @@ export default class O2gs extends Phaser.Scene {
         this.H2LeftBox.setScale(0.3);
 
         this.gramButton=new button(this, 50, 375, "gramButton", 0.7);
-        this.gBOutline= new buttonOutline(this, 50, 375, "gramButton", 0.7);
+        this.gBOutline= new buttonOutline(this, 50, 375, "gramButton", 0.7, 0x3d0a57);
         this.gBOutline.setAlpha(0.3);
         this.gramButton.on('pointerover', ()=>this.gBOutline.enterHoverState(), this);
         this.gramButton.on('pointerout', ()=>this.gBOutline.exitHoverState(this.selectedVisual));
         this.moleculeButton= new button(this, 150, 375, "moleculeButton", 0.7);
-        this.mBOutline=new buttonOutline(this, 150, 375, "moleculeButton", 0.7);
+        this.mBOutline=new buttonOutline(this, 150, 375, "moleculeButton", 0.7, 0x3d0a57);
         this.moleculeButton.on('pointerover', ()=>this.mBOutline.enterHoverState(), this);
         this.moleculeButton.on('pointerout', ()=>this.mBOutline.exitHoverState(this.selectedVisual), this);
         this.moleculeButton.on('pointerdown', ()=>this.goToMolecules(), this);

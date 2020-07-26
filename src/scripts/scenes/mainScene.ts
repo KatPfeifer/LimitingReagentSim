@@ -3,16 +3,14 @@ import reactionButton from '../objects/reactionButton';
 import analysisButton from '../objects/analysisButton';
 import moleculeScene from './molecules';
 import button from '../objects/button';
+import buttonOutline from '../objects/buttonOutline';
 
 export default class MainScene extends Phaser.Scene {
   private background: Phaser.GameObjects.Image;
-  private specButton: analysisButton;
-  private tempButton: analysisButton;
-  private precipButton: analysisButton;
   private MCVLabel: Phaser.GameObjects.Image;
   private LRLabel: Phaser.GameObjects.Image;
-  private O2Button: analysisButton;
-  private FeButton: analysisButton;
+  private O2Button: button;
+  private FeButton: button;
   private MCVshot: Phaser.GameObjects.Image;
   private LRshot: Phaser.GameObjects.Image;
   private blackBox: Phaser.GameObjects.Image;
@@ -20,6 +18,11 @@ export default class MainScene extends Phaser.Scene {
   private ABbutton: button;
   private CDbutton: button;
   private EFbutton: button;
+  private ABoutline: buttonOutline;
+  private CDoutline: buttonOutline;
+  private EFoutline: buttonOutline;
+  private O2outline: buttonOutline;
+  private Feoutline: buttonOutline;
 
   constructor() {
     super({ key: 'MainScene' });
@@ -37,11 +40,22 @@ export default class MainScene extends Phaser.Scene {
     this.LRLabel.setScale(0.4);
 
     this.add.text(25, 100, "Pick a reaction to\nget started:", {fill: '0000000'});
-    this.O2Button=new analysisButton(this, 130, 150, "O2Rxn", 0.2);
-    this.O2Button.on('pointerdown', this.O2Picked, this);
+    this.O2Button=new button(this, 100, 175, "O2H2button", 0.3);
+    this.O2Button.on('pointerdown', ()=>this.O2Picked(), this);
 
-    this.FeButton=new analysisButton(this, 145, 180, "FeRxn", 0.25);
-    this.FeButton.on('pointerdown', this.FePicked, this);
+    this.O2outline=new buttonOutline(this, 100, 175, "O2H2button", 0.3, 0x02633c);
+    this.O2Button.on('pointerover', ()=>this.O2outline.enterHoverState(), this);
+    this.O2Button.on('pointerout', ()=>this.O2outline.exitHoverState("word"), this);
+
+    this.FeButton=new button(this, 250, 175, "Fe2O3Cbutton", 0.4);
+    this.FeButton.on('pointerdown', ()=>this.FePicked(), this);
+
+    this.Feoutline= new buttonOutline(this, 250, 175, "Fe2O3Cbutton", 0.4, 0x02633c);
+    this.FeButton.on('pointerover', ()=>this.Feoutline.enterHoverState(), this);
+    this.FeButton.on('pointerout', ()=>this.Feoutline.exitHoverState("word"), this);
+
+
+
 
     this.ABbutton=new button(this, 500, 100, "ABbutton", 0.3);
     this.ABbutton.on('pointerdown', ()=>this.abPicked(), this);
@@ -49,6 +63,17 @@ export default class MainScene extends Phaser.Scene {
     this.CDbutton.on('pointerdown', ()=>this.cdPicked(), this);
     this.EFbutton=new button(this, 500, 200, "EFbutton", 0.31);
     this.EFbutton.on('pointerdown', ()=>this.efPicked(), this);
+
+    this.ABoutline=new buttonOutline(this, 500, 100, "ABbutton", 0.3, 0x3d0a57);
+    this.ABbutton.on('pointerover', ()=>this.ABoutline.enterHoverState(), this);
+    this.ABbutton.on('pointerout', ()=>this.ABoutline.exitHoverState("word"), this);
+    this.CDoutline=new buttonOutline(this, 500, 150, "CDbutton", 0.28, 0x3d0a57);
+    this.CDbutton.on('pointerover', ()=>this.CDoutline.enterHoverState(), this);
+    this.CDbutton.on('pointerout', ()=>this.CDoutline.exitHoverState("word"), this);
+    this.EFoutline=new buttonOutline(this, 500, 200, "EFbutton", 0.31, 0x3d0a57);
+    this.EFbutton.on('pointerover', ()=>this.EFoutline.enterHoverState(), this);
+    this.EFbutton.on('pointerout', ()=>this.EFoutline.exitHoverState("word"), this);
+
 
     this.blackBox=this.add.image(600, 300, "blackBox");
     this.blackBox.setScale(0.36);
@@ -82,6 +107,6 @@ export default class MainScene extends Phaser.Scene {
   }
 
   FePicked(){
-    this.scene.start("GramScene");
+    this.scene.start("FeMolecScene");
   }
 }

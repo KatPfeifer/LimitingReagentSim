@@ -42,6 +42,9 @@ export default class gramScene extends Phaser.Scene{
     private selectedVisual: string;
     private gBOutline: buttonOutline;
     private mBOutline: buttonOutline;
+    private products: Phaser.GameObjects.Image;
+    private reactants: Phaser.GameObjects.Image;
+    private leftovers: Phaser.GameObjects.Image;
     
     
     constructor(){
@@ -98,6 +101,13 @@ export default class gramScene extends Phaser.Scene{
         this.moleculeButton.on('pointerover', ()=>this.mBOutline.enterHoverState(), this);
         this.moleculeButton.on('pointerout', ()=>this.mBOutline.exitHoverState(this.selectedVisual), this);
         this.moleculeButton.on('pointerdown', ()=>this.goToMolecules(), this);
+    
+        this.reactants=this.add.image(130, 340, "reactants");
+        this.reactants.setScale(0.3);
+        this.products=this.add.image(480, 340, "products");
+        this.products.setScale(0.3);
+        this.leftovers=this.add.image(680, 340, "leftovers");
+        this.leftovers.setScale(0.3);
     }
 
     createArrowButtons(){
@@ -130,7 +140,7 @@ export default class gramScene extends Phaser.Scene{
 
         this.Fe2O3leftPic=this.add.image(660, 300, "Fe2O3");
         this.Fe2O3leftPic.setScale(0.1);
-        this.Fe2O3leftPic.setTintFill(0xff0040);
+        this.Fe2O3leftPic.setTintFill(0x00c932);
 
         this.Cpic=this.add.image(210, 300, "C");
         this.Cpic.setScale(0.06);
@@ -138,15 +148,15 @@ export default class gramScene extends Phaser.Scene{
 
         this.CLeftPic=this.add.image(740, 300, "C");
         this.CLeftPic.setScale(0.06);
-        this.CLeftPic.setTintFill(0xff0040);
+        this.CLeftPic.setTintFill(0x00c932);
 
         this.Fepic=this.add.image(450, 300, "Fe");
         this.Fepic.setScale(0.05);
-        this.Fepic.setTintFill(0xff0040);
+        this.Fepic.setTintFill(0x00b1ff);
 
         this.CO2pic=this.add.image(550, 300, "CO2");
         this.CO2pic.setScale(0.08);
-        this.CO2pic.setTintFill(0xff0040);
+        this.CO2pic.setTintFill(0x00b1ff);
       }
 
     update(){

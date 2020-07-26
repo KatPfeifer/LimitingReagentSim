@@ -38,6 +38,9 @@ export default class O2gs extends Phaser.Scene {
     private selectedVisual: string;
     private gBOutline: buttonOutline;
     private mBOutline: buttonOutline;
+    private products: Phaser.GameObjects.Image;
+    private reactants: Phaser.GameObjects.Image;
+    private leftovers: Phaser.GameObjects.Image;
 
     constructor(){
         super({ key: 'O2gsScene'});
@@ -74,16 +77,23 @@ export default class O2gs extends Phaser.Scene {
         this.H2LeftBox=this.add.image(710, 183, "compoundBox");
         this.H2LeftBox.setScale(0.3);
 
-        this.gramButton=new button(this, 50, 375, "gramButton", 0.7);
-        this.gBOutline= new buttonOutline(this, 50, 375, "gramButton", 0.7, 0x3d0a57);
+        this.gramButton=new button(this, 50, 375, "gramButton", 0.6);
+        this.gBOutline= new buttonOutline(this, 50, 375, "gramButton", 0.6, 0x3d0a57);
         this.gBOutline.setAlpha(0.3);
         this.gramButton.on('pointerover', ()=>this.gBOutline.enterHoverState(), this);
         this.gramButton.on('pointerout', ()=>this.gBOutline.exitHoverState(this.selectedVisual));
-        this.moleculeButton= new button(this, 150, 375, "moleculeButton", 0.7);
-        this.mBOutline=new buttonOutline(this, 150, 375, "moleculeButton", 0.7, 0x3d0a57);
+        this.moleculeButton= new button(this, 150, 375, "moleculeButton", 0.6);
+        this.mBOutline=new buttonOutline(this, 150, 375, "moleculeButton", 0.6, 0x3d0a57);
         this.moleculeButton.on('pointerover', ()=>this.mBOutline.enterHoverState(), this);
         this.moleculeButton.on('pointerout', ()=>this.mBOutline.exitHoverState(this.selectedVisual), this);
         this.moleculeButton.on('pointerdown', ()=>this.goToMolecules(), this);
+
+        this.reactants=this.add.image(130, 340, "reactants");
+        this.reactants.setScale(0.3);
+        this.products=this.add.image(450, 340, "products");
+        this.products.setScale(0.3);
+        this.leftovers=this.add.image(660, 340, "leftovers");
+        this.leftovers.setScale(0.3);
 
         this.createArrowButtons();
         this.createLabels();
@@ -101,13 +111,13 @@ export default class O2gs extends Phaser.Scene {
         this.H2.setTintFill(0xff0040);
         this.H2O=this.add.image(480, 300, "H2O");
         this.H2O.setScale(0.1);
-        this.H2O.setTintFill(0xff0040);
+        this.H2O.setTintFill(0x00b1ff);
         this.O2Left=this.add.image(615, 300, "O2");
         this.O2Left.setScale(0.1);
-        this.O2Left.setTintFill(0xff0040);
+        this.O2Left.setTintFill(0x00c932);
         this.H2Left=this.add.image(755, 300, "H2");
         this.H2Left.setScale(0.1);
-        this.H2Left.setTintFill(0xff0040);
+        this.H2Left.setTintFill(0x00c932);
     }
 
     createArrowButtons(){

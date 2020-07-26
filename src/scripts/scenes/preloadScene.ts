@@ -16,6 +16,9 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("EFbutton", "assets/images/EFbutton.png");
     this.load.image("O2H2button", "assets/images/O2H2button.png");
     this.load.image("Fe2O3Cbutton", "assets/images/Fe2O3Cbutton.png");
+    this.load.image("products", "assets/images/products.png");
+    this.load.image("reactants", "assets/images/reactants.png");
+    this.load.image("leftovers", "assets/images/leftovers.png");
 
     this.load.image("Fe2O3", "assets/images/Fe2O3.png");
     this.load.image("FeRxn", "assets/images/FeRxn.png");
@@ -98,6 +101,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('MainScene');
+    this.scene.start('GramScene');
   }
 }

@@ -38,6 +38,9 @@ export default class moleculeScene extends Phaser.Scene{
     private selectedVisual: string;
     private gBOutline: buttonOutline;
     private mBOutline: buttonOutline;
+    private products: Phaser.GameObjects.Image;
+    private reactants: Phaser.GameObjects.Image;
+    private leftovers: Phaser.GameObjects.Image;
 
     constructor(){
         super({ key: 'MoleculeScene'});
@@ -87,6 +90,13 @@ export default class moleculeScene extends Phaser.Scene{
 
         this.add.text(400, 20, "Use the arrow buttons to change the\nnumber of reactant molecules", {fill: "000000"});
 
+        this.reactants=this.add.image(130, 340, "reactants");
+        this.reactants.setScale(0.3);
+        this.products=this.add.image(450, 340, "products");
+        this.products.setScale(0.3);
+        this.leftovers=this.add.image(660, 340, "leftovers");
+        this.leftovers.setScale(0.3);
+
         this.createArrowButtons();
         this.createLabels();
         this.createPics();
@@ -121,13 +131,13 @@ export default class moleculeScene extends Phaser.Scene{
         this.H2.setTintFill(0xff0040);
         this.H2O=this.add.image(460, 300, "H2O");
         this.H2O.setScale(0.1);
-        this.H2O.setTintFill(0xff0040);
+        this.H2O.setTintFill(0x00b1ff);
         this.O2Left=this.add.image(595, 300, "O2");
         this.O2Left.setScale(0.1);
-        this.O2Left.setTintFill(0xff0040);
+        this.O2Left.setTintFill(0x00c932);
         this.H2Left=this.add.image(735, 300, "H2");
         this.H2Left.setScale(0.1);
-        this.H2Left.setTintFill(0xff0040);
+        this.H2Left.setTintFill(0x00c932);
     }
 
     update(){

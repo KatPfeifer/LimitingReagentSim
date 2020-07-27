@@ -11,6 +11,7 @@ import cdScene from './scenes/cd';
 import efScene from './scenes/ef';
 import O2gs from './scenes/O2gs';
 import FeMolec from './scenes/FeMolec';
+import pdtFormed from './scenes/pdtFormed';
 import GameConfig = Phaser.Types.Core.GameConfig;
 
 const DEFAULT_WIDTH = 800;
@@ -26,7 +27,7 @@ const config: GameConfig = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT
     },
-    scene: [PreloadScene, O2gs, FeMolec, SpecScene, MainScene, cdScene, efScene, TempScene, PrecipScene, GramScene, abScene, MoleculeScene],
+    scene: [PreloadScene, O2gs, pdtFormed, FeMolec, SpecScene, MainScene, cdScene, efScene, TempScene, PrecipScene, GramScene, abScene, MoleculeScene],
     physics: {
         default: 'arcade',
         arcade: {

@@ -98,9 +98,11 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("precipGraphAB", "assets/images/precipGraphAB.png");
     this.load.image("precipGraphCD", "assets/images/precipGraphCD.png");
     this.load.image("precipGraphEF", "assets/images/precipGraphEF.png");
+
+    this.load.image("nextButton", "assets/images/nextButton.png");
   }
 
   create() {
-    this.scene.start('GramScene');
+    this.scene.start('pdtFormedScene');
   }
 }

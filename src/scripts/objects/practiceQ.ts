@@ -67,6 +67,6 @@ export default class practiceQ {
         return this.mwD;
     }
     getDco(){
-        return this.coC;
+        return this.coD;
     }
 }

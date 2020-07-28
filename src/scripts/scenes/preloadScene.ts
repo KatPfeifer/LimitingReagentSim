@@ -111,9 +111,11 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("wrongLR", "assets/images/wrongLR.png");
     this.load.image("noMoles", "assets/images/noMoles.png");
     this.load.image("correct", "assets/images/correct.png");
+    this.load.image("LRhelp", "assets/images/LRhelp.png");
+    this.load.image("LRhelp2", "assets/images/LRhelp2.png");
   }
 
   create() {
-    this.scene.start('reactantLeftScene');
+    this.scene.start('pickLRScene');
   }
 }

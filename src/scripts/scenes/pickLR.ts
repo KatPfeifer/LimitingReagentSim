@@ -2,7 +2,7 @@ import button from "../objects/button";
 import practiceQ from "../objects/practiceQ";
 import rxnImage from "../objects/rxnImage";
 
-export default class reactantLeft extends Phaser.Scene{
+export default class pickLR extends Phaser.Scene{
     private questions: any;//figure out how to type this
     private rxnImages: any;
     private nameA: string;
@@ -34,17 +34,16 @@ export default class reactantLeft extends Phaser.Scene{
     private correctpic: Phaser.GameObjects.Image;
     private backButton: button;
     private selectedQ: practiceQ;
-    private excess: number;
-    private wrongLR: number;
-    private noMolespic: Phaser.GameObjects.Image;
-
+    private LR: string;
+    private wrongLR: string;
+    private wrongLRpic: Phaser.GameObjects.Image;
+    private helpPic: Phaser.GameObjects.Image;
 
     constructor(){
-        super({key: 'reactantLeftScene'});
+        super({key: 'pickLRScene'});
     }
 
     create(){
-
         this.nextButton=new button(this, 100, 375, "nextButton", 0.7);
         this.nextButton.on('pointerdown', ()=>this.getNext(), this);
 
@@ -55,7 +54,7 @@ export default class reactantLeft extends Phaser.Scene{
         this.qLabel2=this.add.bitmapText(20, 100, "pixelFont");
         this.qLabel2.setFontSize(30);
         this.qLabel2.setTintFill(0x000000);
-        this.qLabel2.setText("How many grams of excess reactant remain at the end of the reaction?")
+        this.qLabel2.setText("Which reactant is the limiting reactant?")
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goBack(), this);
@@ -67,9 +66,13 @@ export default class reactantLeft extends Phaser.Scene{
         this.correctpic.setScale(0.4);
         this.correctpic.setAlpha(0.0);
 
-        this.noMolespic=this.add.image(550, 250, "noMoles");
-        this.noMolespic.setScale(0.4);
-        this.noMolespic.setAlpha(0.0);
+        this.wrongLRpic=this.add.image(550, 250, "LRhelp");
+        this.wrongLRpic.setScale(0.4);
+        this.wrongLRpic.setAlpha(0.0);
+
+        this.helpPic=this.add.image(550, 250, "LRhelp2");
+        this.helpPic.setScale(0.4);
+        this.helpPic.setAlpha(0.0);
 
         this.mwALabel = this.add.bitmapText(25, 200, "pixelFont");
         this.mwALabel.setFontSize(25);
@@ -97,17 +100,16 @@ export default class reactantLeft extends Phaser.Scene{
         this.rxnImages.push(new rxnImage(this, 175, 75, "NH3Rxn", 0.7));
         this.rxnImages.push(new rxnImage(this, 175, 75, "C2H4Rxn", 0.7));
         this.rxnImages.push(new rxnImage(this, 175, 75, "SiRxn", 0.7));
-    
+
         this.answerBox=this.add.dom(550, 150).createFromCache('inputForm');
         this.answerBox.addListener('click');
         this.answerBox.on('click', ()=>this.handleClick(event));
 
         this.getReactantG();
-        this.pickRxn();
-        this.findExcess();
+        this.pickRxn();   
+        this.findLR();
         this.updateQLabel();
-        this.showPics();
-
+        this.showPics();     
     }
 
     handleClick(e){
@@ -121,7 +123,6 @@ export default class reactantLeft extends Phaser.Scene{
 
     getReactantG(){
         this.gA=Math.round(Math.random()*1000)/10;
-        console.log(this.gA);
         this.gB=Math.round(Math.random()*1000)/10;
     }
 
@@ -166,55 +167,50 @@ export default class reactantLeft extends Phaser.Scene{
         }
     }
 
+    findLR(){
+        //A= number g B required to react with all of A
+        let A = (this.gA*this.coB*this.mwB)/(this.mwA*this.coA);
+        let B = (this.gB*this.coA*this.mwA)/(this.mwB*this.coB) 
+
+        if (A>this.gB){
+            //B limits
+            this.LR=this.nameB;
+            this.wrongLR=this.nameA;
+        }
+        if (A<=this.gB){
+            //A limits
+            this.LR=this.nameA;
+            this.wrongLR=this.nameB;
+        }
+        console.log(this.LR);
+    }
+
     updateQLabel(){
         this.qLabel.text=this.gA + "g " + this.nameA + " reacts with "+ this.gB+"g "+this.nameB+" according to the following reaction:" 
     }
 
-    update(){
-
-    }
-
-    findExcess(){
-        //A= number g B required to react with all of A
-        let A = (this.gA*this.coB*this.mwB)/(this.mwA*this.coA);
-        let B = (this.gB*this.coA*this.mwA)/(this.mwB*this.coB)
-        if (A>this.gB){
-            //B limits
-            this.excess=this.gA-B;
-            this.wrongLR=this.gB-A;
-        }
-        if (A<=this.gB){
-            //A limits
-            this.excess=this.gB-A;
-            this.wrongLR=this.gA-B;
-        }
-        console.log(this.excess);
-    }
-
     compare(){
         this.resetPics();
-        this.answer=parseFloat(<string> this.answer);
-        console.log(this.answer);
-
-        if(this.between(this.answer, this.excess+this.excess*.1, this.excess-this.excess*.1)){
+        if (this.answer==this.LR){
             this.correctpic.setAlpha(1.0);
         }
-
-        let A = this.gA - (this.gB*this.coA)/this.coB;
-        let B = this.gB - (this.gA*this.coB)/this.coA;
-
-        console.log("A is: " + A);
-
-        if (this.between(this.answer, A+A*.1, A-A*.1)||this.between(this.answer, B+B*.1, B-B*.1)){
-            this.noMolespic.setAlpha(1.0);
+        if (this.answer==this.wrongLR){
+            this.wrongLRpic.setAlpha(1.0);
+        }
+        if (this.answer!=this.LR&&this.answer!=this.wrongLR) {
+            this.helpPic.setAlpha(1.0);
         }
 
+    }
+
+    update(){
+        
     }
 
     getNext(){
         this.getReactantG();
         this.pickRxn();
-        this.findExcess();
+        this.findLR();
         this.updateQLabel();
         this.showPics();
         this.resetPics();
@@ -222,7 +218,8 @@ export default class reactantLeft extends Phaser.Scene{
 
     resetPics(){
         this.correctpic.setAlpha(0.0);
-        this.noMolespic.setAlpha(0.0);
+        this.wrongLRpic.setAlpha(0.0);
+        this.helpPic.setAlpha(0.0);
     }
 
     between(num: number, up: number, down: number){

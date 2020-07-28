@@ -1,8 +1,9 @@
-import button from "../objects/button";
 import practiceQ from "../objects/practiceQ";
+import button from '../objects/button';
 import rxnImage from "../objects/rxnImage";
+import buttonOutline from "../objects/buttonOutline";
 
-export default class reactantLeft extends Phaser.Scene{
+export default class percentYield extends Phaser.Scene{
     private questions: any;//figure out how to type this
     private rxnImages: any;
     private nameA: string;
@@ -19,6 +20,9 @@ export default class reactantLeft extends Phaser.Scene{
     private coD: number;
     private gA: number;
     private gB: number;
+    private selectedPdt: string;
+    private selectedQ: practiceQ;
+    private pdtG: number;
     private nextButton: button;
     private qLabel: Phaser.GameObjects.BitmapText;
     private qLabel2: Phaser.GameObjects.BitmapText;
@@ -33,20 +37,29 @@ export default class reactantLeft extends Phaser.Scene{
     private answer: any;
     private correctpic: Phaser.GameObjects.Image;
     private backButton: button;
-    private selectedQ: practiceQ;
-    private excess: number;
-    private wrongLR: number;
-    private noMolespic: Phaser.GameObjects.Image;
+    private py: number;
+    private IDLRButton: button;
+    private PFButton: button;
+    private RLButton: button;
+    private IDLRBO: buttonOutline; //=ID Limiting Reactant Button Outline
+    private PFBO: buttonOutline;
+    private RLBO: buttonOutline;
+    private backOutline: buttonOutline;
+    private nextOutline: buttonOutline;
 
 
     constructor(){
-        super({key: 'reactantLeftScene'});
+        super({key: 'percentYieldScene'});
     }
 
     create(){
-
         this.nextButton=new button(this, 100, 375, "nextButton", 0.7);
         this.nextButton.on('pointerdown', ()=>this.getNext(), this);
+        this.nextOutline = new buttonOutline(this, 100, 375, "nextButton", 0.7, 0x20014a);
+        this.nextButton.on('pointerover', ()=>this.nextOutline.enterHoverState(), this);
+        this.nextButton.on('pointerout', ()=>this.nextOutline.exitHoverState("word"), this);
+
+        this.add.text(410, 170, "Round to the nearest percent", {fill: "000000"});
 
         this.qLabel = this.add.bitmapText(20, 20, "pixelFont");
         this.qLabel.setFontSize(30);
@@ -55,21 +68,20 @@ export default class reactantLeft extends Phaser.Scene{
         this.qLabel2=this.add.bitmapText(20, 100, "pixelFont");
         this.qLabel2.setFontSize(30);
         this.qLabel2.setTintFill(0x000000);
-        this.qLabel2.setText("How many grams of excess reactant remain at the end of the reaction?")
+        this.qLabel2.setText("What is the percent yield of the reaction?")
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goBack(), this);
+        this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);
+        this.backButton.on('pointerover', ()=>this.backOutline.enterHoverState(), this);
+        this.backButton.on('pointerout', ()=>this.backOutline.exitHoverState("word"), this);
 
         this.MWbox=this.add.image(90, 250, "MWbox");
         this.MWbox.setScale(0.3);
 
-        this.correctpic=this.add.image(550, 275, "correct");
-        this.correctpic.setScale(0.4);
+        this.correctpic=this.add.image(550, 260, "correct");
+        this.correctpic.setScale(0.5);
         this.correctpic.setAlpha(0.0);
-
-        this.noMolespic=this.add.image(550, 250, "noMoles");
-        this.noMolespic.setScale(0.4);
-        this.noMolespic.setAlpha(0.0);
 
         this.mwALabel = this.add.bitmapText(25, 200, "pixelFont");
         this.mwALabel.setFontSize(25);
@@ -82,7 +94,25 @@ export default class reactantLeft extends Phaser.Scene{
         this.mwCLabel.setTintFill(0x000000);
         this.mwDLabel = this.add.bitmapText(25, 290, "pixelFont");
         this.mwDLabel.setFontSize(25);
-        this.mwDLabel.setTintFill(0x000000);
+        this.mwDLabel.setTintFill(0x000000)
+
+        this.IDLRButton = new button(this, 330, 375, "IDLR", 0.7);
+        this.IDLRButton.on('pointerdown', ()=>this.goToIDLR(), this);
+        this.IDLRBO = new buttonOutline(this, 330, 375, "IDLR", 0.7, 0x6e1a01);
+        this.IDLRButton.on('pointerover', ()=>this.IDLRBO.enterHoverState(), this);
+        this.IDLRButton.on('pointerout', ()=>this.IDLRBO.exitHoverState("word"), this);
+
+        this.PFButton = new button(this, 470, 375, "PdtFormed", 0.7);
+        this.PFButton.on('pointerdown', ()=>this.goToPF(), this);
+        this.PFBO = new buttonOutline(this, 470, 375, "PdtFormed", 0.7, 0x6e1a01);
+        this.PFButton.on('pointerover', ()=>this.PFBO.enterHoverState(), this);
+        this.PFButton.on('pointerout', ()=>this.PFBO.exitHoverState("word"), this);
+
+        this.RLButton = new button(this, 600, 375, "ReactantLeft", 0.7);
+        this.RLButton.on('pointerdown', ()=>this.goToRL(), this);
+        this.RLBO = new buttonOutline(this, 600, 375, "ReactantLeft", 0.7, 0x6e1a01);
+        this.RLButton.on('pointerover', ()=>this.RLBO.enterHoverState(), this);
+        this.RLButton.on('pointerout', ()=>this.RLBO.exitHoverState("word"), this);
 
         this.questions = new Array;
         this.questions.push(new practiceQ("SO2", 64.07, "PCl5", 208.24, "SOCl2", 118.97, "POCl3", 153.3, 1, 1, 1, 1));
@@ -90,24 +120,25 @@ export default class reactantLeft extends Phaser.Scene{
         this.questions.push(new practiceQ("NH3", 17.03, "O2", 32.00, "NO", 30.01, "H2O", 18.02, 4, 5, 4, 6));
         this.questions.push(new practiceQ("C2H4", 26.04, "O2", 32.00, "CO2", 44.01, "H2O", 18.02, 1, 1, 2, 2));
         this.questions.push(new practiceQ("Si", 28.09, "N2", 28.01, "Si3N4", 140.28, "", 0, 3, 2, 1, 0));
-    
+
         this.rxnImages=new Array;
         this.rxnImages.push(new rxnImage(this, 175, 75, "SO2Rxn", 0.7));
         this.rxnImages.push(new rxnImage(this, 175, 75, "FeCl2Rxn", 0.7));
         this.rxnImages.push(new rxnImage(this, 175, 75, "NH3Rxn", 0.7));
         this.rxnImages.push(new rxnImage(this, 175, 75, "C2H4Rxn", 0.7));
         this.rxnImages.push(new rxnImage(this, 175, 75, "SiRxn", 0.7));
-    
+        
         this.answerBox=this.add.dom(550, 150).createFromCache('inputForm');
         this.answerBox.addListener('click');
         this.answerBox.on('click', ()=>this.handleClick(event));
 
         this.getReactantG();
+        this.getPY();
         this.pickRxn();
-        this.findExcess();
+        this.pickCD();
+        this.findPdtG();
         this.updateQLabel();
         this.showPics();
-
     }
 
     handleClick(e){
@@ -120,9 +151,40 @@ export default class reactantLeft extends Phaser.Scene{
     }
 
     getReactantG(){
-        this.gA=Math.round(Math.random()*1000)/10;
+        this.gA=Math.round(Math.random()*1000)/100;
         console.log(this.gA);
-        this.gB=Math.round(Math.random()*1000)/10;
+        this.gB=Math.round(Math.random()*1000)/100;
+    }
+
+    getPY(){
+        this.py=Math.round(Math.random()*100)/100
+        console.log(this.py);
+    }
+
+    findPdtG(){
+        if (this.selectedPdt=='C'){
+            //A = # g C that can be made with given A
+            let A = (this.gA*this.coC*this.mwC)/(this.mwA*this.coA);
+            let B=(this.gB*this.coC*this.mwC)/(this.mwB*this.coB);
+            if (A<=B){
+                this.pdtG=A*this.py;
+            }
+            if (A>B){
+                this.pdtG=B*this.py;
+            }
+        }
+        if (this.selectedPdt=='D'){
+            //A = # g D that can be made with given A
+            let A = (this.gA*this.coD*this.mwD)/(this.mwA*this.coA);
+            let B=(this.gB*this.coD*this.mwD)/(this.mwB*this.coB);
+            if (A<=B){
+                this.pdtG=A*this.py;
+            }
+            if (A>B){
+                this.pdtG=B*this.py;
+            }
+        }
+        console.log(this.pdtG);
     }
 
     pickRxn(){
@@ -166,29 +228,27 @@ export default class reactantLeft extends Phaser.Scene{
         }
     }
 
+    pickCD(){
+        let num=Math.random();
+        if (this.coD==0){
+            this.selectedPdt="C";
+        }
+        if (num>=0.5&&this.coD!=0){
+            this.selectedPdt="C";
+        }
+        if (num<0.5&&this.coD!=0){
+            this.selectedPdt="D";
+        }
+    }
+
     updateQLabel(){
-        this.qLabel.text=this.gA + "g " + this.nameA + " reacts with "+ this.gB+"g "+this.nameB+" according to the following reaction:" 
-    }
-
-    update(){
-
-    }
-
-    findExcess(){
-        //A= number g B required to react with all of A
-        let A = (this.gA*this.coB*this.mwB)/(this.mwA*this.coA);
-        let B = (this.gB*this.coA*this.mwA)/(this.mwB*this.coB)
-        if (A>this.gB){
-            //B limits
-            this.excess=this.gA-B;
-            this.wrongLR=this.gB-A;
+        if (this.selectedPdt=="C"){
+           this.qLabel.text="In the lab, " + this.gA + "g " + this.nameA + " reacted with " + this.gB + "g " + this.nameB + " to form " + this.pdtG.toFixed(2) + "g " + this.nameC;
         }
-        if (A<=this.gB){
-            //A limits
-            this.excess=this.gB-A;
-            this.wrongLR=this.gA-B;
+        if (this.selectedPdt=="D"){
+            this.qLabel.text="How many grams of " + this.nameD + " are formed when " + this.gA.toString() + "g "+
+            this.nameA + " react with " + this.gB.toString() + "g " + this.nameB + "?"; 
         }
-        console.log(this.excess);
     }
 
     compare(){
@@ -196,25 +256,20 @@ export default class reactantLeft extends Phaser.Scene{
         this.answer=parseFloat(<string> this.answer);
         console.log(this.answer);
 
-        if(this.between(this.answer, this.excess+this.excess*.1, this.excess-this.excess*.1)){
+        if (this.between(this.answer, this.py*100+1, this.py*100-1)){
             this.correctpic.setAlpha(1.0);
         }
+    }
 
-        let A = this.gA - (this.gB*this.coA)/this.coB;
-        let B = this.gB - (this.gA*this.coB)/this.coA;
 
-        console.log("A is: " + A);
-
-        if (this.between(this.answer, A+A*.1, A-A*.1)||this.between(this.answer, B+B*.1, B-B*.1)){
-            this.noMolespic.setAlpha(1.0);
-        }
-
+    update(){
     }
 
     getNext(){
         this.getReactantG();
+        this.getPY();
         this.pickRxn();
-        this.findExcess();
+        this.pickCD();
         this.updateQLabel();
         this.showPics();
         this.resetPics();
@@ -222,7 +277,6 @@ export default class reactantLeft extends Phaser.Scene{
 
     resetPics(){
         this.correctpic.setAlpha(0.0);
-        this.noMolespic.setAlpha(0.0);
     }
 
     between(num: number, up: number, down: number){
@@ -236,5 +290,17 @@ export default class reactantLeft extends Phaser.Scene{
 
     goBack(){
         this.scene.start("MainScene");
+    }
+
+    goToIDLR(){
+        this.scene.start("pickLRScene");
+    }
+
+    goToPF(){
+        this.scene.start("pdtFormedScene");
+    }
+
+    goToRL(){
+        this.scene.start("reactantLeftScene");
     }
 }

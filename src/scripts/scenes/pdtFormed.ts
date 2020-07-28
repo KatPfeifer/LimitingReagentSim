@@ -57,7 +57,7 @@ export default class pdtFormed extends Phaser.Scene{
         this.MWbox=this.add.image(90, 200, "MWbox");
         this.MWbox.setScale(0.3);
 
-        this.correctpic=this.add.image(550, 250, "correct");
+        this.correctpic=this.add.image(550, 275, "correct");
         this.correctpic.setScale(0.5);
         this.correctpic.setAlpha(0.0);
 

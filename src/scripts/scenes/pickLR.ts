@@ -62,8 +62,8 @@ export default class pickLR extends Phaser.Scene{
         this.MWbox=this.add.image(90, 250, "MWbox");
         this.MWbox.setScale(0.3);
 
-        this.correctpic=this.add.image(550, 250, "correct");
-        this.correctpic.setScale(0.4);
+        this.correctpic=this.add.image(550, 275, "correct");
+        this.correctpic.setScale(0.5);
         this.correctpic.setAlpha(0.0);
 
         this.wrongLRpic=this.add.image(550, 250, "LRhelp");
@@ -191,13 +191,13 @@ export default class pickLR extends Phaser.Scene{
 
     compare(){
         this.resetPics();
-        if (this.answer==this.LR){
+        if (this.answer.toLowerCase()==this.LR.toLowerCase()){
             this.correctpic.setAlpha(1.0);
         }
-        if (this.answer==this.wrongLR){
+        if (this.answer.toLowerCase()==this.wrongLR.toLowerCase()){
             this.wrongLRpic.setAlpha(1.0);
         }
-        if (this.answer!=this.LR&&this.answer!=this.wrongLR) {
+        if (this.answer.toLowerCase()!=this.LR.toLowerCase()&&this.answer.toLowerCase()!=this.wrongLR.toLowerCase()) {
             this.helpPic.setAlpha(1.0);
         }
 

@@ -19,6 +19,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("products", "assets/images/products.png");
     this.load.image("reactants", "assets/images/reactants.png");
     this.load.image("leftovers", "assets/images/leftovers.png");
+    this.load.image("practice", "assets/images/practice.png");
 
     this.load.image("Fe2O3", "assets/images/Fe2O3.png");
     this.load.image("FeRxn", "assets/images/FeRxn.png");
@@ -104,9 +105,15 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("FeCl2Rxn", "assets/images/FeCl2Rxn.png");
     this.load.image("NH3Rxn", "assets/images/NH3Rxn.png");
     this.load.image("MWbox", "assets/images/MWbox.png");
+    this.load.html("inputForm", "assets/text/inputform.html");
+    this.load.image("C2H4Rxn", "assets/images/C2H4Rxn.png");
+    this.load.image("SiRxn", "assets/images/SiRxn.png");
+    this.load.image("wrongLR", "assets/images/wrongLR.png");
+    this.load.image("noMoles", "assets/images/noMoles.png");
+    this.load.image("correct", "assets/images/correct.png");
   }
 
   create() {
-    this.scene.start('pdtFormedScene');
+    this.scene.start('reactantLeftScene');
   }
 }

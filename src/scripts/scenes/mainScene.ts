@@ -23,6 +23,8 @@ export default class MainScene extends Phaser.Scene {
   private EFoutline: buttonOutline;
   private O2outline: buttonOutline;
   private Feoutline: buttonOutline;
+  private practiceButton: button;
+  private pBOutline: buttonOutline;
 
   constructor() {
     super({ key: 'MainScene' });
@@ -39,23 +41,26 @@ export default class MainScene extends Phaser.Scene {
     this.LRLabel=this.add.image(200, 50, "LRLabel");
     this.LRLabel.setScale(0.4);
 
-    this.add.text(25, 100, "Pick a reaction to\nget started:", {fill: '0000000'});
-    this.O2Button=new button(this, 100, 175, "O2H2button", 0.3);
+    this.O2Button=new button(this, 100, 100, "O2H2button", 0.3);
     this.O2Button.on('pointerdown', ()=>this.O2Picked(), this);
 
-    this.O2outline=new buttonOutline(this, 100, 175, "O2H2button", 0.3, 0x02633c);
+    this.O2outline=new buttonOutline(this, 100, 100, "O2H2button", 0.3, 0x02633c);
     this.O2Button.on('pointerover', ()=>this.O2outline.enterHoverState(), this);
     this.O2Button.on('pointerout', ()=>this.O2outline.exitHoverState("word"), this);
 
-    this.FeButton=new button(this, 250, 175, "Fe2O3Cbutton", 0.4);
+    this.FeButton=new button(this, 100, 150, "Fe2O3Cbutton", 0.4);
     this.FeButton.on('pointerdown', ()=>this.FePicked(), this);
 
-    this.Feoutline= new buttonOutline(this, 250, 175, "Fe2O3Cbutton", 0.4, 0x02633c);
+    this.Feoutline= new buttonOutline(this, 100, 150, "Fe2O3Cbutton", 0.4, 0x02633c);
     this.FeButton.on('pointerover', ()=>this.Feoutline.enterHoverState(), this);
     this.FeButton.on('pointerout', ()=>this.Feoutline.exitHoverState("word"), this);
 
+    this.practiceButton=new button(this, 100, 200, "practice", 0.7);
+    this.practiceButton.on('pointerdown', ()=>this.goToPractice(), this);
 
-
+    this.pBOutline=new buttonOutline(this, 100, 200, "practice", 0.7, 0x02633c);
+    this.practiceButton.on('pointerover', ()=>this.pBOutline.enterHoverState(), this);
+    this.practiceButton.on('pointerout', ()=>this.pBOutline.exitHoverState("word"), this);
 
     this.ABbutton=new button(this, 500, 100, "ABbutton", 0.3);
     this.ABbutton.on('pointerdown', ()=>this.abPicked(), this);
@@ -108,5 +113,9 @@ export default class MainScene extends Phaser.Scene {
 
   FePicked(){
     this.scene.start("FeMolecScene");
+  }
+
+  goToPractice(){
+    this.scene.start("pdtFormedScene");
   }
 }

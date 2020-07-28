@@ -30,6 +30,14 @@ export default class pdtFormed extends Phaser.Scene{
     private mwCLabel: Phaser.GameObjects.BitmapText;
     private mwDLabel: Phaser.GameObjects.BitmapText;
     private MWbox: Phaser.GameObjects.Image;
+    private answerBox: Phaser.GameObjects.DOMElement;
+    private answerInput: any;
+    private answer: any;
+    private correctpic: Phaser.GameObjects.Image;
+    private backButton: button;
+    private wrongLR: number;
+    private wrongLRpic: Phaser.GameObjects.Image;
+    private noMolespic: Phaser.GameObjects.Image;
 
     constructor(){
         super({key: 'pdtFormedScene'});
@@ -43,8 +51,23 @@ export default class pdtFormed extends Phaser.Scene{
         this.qLabel.setFontSize(25);
         this.qLabel.setTintFill(0x000000);
 
+        this.backButton=new button(this, 750, 375, "backButton", 0.7);
+        this.backButton.on('pointerdown', ()=>this.goBack(), this);
+
         this.MWbox=this.add.image(90, 200, "MWbox");
         this.MWbox.setScale(0.3);
+
+        this.correctpic=this.add.image(550, 250, "correct");
+        this.correctpic.setScale(0.5);
+        this.correctpic.setAlpha(0.0);
+
+        this.wrongLRpic=this.add.image(550, 250, "wrongLR");
+        this.wrongLRpic.setScale(0.5);
+        this.wrongLRpic.setAlpha(0.0);
+
+        this.noMolespic=this.add.image(550, 250, "noMoles");
+        this.noMolespic.setScale(0.5);
+        this.noMolespic.setAlpha(0.0);
 
         this.mwALabel = this.add.bitmapText(25, 150, "pixelFont");
         this.mwALabel.setFontSize(25);
@@ -63,18 +86,36 @@ export default class pdtFormed extends Phaser.Scene{
         this.questions.push(new practiceQ("SO2", 64.07, "PCl5", 208.24, "SOCl2", 118.97, "POCl3", 153.3, 1, 1, 1, 1));
         this.questions.push(new practiceQ("Fe", 55.85, "Cl2", 70.91, "FeCl3", 162.20, "", 0, 2, 3, 2, 0));
         this.questions.push(new practiceQ("NH3", 17.03, "O2", 32.00, "NO", 30.01, "H2O", 18.02, 4, 5, 4, 6));
-        
+        this.questions.push(new practiceQ("C2H4", 26.04, "O2", 32.00, "CO2", 44.01, "H2O", 18.02, 1, 1, 2, 2));
+        this.questions.push(new practiceQ("Si", 28.09, "N2", 28.01, "Si3N4", 140.28, "", 0, 3, 2, 1, 0));
+
+
         this.rxnImages=new Array;
-        this.rxnImages.push(new rxnImage(this, 150, 100, "SO2Rxn", 0.5));
-        this.rxnImages.push(new rxnImage(this, 150, 100, "FeCl2Rxn", 0.5));
-        this.rxnImages.push(new rxnImage(this, 150, 100, "NH3Rxn", 0.5));
+        this.rxnImages.push(new rxnImage(this, 175, 75, "SO2Rxn", 0.7));
+        this.rxnImages.push(new rxnImage(this, 175, 75, "FeCl2Rxn", 0.7));
+        this.rxnImages.push(new rxnImage(this, 175, 75, "NH3Rxn", 0.7));
+        this.rxnImages.push(new rxnImage(this, 175, 75, "C2H4Rxn", 0.7));
+        this.rxnImages.push(new rxnImage(this, 175, 75, "SiRxn", 0.7));
         
+        this.answerBox=this.add.dom(550, 100).createFromCache('inputForm');
+        this.answerBox.addListener('click');
+        this.answerBox.on('click', ()=>this.handleClick(event));
+
         this.getReactantG();
         this.pickRxn();
         this.pickCD();
         this.findPdtG();
         this.updateQLabel();
         this.showPics();
+    }
+
+    handleClick(e){
+        if (e.target.name=='submitButton'){
+            this.answerInput=this.answerBox.getChildByName("answerField");
+            this.answer= this.answerInput.value;
+            console.log(this.answer);
+            this.compare();
+        }
     }
 
     getReactantG(){
@@ -152,15 +193,44 @@ export default class pdtFormed extends Phaser.Scene{
 
     }
 
+    compare(){
+        console.log("in compare");
+        this.resetPics();
+        this.answer=parseFloat(<string> this.answer);
+        console.log(this.answer);
+        if (this.answer>=(this.pdtG-this.pdtG*.1)&&this.answer<=(this.pdtG+this.pdtG*.1)){
+            this.correctpic.setAlpha(1.0);
+        }
+        if (this.answer>=(this.wrongLR-this.wrongLR*.1)&&this.answer<=(this.wrongLR+this.wrongLR*.1)){
+            this.wrongLRpic.setAlpha(1.0);
+        }
+        if (this.selectedPdt=="C"){
+            let ansA = (this.gA*this.coC)/(this.coA);
+            let ansB = (this.gB*this.coC)/(this.coB);
+            if (this.between(this.answer, ansA+ansA*.1, ansA-ansA*.1)||this.between(this.answer, ansB+ansB*.1, ansB-ansB*.1)){
+                this.noMolespic.setAlpha(1.0);
+            }
+        }
+        if (this.selectedPdt=="D"){
+            let ansA = (this.gA*this.coD)/(this.coA);
+            let ansB = (this.gB*this.coD)/(this.coB);
+            if (this.between(this.answer, ansA+ansA*.1, ansA-ansA*.1)||this.between(this.answer, ansB+ansB*.1, ansB-ansB*.1)){
+                this.noMolespic.setAlpha(1.0);
+            }
+        }
+    }
+
     findPdtG(){
         if (this.selectedPdt=="C"){
             let A = (this.gA*this.coC*this.mwC)/(this.mwA*this.coA);
             let B = (this.gB*this.coC*this.mwC)/(this.mwB*this.coB);
             if (A<=B){
                 this.pdtG=Math.round(A*100)/100;
+                this.wrongLR=Math.round(B*100)/100;
             }
             else {
                 this.pdtG=Math.round(B*100)/100;
+                this.wrongLR=Math.round(A*100)/100;
             }
         }
         if (this.selectedPdt=="D"){
@@ -168,12 +238,15 @@ export default class pdtFormed extends Phaser.Scene{
             let B = (this.gB*this.coD*this.mwD)/(this.mwB*this.coB);
             if (A<=B){
                 this.pdtG=Math.round(A*100)/100;
+                this.wrongLR=Math.round(B*100)/100;
             }
             else {
                 this.pdtG=Math.round(B*100)/100;
+                this.wrongLR=Math.round(A*100)/100;
             } 
         }
-        console.log(this.pdtG);
+        console.log("pdt: "+ this.pdtG);
+        console.log("wrongLR: "+ this.wrongLR);
     }
 
     getNext(){
@@ -183,5 +256,25 @@ export default class pdtFormed extends Phaser.Scene{
         this.findPdtG();
         this.updateQLabel();
         this.showPics();
+        this.resetPics();
+    }
+
+    resetPics(){
+        this.correctpic.setAlpha(0.0);
+        this.wrongLRpic.setAlpha(0.0);
+        this.noMolespic.setAlpha(0.0);
+    }
+
+    between(num: number, up: number, down: number){
+        if (num<=up&&num>=down){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    goBack(){
+        this.scene.start("MainScene");
     }
 }

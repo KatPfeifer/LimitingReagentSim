@@ -38,7 +38,7 @@ const config: GameConfig = {
     },
     dom: {
         createContainer: true,
-    }
+    },
 };
 
 window.addEventListener('load', () => {

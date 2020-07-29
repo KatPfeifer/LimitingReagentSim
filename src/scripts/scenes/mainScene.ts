@@ -23,8 +23,6 @@ export default class MainScene extends Phaser.Scene {
   private EFoutline: buttonOutline;
   private O2outline: buttonOutline;
   private Feoutline: buttonOutline;
-  private practiceButton: button;
-  private pBOutline: buttonOutline;
   private PYButton: button;
   private IDLRButton: button;
   private RLButton: button;

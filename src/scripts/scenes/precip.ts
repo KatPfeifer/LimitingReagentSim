@@ -54,6 +54,10 @@ export default class PrecipScene extends Phaser.Scene {
   private outline1: buttonOutline;
   private outline2: buttonOutline;
   private outline3: buttonOutline;
+  private backOutline: buttonOutline;
+  private mainOutline: buttonOutline;
+  private mixOutline: buttonOutline;
+  private addOutline: buttonOutline;
 
   constructor() {
     super({ key: 'PrecipScene' });
@@ -118,23 +122,29 @@ export default class PrecipScene extends Phaser.Scene {
    this.add.text(180, 120, "[All solutions]=10.0M", {fill: "000000"});
    this.add.text(20, 350, "Vial + cap mass: \n1.30g", {fill: "000000"});
 
-   this.mixButton=this.add
-   .image(250, 170, "mixSolBut")
-   .setScale(0.5)
-   .setInteractive();
+   this.mixButton=new button(this, 250, 170, "mixSolBut", 0.5);
    this.mixButton.on('pointerdown', ()=>this.findMass(), this);
+   this.mixOutline = new buttonOutline(this, 250, 170, "mixSolBut", 0.5, 0x184a01);
+   this.mixButton.on('pointerover', ()=>this.mixOutline.enterHoverState(), this);
+   this.mixButton.on('pointerout', ()=>this.mixOutline.exitHoverState("word"), this);
 
-   this.graphButton=this.add
-   .image(360, 170, "graphButton")
-   .setScale(0.5)
-   .setInteractive();
+   this.graphButton= new button(this, 360, 170, "graphButton", 0.5);
    this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
+   this.addOutline = new buttonOutline(this, 360, 170, "graphButton", 0.5, 0x4a0801);
+   this.graphButton.on('pointerover', ()=>this.addOutline.enterHoverState(), this);
+   this.graphButton.on('pointerout', ()=>this.addOutline.exitHoverState("word"), this);
 
    this.backButton=new button(this, 750, 375, "backButton", 0.7);
    this.backButton.on('pointerdown', ()=>this.goBack(), this);
+   this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);
+   this.backButton.on('pointerover', ()=>this.backOutline.enterHoverState(), this);
+   this.backButton.on('pointerout', ()=>this.backOutline.exitHoverState("word"), this);
 
    this.mainButton=new button(this, 650, 375, "mainButton", 0.7);
    this.mainButton.on('pointerdown', ()=>this.goToMain(), this);
+   this.mainOutline = new buttonOutline(this, 650, 375, "mainButton", 0.7, 0x4a01320);
+    this.mainButton.on('pointerover', ()=>this.mainOutline.enterHoverState(), this);
+    this.mainButton.on('pointerout', ()=>this.mainOutline.exitHoverState("word"));
 
    this.button1=new button(this, 50, 50, "button1", 0.7);
    this.button1.on('pointerdown', ()=>this.changeCoefficients(1), this);

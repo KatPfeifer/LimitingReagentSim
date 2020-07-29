@@ -50,6 +50,10 @@ export default class SpecScene extends Phaser.Scene {
   private outline1: buttonOutline;
   private outline2: buttonOutline;
   private outline3: buttonOutline;
+  private backOutline: buttonOutline;
+  private mainOutline: buttonOutline;
+  private addOutline: buttonOutline;
+  private mixOutline: buttonOutline;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -66,8 +70,6 @@ export default class SpecScene extends Phaser.Scene {
     this.background.setScale(2.0);
     this.background2=this.add.image(600, 200, "bluebackground");
     this.background2.setScale(2.0);
-
-    
 
     this.abs=0;
 
@@ -106,18 +108,18 @@ export default class SpecScene extends Phaser.Scene {
 
     this.createArrowButtons();
 
-    this.mixButton=this.add
-    .image(250, 170, "mixSolBut")
-    .setScale(0.5)
-    .setInteractive();
+    this.mixButton=new button(this, 250, 170, "mixSolBut", 0.5);
     this.mixButton.on('pointerdown', ()=>this.findAbs(), this);
+    this.mixOutline = new buttonOutline(this, 250, 170, "mixSolBut", 0.5, 0x184a01);
+   this.mixButton.on('pointerover', ()=>this.mixOutline.enterHoverState(), this);
+   this.mixButton.on('pointerout', ()=>this.mixOutline.exitHoverState("word"), this);
 
-    this.graphButton=this.add
-    .image(360, 170, "graphButton")
-    .setScale(0.5)
-    .setInteractive();
+   this.graphButton= new button(this, 360, 170, "graphButton", 0.5);
     this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
-      
+    this.addOutline = new buttonOutline(this, 360, 170, "graphButton", 0.5, 0x4a0801);
+   this.graphButton.on('pointerover', ()=>this.addOutline.enterHoverState(), this);
+   this.graphButton.on('pointerout', ()=>this.addOutline.exitHoverState("word"), this);  
+
     this.createCuvettes();
     this.createmLs();
     
@@ -125,10 +127,15 @@ export default class SpecScene extends Phaser.Scene {
     this.dataList=[];
 
     this.backButton=new button(this, 750, 375, "backButton", 0.7);
-    this.backButton.on('pointerdown', ()=>this.goBack(), this);
+    this.backButton.on('pointerdown', ()=>this.goBack(), this);this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);
+    this.backButton.on('pointerover', ()=>this.backOutline.enterHoverState(), this);
+    this.backButton.on('pointerout', ()=>this.backOutline.exitHoverState("word"), this);
 
     this.mainButton=new button(this, 650, 375, "mainButton", 0.7);
     this.mainButton.on('pointerdown', ()=>this.goToMain(), this);
+    this.mainOutline = new buttonOutline(this, 650, 375, "mainButton", 0.7, 0x4a01320);
+    this.mainButton.on('pointerover', ()=>this.mainOutline.enterHoverState(), this);
+    this.mainButton.on('pointerout', ()=>this.mainOutline.exitHoverState("word"));
 
     this.button1=new button(this, 50, 50, "button1", 0.7);
     this.button1.on('pointerdown', ()=>this.changeCoefficients(1), this);
@@ -163,8 +170,8 @@ export default class SpecScene extends Phaser.Scene {
     this.cuvetteOutline=new cuvette(this, 100, 300, "cuvetteOutline");
     this.cuvetteOutline.setAlpha(0.0);
 
-    this.spectro=this.physics.add.image(300, 300, "spectrophotometer");
-    this.spectro.setScale(0.1);
+    this.spectro=this.physics.add.image(300, 280, "spectrophotometer");
+    this.spectro.setScale(0.13);
     this.physics.add.overlap(this.spectro, this.fullCuvette, this.updateAbs, undefined, this);
   }
 

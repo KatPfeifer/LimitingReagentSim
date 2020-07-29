@@ -1,14 +1,19 @@
 import analysisButton from "../objects/analysisButton";
 import button from "../objects/button";
+import buttonOutline from "../objects/buttonOutline";
 
 export default class ef extends Phaser.Scene{
     private background: Phaser.GameObjects.Image;
     private background2: Phaser.GameObjects.Image;
     private pdt: Phaser.GameObjects.Image;
-    private spec: analysisButton;
-    private temp: analysisButton;
-    private precip: analysisButton;
+    private spec: button;
+    private temp: button;
+    private precip: button;
     private backButton: button;
+    private backOutline: buttonOutline;
+    private specOutline: buttonOutline;
+    private tempOutline: buttonOutline;
+    private precipOutline: buttonOutline;
 
 
     constructor(){
@@ -26,17 +31,29 @@ export default class ef extends Phaser.Scene{
 
         this.add.text(400, 50, "Choose a method of analysis:", {fill: '000000'});
 
-        this.spec=new analysisButton(this, 475, 100, "spec", 0.4);
+        this.spec=new button(this, 475, 125, "spec", 0.7);
         this.spec.on('pointerdown', ()=>this.goToSpec(), this);
+        this.specOutline = new buttonOutline(this, 475, 125, "spec", 0.7, 0x184a01);
+        this.spec.on('pointerover', ()=>this.specOutline.enterHoverState(), this);
+        this.spec.on('pointerout', ()=>this.specOutline.exitHoverState("word"), this);
 
-        this.precip=new analysisButton(this, 475, 200, "precip", 0.4);
+        this.precip=new button(this, 475, 305, "precip", 0.7);
         this.precip.on('pointerdown', ()=>this.goToPrecip(), this);
+        this.precipOutline = new buttonOutline(this, 475, 305, "precip", 0.7, 0x184a01);
+        this.precip.on('pointerover', ()=>this.precipOutline.enterHoverState(), this);
+        this.precip.on('pointerout', ()=>this.precipOutline.exitHoverState("word"), this);
 
-        this.temp=new analysisButton(this, 475, 300, "temp", 0.3);
+        this.temp=new button(this, 475, 215, "temp", 0.7);
         this.temp.on('pointerdown', ()=>this.goToTemp(), this);
+        this.tempOutline = new buttonOutline(this, 475, 215, "temp", 0.7, 0x184a01);
+        this.temp.on('pointerover', ()=>this.tempOutline.enterHoverState(), this);
+        this.temp.on('pointerout', ()=>this.tempOutline.exitHoverState("word"), this);
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goToMain(), this);
+        this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);
+        this.backButton.on('pointerover', ()=>this.backOutline.enterHoverState(), this);
+        this.backButton.on('pointerout', ()=>this.backOutline.exitHoverState("word"), this);
     }
 
     update(){

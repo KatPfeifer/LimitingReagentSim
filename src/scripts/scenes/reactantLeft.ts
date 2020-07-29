@@ -1,6 +1,7 @@
 import button from "../objects/button";
 import practiceQ from "../objects/practiceQ";
 import rxnImage from "../objects/rxnImage";
+import buttonOutline from "../objects/buttonOutline";
 
 export default class reactantLeft extends Phaser.Scene{
     private questions: any;//figure out how to type this
@@ -37,6 +38,16 @@ export default class reactantLeft extends Phaser.Scene{
     private excess: number;
     private wrongLR: number;
     private noMolespic: Phaser.GameObjects.Image;
+    private PYButton: button;
+    private IDLRButton: button;
+    private RLButton: button;
+    private PFButton: button;
+    private IDLRBO: buttonOutline; //=ID Limiting Reactant Button Outline
+    private PFBO: buttonOutline;
+    private RLBO: buttonOutline;
+    private PYBO: buttonOutline;
+    private backOutline: buttonOutline;
+    private nextOutline: buttonOutline;
 
 
     constructor(){
@@ -47,6 +58,9 @@ export default class reactantLeft extends Phaser.Scene{
 
         this.nextButton=new button(this, 100, 375, "nextButton", 0.7);
         this.nextButton.on('pointerdown', ()=>this.getNext(), this);
+        this.nextOutline = new buttonOutline(this, 100, 375, "nextButton", 0.7, 0x20014a);
+        this.nextButton.on('pointerover', ()=>this.nextOutline.enterHoverState(), this);
+        this.nextButton.on('pointerout', ()=>this.nextOutline.exitHoverState("word"), this);
 
         this.qLabel = this.add.bitmapText(20, 20, "pixelFont");
         this.qLabel.setFontSize(30);
@@ -59,9 +73,32 @@ export default class reactantLeft extends Phaser.Scene{
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goBack(), this);
+        this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);
+        this.backButton.on('pointerover', ()=>this.backOutline.enterHoverState(), this);
+        this.backButton.on('pointerout', ()=>this.backOutline.exitHoverState("word"), this);
 
         this.MWbox=this.add.image(90, 250, "MWbox");
         this.MWbox.setScale(0.3);
+
+        this.add.text(410, 170, "Round to one decimal point", {fill: "000000"});
+
+        this.IDLRButton = new button(this, 330, 375, "IDLR", 0.7);
+        this.IDLRButton.on('pointerdown', ()=>this.goToIDLR(), this);
+        this.IDLRBO = new buttonOutline(this, 330, 375, "IDLR", 0.7, 0x6e1a01);
+        this.IDLRButton.on('pointerover', ()=>this.IDLRBO.enterHoverState(), this);
+        this.IDLRButton.on('pointerout', ()=>this.IDLRBO.exitHoverState("word"), this);
+
+        this.PFButton = new button(this, 475, 375, "PdtFormed", 0.7);
+        this.PFButton.on('pointerdown', ()=>this.goToPF(), this);
+        this.PFBO = new buttonOutline(this, 475, 375, "PdtFormed", 0.7, 0x6e1a01);
+        this.PFButton.on('pointerover', ()=>this.PFBO.enterHoverState(), this);
+        this.PFButton.on('pointerout', ()=>this.PFBO.exitHoverState("word"), this);
+
+        this.PYButton = new button(this, 610, 375, "PY", 0.7);
+        this.PYButton.on('pointerdown', ()=>this.goToPY(), this);
+        this.PYBO= new buttonOutline(this, 610, 375, "PY", 0.7, 0x6e1a01);
+        this.PYButton.on('pointerover', ()=>this.PYBO.enterHoverState(), this);
+        this.PYButton.on('pointerout', ()=>this.PYBO.exitHoverState("word"), this);
 
         this.correctpic=this.add.image(550, 275, "correct");
         this.correctpic.setScale(0.4);
@@ -198,6 +235,7 @@ export default class reactantLeft extends Phaser.Scene{
 
         if(this.between(this.answer, this.excess+this.excess*.1, this.excess-this.excess*.1)){
             this.correctpic.setAlpha(1.0);
+            return;
         }
 
         let A = this.gA - (this.gB*this.coA)/this.coB;
@@ -237,4 +275,17 @@ export default class reactantLeft extends Phaser.Scene{
     goBack(){
         this.scene.start("MainScene");
     }
+
+    goToPF(){
+        this.scene.start("pdtFormedScene");
+    }
+    
+    goToIDLR(){
+        this.scene.start("pickLRScene");
+    }
+    
+    goToPY(){
+        this.scene.start("percentYieldScene");
+    }
+    
 }

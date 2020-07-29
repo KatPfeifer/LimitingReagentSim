@@ -1,6 +1,7 @@
 import button from "../objects/button";
 import practiceQ from "../objects/practiceQ";
 import rxnImage from "../objects/rxnImage";
+import buttonOutline from "../objects/buttonOutline";
 
 export default class pickLR extends Phaser.Scene{
     private questions: any;//figure out how to type this
@@ -38,6 +39,14 @@ export default class pickLR extends Phaser.Scene{
     private wrongLR: string;
     private wrongLRpic: Phaser.GameObjects.Image;
     private helpPic: Phaser.GameObjects.Image;
+    private PYButton: button;
+    private RLButton: button;
+    private PFButton: button;
+    private PFBO: buttonOutline;
+    private RLBO: buttonOutline;
+    private PYBO: buttonOutline;
+    private backOutline: buttonOutline;
+    private nextOutline: buttonOutline;
 
     constructor(){
         super({key: 'pickLRScene'});
@@ -46,10 +55,15 @@ export default class pickLR extends Phaser.Scene{
     create(){
         this.nextButton=new button(this, 100, 375, "nextButton", 0.7);
         this.nextButton.on('pointerdown', ()=>this.getNext(), this);
+        this.nextOutline = new buttonOutline(this, 100, 375, "nextButton", 0.7, 0x20014a);
+        this.nextButton.on('pointerover', ()=>this.nextOutline.enterHoverState(), this);
+        this.nextButton.on('pointerout', ()=>this.nextOutline.exitHoverState("word"), this);
 
         this.qLabel = this.add.bitmapText(20, 20, "pixelFont");
         this.qLabel.setFontSize(30);
         this.qLabel.setTintFill(0x000000);
+
+        this.add.text(410, 170, "Ex. NH3 or O2", {fill: "000000"});
 
         this.qLabel2=this.add.bitmapText(20, 100, "pixelFont");
         this.qLabel2.setFontSize(30);
@@ -58,12 +72,33 @@ export default class pickLR extends Phaser.Scene{
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goBack(), this);
+        this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);
+        this.backButton.on('pointerover', ()=>this.backOutline.enterHoverState(), this);
+        this.backButton.on('pointerout', ()=>this.backOutline.exitHoverState("word"), this);
 
         this.MWbox=this.add.image(90, 250, "MWbox");
         this.MWbox.setScale(0.3);
 
+        this.PFButton = new button(this, 335, 375, "PdtFormed", 0.7);
+        this.PFButton.on('pointerdown', ()=>this.goToPF(), this);
+        this.PFBO = new buttonOutline(this, 335, 375, "PdtFormed", 0.7, 0x6e1a01);
+        this.PFButton.on('pointerover', ()=>this.PFBO.enterHoverState(), this);
+        this.PFButton.on('pointerout', ()=>this.PFBO.exitHoverState("word"), this);
+
+        this.RLButton = new button(this, 470, 375, "ReactantLeft", 0.7);
+        this.RLButton.on('pointerdown', ()=>this.goToRL(), this);
+        this.RLBO = new buttonOutline(this, 470, 375, "ReactantLeft", 0.7, 0x6e1a01);
+        this.RLButton.on('pointerover', ()=>this.RLBO.enterHoverState(), this);
+        this.RLButton.on('pointerout', ()=>this.RLBO.exitHoverState("word"), this);
+
+        this.PYButton = new button(this, 610, 375, "PY", 0.7);
+        this.PYButton.on('pointerdown', ()=>this.goToPY(), this);
+        this.PYBO= new buttonOutline(this, 610, 375, "PY", 0.7, 0x6e1a01);
+        this.PYButton.on('pointerover', ()=>this.PYBO.enterHoverState(), this);
+        this.PYButton.on('pointerout', ()=>this.PYBO.exitHoverState("word"), this);
+
         this.correctpic=this.add.image(550, 275, "correct");
-        this.correctpic.setScale(0.5);
+        this.correctpic.setScale(0.45);
         this.correctpic.setAlpha(0.0);
 
         this.wrongLRpic=this.add.image(550, 250, "LRhelp");
@@ -234,4 +269,17 @@ export default class pickLR extends Phaser.Scene{
     goBack(){
         this.scene.start("MainScene");
     }
+
+    goToPF(){
+        this.scene.start("pdtFormedScene");
+    }
+    
+    goToRL(){
+       this.scene.start("reactantLeftScene");
+    }
+    
+    goToPY(){
+       this.scene.start("percentYieldScene");
+    }
+    
 }

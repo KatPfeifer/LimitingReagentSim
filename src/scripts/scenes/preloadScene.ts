@@ -120,6 +120,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('percentYieldScene');
+    this.scene.start('reactantLeftScene');
   }
 }

@@ -25,6 +25,15 @@ export default class MainScene extends Phaser.Scene {
   private Feoutline: buttonOutline;
   private practiceButton: button;
   private pBOutline: buttonOutline;
+  private PYButton: button;
+  private IDLRButton: button;
+  private RLButton: button;
+  private PFButton: button;
+  private IDLRBO: buttonOutline; //=ID Limiting Reactant Button Outline
+  private PFBO: buttonOutline;
+  private RLBO: buttonOutline;
+  private PYBO: buttonOutline;
+
 
   constructor() {
     super({ key: 'MainScene' });
@@ -55,13 +64,14 @@ export default class MainScene extends Phaser.Scene {
     this.FeButton.on('pointerover', ()=>this.Feoutline.enterHoverState(), this);
     this.FeButton.on('pointerout', ()=>this.Feoutline.exitHoverState("word"), this);
 
+    /*
     this.practiceButton=new button(this, 100, 200, "practice", 0.7);
     this.practiceButton.on('pointerdown', ()=>this.goToPractice(), this);
 
     this.pBOutline=new buttonOutline(this, 100, 200, "practice", 0.7, 0x02633c);
     this.practiceButton.on('pointerover', ()=>this.pBOutline.enterHoverState(), this);
     this.practiceButton.on('pointerout', ()=>this.pBOutline.exitHoverState("word"), this);
-
+*/
     this.ABbutton=new button(this, 500, 100, "ABbutton", 0.3);
     this.ABbutton.on('pointerdown', ()=>this.abPicked(), this);
     this.CDbutton=new button(this, 500, 150, "CDbutton", 0.28);
@@ -79,6 +89,31 @@ export default class MainScene extends Phaser.Scene {
     this.EFbutton.on('pointerover', ()=>this.EFoutline.enterHoverState(), this);
     this.EFbutton.on('pointerout', ()=>this.EFoutline.exitHoverState("word"), this);
 
+    this.IDLRButton = new button(this, 275, 80, "IDLR", 0.7);
+    this.PFButton = new button(this, 275, 120, "PdtFormed", 0.7);
+    this.RLButton = new button(this, 275, 160, "ReactantLeft", 0.7);
+    this.PYButton = new button(this, 275, 200, "PY", 0.7);
+
+    this.IDLRButton.on('pointerdown', ()=>this.goToIDLR(), this);
+    this.PFButton.on('pointerdown', ()=>this.goToPF(), this);
+    this.RLButton.on('pointerdown', ()=>this.goToRL(), this);
+    this.PYButton.on('pointerdown', ()=>this.goToPY(), this);
+
+    this.IDLRBO = new buttonOutline(this, 275, 80, "IDLR", 0.7, 0x6e1a01);
+    this.IDLRButton.on('pointerover', ()=>this.IDLRBO.enterHoverState(), this);
+    this.IDLRButton.on('pointerout', ()=>this.IDLRBO.exitHoverState("word"), this);
+
+    this.PFBO = new buttonOutline(this, 275, 120, "PdtFormed", 0.7, 0x6e1a01);
+    this.PFButton.on('pointerover', ()=>this.PFBO.enterHoverState(), this);
+    this.PFButton.on('pointerout', ()=>this.PFBO.exitHoverState("word"), this);
+
+    this.RLBO = new buttonOutline(this, 275, 160, "ReactantLeft", 0.7, 0x6e1a01);
+    this.RLButton.on('pointerover', ()=>this.RLBO.enterHoverState(), this);
+    this.RLButton.on('pointerout', ()=>this.RLBO.exitHoverState("word"), this);
+
+    this.PYBO= new buttonOutline(this, 275, 200, "PY", 0.7, 0x6e1a01);
+    this.PYButton.on('pointerover', ()=>this.PYBO.enterHoverState(), this);
+    this.PYButton.on('pointerout', ()=>this.PYBO.exitHoverState("word"), this);
 
     this.blackBox=this.add.image(600, 300, "blackBox");
     this.blackBox.setScale(0.36);
@@ -115,7 +150,20 @@ export default class MainScene extends Phaser.Scene {
     this.scene.start("FeMolecScene");
   }
 
-  goToPractice(){
+  goToPF(){
     this.scene.start("pdtFormedScene");
   }
+
+  goToIDLR(){
+    this.scene.start("pickLRScene");
+  }
+
+  goToRL(){
+    this.scene.start("reactantLeftScene");
+  }
+
+  goToPY(){
+    this.scene.start("percentYieldScene");
+  }
+
 }

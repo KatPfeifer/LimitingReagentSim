@@ -157,7 +157,6 @@ export default class pickLR extends Phaser.Scene{
         if (e.target.name=='submitButton'){
             this.answerInput=this.answerBox.getChildByName("answerField");
             this.answer= this.answerInput.value;
-            console.log(this.answer);
             this.compare();
         }
     }
@@ -223,7 +222,7 @@ export default class pickLR extends Phaser.Scene{
             this.LR=this.nameA;
             this.wrongLR=this.nameB;
         }
-        console.log(this.LR);
+        console.log("Limiting Reactant: " +this.LR);
     }
 
     updateQLabel(){

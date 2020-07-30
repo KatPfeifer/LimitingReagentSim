@@ -108,15 +108,15 @@ export default class SpecScene extends Phaser.Scene {
 
     this.createArrowButtons();
 
-    this.mixButton=new button(this, 250, 170, "mixSolBut", 0.5);
+    this.mixButton=new button(this, 200, 170, "mixSolBut", 0.6);
     this.mixButton.on('pointerdown', ()=>this.findAbs(), this);
-    this.mixOutline = new buttonOutline(this, 250, 170, "mixSolBut", 0.5, 0x184a01);
+    this.mixOutline = new buttonOutline(this, 200, 170, "mixSolBut", 0.6, 0x184a01);
     this.mixButton.on('pointerover', ()=>this.mixOutline.enterHoverState(), this);
     this.mixButton.on('pointerout', ()=>this.mixOutline.exitHoverState("word"), this);
 
-    this.graphButton= new button(this, 360, 170, "graphButton", 0.5);
+    this.graphButton= new button(this, 340, 170, "graphButton", 0.6);
     this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
-    this.addOutline = new buttonOutline(this, 360, 170, "graphButton", 0.5, 0x4a0801);
+    this.addOutline = new buttonOutline(this, 340, 170, "graphButton", 0.6, 0x4a0801);
     this.graphButton.on('pointerover', ()=>this.addOutline.enterHoverState(), this);
     this.graphButton.on('pointerout', ()=>this.addOutline.exitHoverState("word"), this);  
 
@@ -247,6 +247,7 @@ export default class SpecScene extends Phaser.Scene {
     }
     if (name=="down1"&&this.mLs>0){
       this.mLs-=1;
+      this.mLs2=20-this.mLs;
       this.mLsLabel.text=this.mLs.toString();
       this.mLsLabel2.text=this.mLs2.toString();
     }

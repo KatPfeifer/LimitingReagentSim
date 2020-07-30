@@ -122,15 +122,15 @@ export default class PrecipScene extends Phaser.Scene {
    this.add.text(180, 120, "[All solutions]=10.0M", {fill: "000000"});
    this.add.text(20, 350, "Vial + cap mass: \n1.30g", {fill: "000000"});
 
-   this.mixButton=new button(this, 250, 170, "mixSolBut", 0.5);
+   this.mixButton=new button(this, 200, 170, "mixSolBut", 0.6);
    this.mixButton.on('pointerdown', ()=>this.findMass(), this);
-   this.mixOutline = new buttonOutline(this, 250, 170, "mixSolBut", 0.5, 0x184a01);
+   this.mixOutline = new buttonOutline(this, 200, 170, "mixSolBut", 0.6, 0x184a01);
    this.mixButton.on('pointerover', ()=>this.mixOutline.enterHoverState(), this);
    this.mixButton.on('pointerout', ()=>this.mixOutline.exitHoverState("word"), this);
 
-   this.graphButton= new button(this, 360, 170, "graphButton", 0.5);
+   this.graphButton= new button(this, 340, 170, "graphButton", 0.6);
    this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
-   this.addOutline = new buttonOutline(this, 360, 170, "graphButton", 0.5, 0x4a0801);
+   this.addOutline = new buttonOutline(this, 340, 170, "graphButton", 0.6, 0x4a0801);
    this.graphButton.on('pointerover', ()=>this.addOutline.enterHoverState(), this);
    this.graphButton.on('pointerout', ()=>this.addOutline.exitHoverState("word"), this);
 
@@ -306,6 +306,7 @@ export default class PrecipScene extends Phaser.Scene {
       this.mass=0.00;
     }
     
+    this.updateMassLabel;
   }
 
   updateMassLabel(){

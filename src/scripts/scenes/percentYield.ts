@@ -172,20 +172,18 @@ export default class percentYield extends Phaser.Scene{
         if (e.target.name=='submitButton'){
             this.answerInput=this.answerBox.getChildByName("answerField");
             this.answer= this.answerInput.value;
-            console.log(this.answer);
             this.compare();
         }
     }
 
     getReactantG(){
         this.gA=Math.round(Math.random()*1000)/100;
-        console.log(this.gA);
         this.gB=Math.round(Math.random()*1000)/100;
     }
 
     getPY(){
         this.py=Math.round(Math.random()*100)/100
-        console.log(this.py);
+        console.log("Percent Yield: "+ this.py*100);
     }
 
     findPdtG(){
@@ -216,13 +214,11 @@ export default class percentYield extends Phaser.Scene{
                 this.notPY=this.pdtG/A;
             }
         }
-        console.log(this.pdtG);
-        console.log(this.notPY);
+        console.log("Yield for wrong LR: " + this.notPY*100);
     }
 
     pickRxn(){
-        this.index=7;
-        //this.index = Math.floor(Math.random()*Math.floor(this.questions.length));
+        this.index = Math.floor(Math.random()*Math.floor(this.questions.length));
         this.selectedQ=this.questions[this.index];
         this.nameA=this.selectedQ.getAname();
         this.nameB=this.selectedQ.getBname();
@@ -287,7 +283,6 @@ export default class percentYield extends Phaser.Scene{
     compare(){
         this.resetPics();
         this.answer=parseFloat(<string> this.answer);
-        console.log(this.answer);
 
         if (this.between(this.answer, this.py*100+1, this.py*100-1)){
             this.correctpic.setAlpha(1.0);

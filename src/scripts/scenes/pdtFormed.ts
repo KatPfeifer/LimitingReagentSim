@@ -151,14 +151,12 @@ export default class pdtFormed extends Phaser.Scene{
         if (e.target.name=='submitButton'){
             this.answerInput=this.answerBox.getChildByName("answerField");
             this.answer= this.answerInput.value;
-            console.log(this.answer);
             this.compare();
         }
     }
 
     getReactantG(){
         this.gA=Math.round(Math.random()*1000)/100;
-        console.log(this.gA);
         this.gB=Math.round(Math.random()*1000)/100;
     }
 
@@ -232,10 +230,8 @@ export default class pdtFormed extends Phaser.Scene{
     }
 
     compare(){
-        console.log("in compare");
         this.resetPics();
         this.answer=parseFloat(<string> this.answer);
-        console.log(this.answer);
         if (this.answer>=(this.pdtG-this.pdtG*.1)&&this.answer<=(this.pdtG+this.pdtG*.1)){
             this.correctpic.setAlpha(1.0);
         }

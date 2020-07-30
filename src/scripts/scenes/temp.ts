@@ -104,15 +104,15 @@ export default class TempScene extends Phaser.Scene {
 
     this.dataList=[];
 
-    this.mixButton=new button(this, 250, 170, "mixSolBut", 0.5);
+    this.mixButton=new button(this, 230, 170, "mixSolBut", 0.55);
     this.mixButton.on('pointerdown', ()=>this.findTemp(), this);
-    this.mixOutline = new buttonOutline(this, 250, 170, "mixSolBut", 0.5, 0x184a01);
+    this.mixOutline = new buttonOutline(this, 230, 170, "mixSolBut", 0.55, 0x184a01);
    this.mixButton.on('pointerover', ()=>this.mixOutline.enterHoverState(), this);
    this.mixButton.on('pointerout', ()=>this.mixOutline.exitHoverState("word"), this);
 
-    this.graphButton= new button(this, 360, 170, "graphButton", 0.5);
+    this.graphButton= new button(this, 350, 170, "graphButton", 0.55);
     this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
-    this.addOutline = new buttonOutline(this, 360, 170, "graphButton", 0.5, 0x4a0801);
+    this.addOutline = new buttonOutline(this, 350, 170, "graphButton", 0.55, 0x4a0801);
     this.graphButton.on('pointerover', ()=>this.addOutline.enterHoverState(), this);
     this.graphButton.on('pointerout', ()=>this.addOutline.exitHoverState("word"), this);
     

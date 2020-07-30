@@ -166,14 +166,12 @@ export default class reactantLeft extends Phaser.Scene{
         if (e.target.name=='submitButton'){
             this.answerInput=this.answerBox.getChildByName("answerField");
             this.answer= this.answerInput.value;
-            console.log(this.answer);
             this.compare();
         }
     }
 
     getReactantG(){
         this.gA=Math.round(Math.random()*1000)/10;
-        console.log(this.gA);
         this.gB=Math.round(Math.random()*1000)/10;
     }
 
@@ -231,7 +229,6 @@ export default class reactantLeft extends Phaser.Scene{
         let A = (this.gA*this.coB*this.mwB)/(this.mwA*this.coA);
         let B = (this.gB*this.coA*this.mwA)/(this.mwB*this.coB)
         if (A>this.gB){
-            console.log("B limits");
             //B limits
             this.excess=this.gA-B;
             this.wrongLR=this.gB-A;
@@ -239,21 +236,16 @@ export default class reactantLeft extends Phaser.Scene{
         }
         if (A<=this.gB){
             //A limits
-            console.log("A limits");
             this.excess=this.gB-A;
             this.wrongLR=this.gA-B;
             this.reactantUsed=B;
         }
-        console.log(this.excess);
-        console.log(A);
-        console.log(B);
+        console.log("Excess reactant: "+this.excess);
     }
 
     compare(){
         this.resetPics();
         this.answer=parseFloat(<string> this.answer);
-        console.log(this.answer);
-        console.log("reactant used: "+ this.reactantUsed);
 
         if(this.between(this.answer, this.excess+this.excess*.1, this.excess-this.excess*.1)){
             this.correctpic.setAlpha(1.0);

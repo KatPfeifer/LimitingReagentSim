@@ -40,14 +40,15 @@ export default class reactantLeft extends Phaser.Scene{
     private noMolespic: Phaser.GameObjects.Image;
     private PYButton: button;
     private IDLRButton: button;
-    private RLButton: button;
     private PFButton: button;
     private IDLRBO: buttonOutline; //=ID Limiting Reactant Button Outline
     private PFBO: buttonOutline;
-    private RLBO: buttonOutline;
     private PYBO: buttonOutline;
     private backOutline: buttonOutline;
     private nextOutline: buttonOutline;
+    private reactantUsed: number;
+    private reactantUsedPic: Phaser.GameObjects.Image;
+    private RLHelpPic: Phaser.GameObjects.Image;
 
 
     constructor(){
@@ -108,6 +109,14 @@ export default class reactantLeft extends Phaser.Scene{
         this.noMolespic.setScale(0.4);
         this.noMolespic.setAlpha(0.0);
 
+        this.reactantUsedPic = this.add.image(550, 250, "reactantUsed");
+        this.reactantUsedPic.setAlpha(0.0);
+        this.reactantUsedPic.setScale(0.4);
+
+        this.RLHelpPic = this.add.image(550, 275, "RLHelp");
+        this.RLHelpPic.setScale(0.4);
+        this.RLHelpPic.setAlpha(0.0);
+
         this.mwALabel = this.add.bitmapText(25, 200, "pixelFont");
         this.mwALabel.setFontSize(25);
         this.mwALabel.setTintFill(0x000000);
@@ -125,7 +134,7 @@ export default class reactantLeft extends Phaser.Scene{
         this.questions.push(new practiceQ("SO2", 64.07, "PCl5", 208.24, "SOCl2", 118.97, "POCl3", 153.3, 1, 1, 1, 1));
         this.questions.push(new practiceQ("Fe", 55.85, "Cl2", 70.91, "FeCl3", 162.20, "", 0, 2, 3, 2, 0));
         this.questions.push(new practiceQ("NH3", 17.03, "O2", 32.00, "NO", 30.01, "H2O", 18.02, 4, 5, 4, 6));
-        this.questions.push(new practiceQ("C2H4", 26.04, "O2", 32.00, "CO2", 44.01, "H2O", 18.02, 1, 1, 2, 2));
+        this.questions.push(new practiceQ("C2H4", 26.04, "O2", 32.00, "CO2", 44.01, "H2O", 18.02, 1, 3, 2, 2));
         this.questions.push(new practiceQ("Si", 28.09, "N2", 28.01, "Si3N4", 140.28, "", 0, 3, 2, 1, 0));
     
         this.rxnImages=new Array;
@@ -216,37 +225,49 @@ export default class reactantLeft extends Phaser.Scene{
         let A = (this.gA*this.coB*this.mwB)/(this.mwA*this.coA);
         let B = (this.gB*this.coA*this.mwA)/(this.mwB*this.coB)
         if (A>this.gB){
+            console.log("B limits");
             //B limits
             this.excess=this.gA-B;
             this.wrongLR=this.gB-A;
+            this.reactantUsed=A;
         }
         if (A<=this.gB){
             //A limits
+            console.log("A limits");
             this.excess=this.gB-A;
             this.wrongLR=this.gA-B;
+            this.reactantUsed=B;
         }
         console.log(this.excess);
+        console.log(A);
+        console.log(B);
     }
 
     compare(){
         this.resetPics();
         this.answer=parseFloat(<string> this.answer);
         console.log(this.answer);
+        console.log("reactant used: "+ this.reactantUsed);
 
         if(this.between(this.answer, this.excess+this.excess*.1, this.excess-this.excess*.1)){
             this.correctpic.setAlpha(1.0);
+            return;
+        }
+        if (this.between(this.answer, this.reactantUsed+this.reactantUsed*.1, this.reactantUsed-this.reactantUsed*.1)){
+            this.reactantUsedPic.setAlpha(1.0);
             return;
         }
 
         let A = this.gA - (this.gB*this.coA)/this.coB;
         let B = this.gB - (this.gA*this.coB)/this.coA;
 
-        console.log("A is: " + A);
-
         if (this.between(this.answer, A+A*.1, A-A*.1)||this.between(this.answer, B+B*.1, B-B*.1)){
             this.noMolespic.setAlpha(1.0);
+            return;
         }
-
+        else {
+            this.RLHelpPic.setAlpha(1.0);
+        }
     }
 
     getNext(){
@@ -261,6 +282,8 @@ export default class reactantLeft extends Phaser.Scene{
     resetPics(){
         this.correctpic.setAlpha(0.0);
         this.noMolespic.setAlpha(0.0);
+        this.RLHelpPic.setAlpha(0.0);
+        this.reactantUsedPic.setAlpha(0.0);
     }
 
     between(num: number, up: number, down: number){

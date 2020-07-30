@@ -46,6 +46,12 @@ export default class percentYield extends Phaser.Scene{
     private RLBO: buttonOutline;
     private backOutline: buttonOutline;
     private nextOutline: buttonOutline;
+    private wrongLR: number;
+    private wrongLRpic: Phaser.GameObjects.Image;
+    private helpPic: Phaser.GameObjects.Image;
+    private notPY: number;
+    private decimalPic: Phaser.GameObjects.Image;
+
 
 
     constructor(){
@@ -62,11 +68,11 @@ export default class percentYield extends Phaser.Scene{
         this.add.text(410, 170, "Round to the nearest percent", {fill: "000000"});
 
         this.qLabel = this.add.bitmapText(20, 20, "pixelFont");
-        this.qLabel.setFontSize(30);
+        this.qLabel.setFontSize(25);
         this.qLabel.setTintFill(0x000000);
 
         this.qLabel2=this.add.bitmapText(20, 100, "pixelFont");
-        this.qLabel2.setFontSize(30);
+        this.qLabel2.setFontSize(25);
         this.qLabel2.setTintFill(0x000000);
         this.qLabel2.setText("What is the percent yield of the reaction?")
 
@@ -83,6 +89,18 @@ export default class percentYield extends Phaser.Scene{
         this.correctpic.setScale(0.5);
         this.correctpic.setAlpha(0.0);
 
+        this.wrongLRpic = this.add.image(550, 250, "wrongLR");
+        this.wrongLRpic.setScale(0.45);
+        this.wrongLRpic.setAlpha(0.0);
+
+        this.helpPic = this.add.image(550, 250, "pyHelp");
+        this.helpPic.setScale(0.45);
+        this.helpPic.setAlpha(0.0);
+
+        this.decimalPic=this.add.image(550, 250, "decimal");
+        this.decimalPic.setScale(0.45);
+        this.decimalPic.setAlpha(0.0);
+
         this.mwALabel = this.add.bitmapText(25, 200, "pixelFont");
         this.mwALabel.setFontSize(25);
         this.mwALabel.setTintFill(0x000000);
@@ -95,6 +113,7 @@ export default class percentYield extends Phaser.Scene{
         this.mwDLabel = this.add.bitmapText(25, 290, "pixelFont");
         this.mwDLabel.setFontSize(25);
         this.mwDLabel.setTintFill(0x000000)
+
 
         this.IDLRButton = new button(this, 330, 375, "IDLR", 0.7);
         this.IDLRButton.on('pointerdown', ()=>this.goToIDLR(), this);
@@ -118,7 +137,7 @@ export default class percentYield extends Phaser.Scene{
         this.questions.push(new practiceQ("SO2", 64.07, "PCl5", 208.24, "SOCl2", 118.97, "POCl3", 153.3, 1, 1, 1, 1));
         this.questions.push(new practiceQ("Fe", 55.85, "Cl2", 70.91, "FeCl3", 162.20, "", 0, 2, 3, 2, 0));
         this.questions.push(new practiceQ("NH3", 17.03, "O2", 32.00, "NO", 30.01, "H2O", 18.02, 4, 5, 4, 6));
-        this.questions.push(new practiceQ("C2H4", 26.04, "O2", 32.00, "CO2", 44.01, "H2O", 18.02, 1, 1, 2, 2));
+        this.questions.push(new practiceQ("C2H4", 26.04, "O2", 32.00, "CO2", 44.01, "H2O", 18.02, 1, 3, 2, 2));
         this.questions.push(new practiceQ("Si", 28.09, "N2", 28.01, "Si3N4", 140.28, "", 0, 3, 2, 1, 0));
 
         this.rxnImages=new Array;
@@ -163,14 +182,17 @@ export default class percentYield extends Phaser.Scene{
 
     findPdtG(){
         if (this.selectedPdt=='C'){
-            //A = # g C that can be made with given A
+            //A = # g C that can be made with given A = theoretical yield of A
             let A = (this.gA*this.coC*this.mwC)/(this.mwA*this.coA);
             let B=(this.gB*this.coC*this.mwC)/(this.mwB*this.coB);
             if (A<=B){
+                //A Limits
                 this.pdtG=A*this.py;
+                this.notPY=this.pdtG/B;
             }
             if (A>B){
                 this.pdtG=B*this.py;
+                this.notPY=this.pdtG/A;
             }
         }
         if (this.selectedPdt=='D'){
@@ -179,12 +201,15 @@ export default class percentYield extends Phaser.Scene{
             let B=(this.gB*this.coD*this.mwD)/(this.mwB*this.coB);
             if (A<=B){
                 this.pdtG=A*this.py;
+                this.notPY=this.pdtG/B;
             }
             if (A>B){
                 this.pdtG=B*this.py;
+                this.notPY=this.pdtG/A;
             }
         }
         console.log(this.pdtG);
+        console.log(this.notPY);
     }
 
     pickRxn(){
@@ -246,8 +271,7 @@ export default class percentYield extends Phaser.Scene{
            this.qLabel.text="In the lab, " + this.gA + "g " + this.nameA + " reacted with " + this.gB + "g " + this.nameB + " to form " + this.pdtG.toFixed(2) + "g " + this.nameC;
         }
         if (this.selectedPdt=="D"){
-            this.qLabel.text="How many grams of " + this.nameD + " are formed when " + this.gA.toString() + "g "+
-            this.nameA + " react with " + this.gB.toString() + "g " + this.nameB + "?"; 
+            this.qLabel.text="In the lab, " + this.gA + "g " + this.nameA + " reacted with " + this.gB + "g " + this.nameB + " to form " + this.pdtG.toFixed(2) + "g " + this.nameD;
         }
     }
 
@@ -258,7 +282,20 @@ export default class percentYield extends Phaser.Scene{
 
         if (this.between(this.answer, this.py*100+1, this.py*100-1)){
             this.correctpic.setAlpha(1.0);
+            return;
         }
+        if (this.between(this.answer, this.notPY*100+1, this.notPY*100-1)){
+            this.wrongLRpic.setAlpha(1.0);
+            return;
+        }
+        if (this.answer<1.0){
+            this.decimalPic.setAlpha(1.0);
+            return;
+        }
+        else {
+            this.helpPic.setAlpha(1.0);
+        }
+
     }
 
 
@@ -270,6 +307,7 @@ export default class percentYield extends Phaser.Scene{
         this.getPY();
         this.pickRxn();
         this.pickCD();
+        this.findPdtG();
         this.updateQLabel();
         this.showPics();
         this.resetPics();
@@ -277,6 +315,9 @@ export default class percentYield extends Phaser.Scene{
 
     resetPics(){
         this.correctpic.setAlpha(0.0);
+        this.wrongLRpic.setAlpha(0.0);
+        this.decimalPic.setAlpha(0.0);
+        this.helpPic.setAlpha(0.0);
     }
 
     between(num: number, up: number, down: number){

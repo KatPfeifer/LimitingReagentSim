@@ -164,6 +164,8 @@ export default class TempScene extends Phaser.Scene {
 
     this.add.text(180, 120, "[All solutions]=0.1M", {fill: "000000"});
     this.add.text(10, 10, "Version: ", {fill: "000000"});
+    this.add.text(450, 220, "Mouse over a point for full data", {fill: "000000"});
+
   }
 
   createmLs(){

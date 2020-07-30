@@ -9,28 +9,28 @@ import buttonOutline from '../objects/buttonOutline';
 export default class SpecScene extends Phaser.Scene {
   private background: Phaser.GameObjects.Image;
   private selectedRxn: string;
-  private mLsLabel: any;
-  private mLsLabel2: any;
-  private mLs: any;
-  private mLs2: any;
-  private up1: any;
-  private down1: any;
-  private mixButton: any;
-  private abs: any;
-  private emptyCuvette: any;
-  private fullCuvette: any;
-  private cuvetteOutline: any;
-  private spectro: any;
-  private absLabel: any;
-  private background2: any;
-  private absGraphAB: any;
-  private absGraphCD: any;
-  private absGraphEF: any;
-  private graphButton: any;
+  private mLsLabel: Phaser.GameObjects.BitmapText;
+  private mLsLabel2: Phaser.GameObjects.BitmapText;
+  private mLs: number;
+  private mLs2: number;
+  private up1: arrowButton;
+  private down1: arrowButton;
+  private mixButton: button;
+  private abs: number;
+  private emptyCuvette: Phaser.GameObjects.Image;
+  private fullCuvette: cuvette;
+  private cuvetteOutline: cuvette;
+  private spectro: Phaser.GameObjects.Image;
+  private absLabel: Phaser.GameObjects.BitmapText;
+  private background2: Phaser.GameObjects.Image;
+  private absGraphAB: Phaser.GameObjects.Image;
+  private absGraphCD: Phaser.GameObjects.Image;
+  private absGraphEF: Phaser.GameObjects.Image;
+  private graphButton: button;
   private dataList: any;
-  private newestDP: any;
-  private mRLabel: any;
-  private sPLabel: any;
+  private newestDP: Phaser.GameObjects.Image;
+  private mRLabel: Phaser.GameObjects.BitmapText;
+  private sPLabel: Phaser.GameObjects.BitmapText;
   private backButton: button;
   private mLA: Phaser.GameObjects.Image;
   private mLB: Phaser.GameObjects.Image;
@@ -111,19 +111,18 @@ export default class SpecScene extends Phaser.Scene {
     this.mixButton=new button(this, 250, 170, "mixSolBut", 0.5);
     this.mixButton.on('pointerdown', ()=>this.findAbs(), this);
     this.mixOutline = new buttonOutline(this, 250, 170, "mixSolBut", 0.5, 0x184a01);
-   this.mixButton.on('pointerover', ()=>this.mixOutline.enterHoverState(), this);
-   this.mixButton.on('pointerout', ()=>this.mixOutline.exitHoverState("word"), this);
+    this.mixButton.on('pointerover', ()=>this.mixOutline.enterHoverState(), this);
+    this.mixButton.on('pointerout', ()=>this.mixOutline.exitHoverState("word"), this);
 
-   this.graphButton= new button(this, 360, 170, "graphButton", 0.5);
+    this.graphButton= new button(this, 360, 170, "graphButton", 0.5);
     this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
     this.addOutline = new buttonOutline(this, 360, 170, "graphButton", 0.5, 0x4a0801);
-   this.graphButton.on('pointerover', ()=>this.addOutline.enterHoverState(), this);
-   this.graphButton.on('pointerout', ()=>this.addOutline.exitHoverState("word"), this);  
+    this.graphButton.on('pointerover', ()=>this.addOutline.enterHoverState(), this);
+    this.graphButton.on('pointerout', ()=>this.addOutline.exitHoverState("word"), this);  
 
     this.createCuvettes();
     this.createmLs();
     
-
     this.dataList=[];
 
     this.backButton=new button(this, 750, 375, "backButton", 0.7);
@@ -158,6 +157,8 @@ export default class SpecScene extends Phaser.Scene {
     this.add.text(180, 120, "[All solutions]=0.001M", {fill: "000000"});
 
     this.add.text(10, 10, "Version: ", {fill: "000000"});
+
+    this.add.text(450, 220, "Mouse over a point for full data", {fill: "000000"});
   }
 
   createCuvettes(){
@@ -306,6 +307,7 @@ export default class SpecScene extends Phaser.Scene {
       this.abs=0;
     }
     this.changeCuvette();
+    this.updateAbs();
   }
 
   updateAbs(){
@@ -316,30 +318,7 @@ export default class SpecScene extends Phaser.Scene {
     this.fullCuvette.setAlpha(1.0);
     this.cuvetteOutline.setAlpha(1.0);
     this.emptyCuvette.setAlpha(0.0);
-    if (this.abs>0&&this.abs<0.2){
-      this.fullCuvette.setTintFill(0xffb5b9);
-    }
-    if (this.abs>=0.2&&this.abs<0.4){
-      this.fullCuvette.setTintFill(0xff9197);
-    }
-    if (this.abs>=0.4&&this.abs<0.6){
-      this.fullCuvette.setTintFill(0xff7077);
-    }
-    if (this.abs>=0.6&&this.abs<0.8){
-      this.fullCuvette.setTintFill(0xff545d);
-    }
-    if (this.abs>=0.8&&this.abs<1.0){
-      this.fullCuvette.setTintFill(0xff2e38);
-    }
-    if (this.abs>=1.0&&this.abs<1.2){
-      this.fullCuvette.setTintFill(0xff2530);
-    }
-    if (this.abs>=1.2&&this.abs<1.4){
-      this.fullCuvette.setTintFill(0xff0512);
-    }
-    if (this.abs>=1.4&&this.abs<1.6){
-      this.fullCuvette.setTintFill(0xe8000c);
-    }
+    this.fullCuvette.changeColor(this.abs);
   }
 
   graphPoint(){

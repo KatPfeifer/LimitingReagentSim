@@ -122,9 +122,12 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("pyHelp", "assets/images/pyHelp.png");
     this.load.image("reactantUsed", "assets/images/reactantUsed");
     this.load.image("RLHelp", "assets/images/RLHelp.png")
+    this.load.image("NaRxn", "assets/images/NaRxn.png");
+    this.load.image("NaClRxn", "assets/images/NaClRxn.png");
+    this.load.image("CORxn", "assets/images/CORxn.png");
   }
 
   create() {
-    this.scene.start('reactantLeftScene');
+    this.scene.start('percentYieldScene', ["AB"]);
   }
 }

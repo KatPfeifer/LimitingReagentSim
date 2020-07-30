@@ -164,7 +164,9 @@ export default class PrecipScene extends Phaser.Scene {
     this.button3.on('pointerover', ()=>this.outline3.enterHoverState(), this);
     this.button3.on('pointerout', ()=>this.outline3.exitHoverState(this.selectedVersion), this);
    
-   this.add.text(10, 10, "Version: ", {fill: "000000"});
+    this.add.text(10, 10, "Version: ", {fill: "000000"});
+    this.add.text(450, 220, "Mouse over a point for full data", {fill: "000000"});
+
   }
 
   createmLs(){

@@ -121,7 +121,9 @@ export default class pdtFormed extends Phaser.Scene{
         this.questions.push(new practiceQ("NH3", 17.03, "O2", 32.00, "NO", 30.01, "H2O", 18.02, 4, 5, 4, 6));
         this.questions.push(new practiceQ("C2H4", 26.04, "O2", 32.00, "CO2", 44.01, "H2O", 18.02, 1, 3, 2, 2));
         this.questions.push(new practiceQ("Si", 28.09, "N2", 28.01, "Si3N4", 140.28, "", 0, 3, 2, 1, 0));
-
+        this.questions.push(new practiceQ("Na", 23.00, "H2O", 18.02, "NaOH", 40.00, "H2", 2.02, 2, 2, 2, 1));
+        this.questions.push(new practiceQ("NaCl", 58.44, "Pb(NO3)2", 331.21, "NaNO3", 84.99, "PbCl2", 278.1, 2, 1, 2, 1));
+        this.questions.push(new practiceQ("CO", 28.01, "H2", 2.02, "CH3OH", 32.04, "", 0, 1, 2, 1, 0));
 
         this.rxnImages=new Array;
         this.rxnImages.push(new rxnImage(this, 175, 75, "SO2Rxn", 0.7));
@@ -129,6 +131,9 @@ export default class pdtFormed extends Phaser.Scene{
         this.rxnImages.push(new rxnImage(this, 175, 75, "NH3Rxn", 0.7));
         this.rxnImages.push(new rxnImage(this, 175, 75, "C2H4Rxn", 0.7));
         this.rxnImages.push(new rxnImage(this, 175, 75, "SiRxn", 0.7));
+        this.rxnImages.push(new rxnImage(this, 175, 75, "NaRxn", 0.7));
+        this.rxnImages.push(new rxnImage(this, 200, 75, "NaClRxn", 0.7));
+        this.rxnImages.push(new rxnImage(this, 175, 75, "CORxn", 0.7));
         
         this.answerBox=this.add.dom(550, 100).createFromCache('inputForm');
         this.answerBox.addListener('click');

@@ -327,9 +327,9 @@ export default class SpecScene extends Phaser.Scene {
     let x=464+MFB*304;
     let y=180-(this.abs/2.5)*124;
 
-    this.newestDP = new dataPoint(this, x, y, this.abs, MFB); 
-    this.newestDP.on('pointerover', ()=>this.updateSPLabel(), this);
-    this.newestDP.on('pointerout', ()=>this.clearSPLabel(), this);
+    this.newestDP = new dataPoint(this, x, y, this.abs, MFB, this.selectedRxn); 
+    //this.newestDP.on('pointerover', ()=>this.newestDP.updateLabel(), this);
+    //this.newestDP.on('pointerout', ()=>this.clearSPLabel(), this);
     this.dataList.push(this.newestDP);
 
     this.updateMRLabel();
@@ -362,6 +362,7 @@ export default class SpecScene extends Phaser.Scene {
     }
   }
 
+  /*
   updateSPLabel(){
     if (this.selectedRxn=="AB"){
       this.sPLabel.text="Selected Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs.toString().substring(0,4));
@@ -373,6 +374,7 @@ export default class SpecScene extends Phaser.Scene {
       this.sPLabel.text="Selected Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs);
     }
   }
+  */
 
   clearSPLabel(){
 

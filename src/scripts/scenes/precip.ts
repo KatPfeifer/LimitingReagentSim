@@ -64,7 +64,7 @@ export default class PrecipScene extends Phaser.Scene {
   }
 
   create() {
-    this.molarity=2;
+    this.molarity=0.8;
     this.Ccoefficient=3;
     this.Dcoefficient=1;
     this.mass=0.0001;
@@ -143,8 +143,8 @@ export default class PrecipScene extends Phaser.Scene {
    this.mainButton=new button(this, 650, 375, "mainButton", 0.7);
    this.mainButton.on('pointerdown', ()=>this.goToMain(), this);
    this.mainOutline = new buttonOutline(this, 650, 375, "mainButton", 0.7, 0x4a01320);
-    this.mainButton.on('pointerover', ()=>this.mainOutline.enterHoverState(), this);
-    this.mainButton.on('pointerout', ()=>this.mainOutline.exitHoverState("word"));
+   this.mainButton.on('pointerover', ()=>this.mainOutline.enterHoverState(), this);
+   this.mainButton.on('pointerout', ()=>this.mainOutline.exitHoverState("word"));
 
    this.button1=new button(this, 50, 50, "button1", 0.7);
    this.button1.on('pointerdown', ()=>this.changeCoefficients(1), this);
@@ -163,7 +163,7 @@ export default class PrecipScene extends Phaser.Scene {
     this.outline3=new buttonOutline(this, 50, 150, "button3", 0.7, 0x000061);
     this.button3.on('pointerover', ()=>this.outline3.enterHoverState(), this);
     this.button3.on('pointerout', ()=>this.outline3.exitHoverState(this.selectedVersion), this);
-   
+
     this.add.text(10, 10, "Version: ", {fill: "000000"});
     this.add.text(450, 220, "Mouse over a point for full data", {fill: "000000"});
 
@@ -306,7 +306,7 @@ export default class PrecipScene extends Phaser.Scene {
       this.mass=0.00;
     }
     
-    this.updateMassLabel;
+    this.updateMassLabel();
   }
 
   updateMassLabel(){
@@ -318,9 +318,9 @@ export default class PrecipScene extends Phaser.Scene {
     //MFB = mole fraction B
     let MFB=this.findMF();
     let x=463+MFB*303;
-    let y=182-124*(this.mass/4);
+    let y=181-124*(this.mass/4);
 
-    this.newestDP = new dataPoint(this, x, y, this.mass, MFB); 
+    this.newestDP = new dataPoint(this, x, y, this.mass, MFB, this.selectedRxn); 
     this.newestDP.on('pointerover', ()=>this.updateSPLabel(), this);
     this.newestDP.on('pointerout', ()=>this.clearSPLabel(), this);
     this.dataList.push(this.newestDP);

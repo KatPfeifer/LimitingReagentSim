@@ -311,9 +311,11 @@ export default class TempScene extends Phaser.Scene {
   graphPoint(){
     let MFB=this.findMF();
     let x=467+MFB*302;
-    let y=56-124*(this.tempChange/4);
+    console.log("x: " + x);
+    let y=180-124*(this.tempChange/4);
+    console.log("y: "+ y);
 
-    this.newestDP = new dataPoint(this, x, y, this.tempChange, MFB); 
+    this.newestDP = new dataPoint(this, x, y, this.tempChange, MFB, this.selectedRxn); 
     this.newestDP.on('pointerover', ()=>this.updateSPLabel(), this);
     this.newestDP.on('pointerout', ()=>this.clearSPLabel(), this);
     this.dataList.push(this.newestDP);

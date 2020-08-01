@@ -296,14 +296,6 @@ export default class SpecScene extends Phaser.Scene {
         this.abs=B;
       }
     }
-    /*
-    let pdtmols=this.findLR();
-    let pdtconc=(pdtmols*0.001)/(this.mLs+this.mLs2);
-    this.abs=pdtconc*6120;
-    if (this.mLs==0||this.mLs2==0){
-      this.abs=0;
-    }
-    */
     if (this.selectedRxn=="CD"||this.selectedRxn=="EF"){
       this.abs=0;
     }
@@ -328,8 +320,6 @@ export default class SpecScene extends Phaser.Scene {
     let y=180-(this.abs/2.5)*124;
 
     this.newestDP = new dataPoint(this, x, y, this.abs, MFB, this.selectedRxn); 
-    //this.newestDP.on('pointerover', ()=>this.newestDP.updateLabel(), this);
-    //this.newestDP.on('pointerout', ()=>this.clearSPLabel(), this);
     this.dataList.push(this.newestDP);
 
     this.updateMRLabel();
@@ -360,25 +350,6 @@ export default class SpecScene extends Phaser.Scene {
     if (this.selectedRxn=="EF"){
       this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs);
     }
-  }
-
-  /*
-  updateSPLabel(){
-    if (this.selectedRxn=="AB"){
-      this.sPLabel.text="Selected Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs.toString().substring(0,4));
-    }
-    if (this.selectedRxn=="CD"){
-      this.sPLabel.text="Selected Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs);
-    }
-    if (this.selectedRxn=="EF"){
-      this.sPLabel.text="Selected Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs);
-    }
-  }
-  */
-
-  clearSPLabel(){
-
-    this.sPLabel.text="";
   }
   
   clearGraph(){

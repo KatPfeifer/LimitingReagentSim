@@ -15,6 +15,7 @@ import pdtFormed from './scenes/pdtFormed';
 import reactantLeft from './scenes/reactantLeft';
 import pickLR from './scenes/pickLR';
 import percentYield from './scenes/percentYield';
+import exampleMCV from './scenes/exampleMCV';
 import GameConfig = Phaser.Types.Core.GameConfig;
 
 const DEFAULT_WIDTH = 800;
@@ -30,7 +31,7 @@ const config: GameConfig = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT
     },
-    scene: [PreloadScene, O2gs, percentYield, pdtFormed, pickLR, reactantLeft, FeMolec, SpecScene, MainScene, cdScene, efScene, TempScene, PrecipScene, GramScene, abScene, MoleculeScene],
+    scene: [PreloadScene, O2gs, percentYield, pdtFormed, exampleMCV, pickLR, reactantLeft, FeMolec, SpecScene, MainScene, cdScene, efScene, TempScene, PrecipScene, GramScene, abScene, MoleculeScene],
     physics: {
         default: 'arcade',
         arcade: {
@@ -46,5 +47,3 @@ const config: GameConfig = {
 window.addEventListener('load', () => {
     window['game'] = new Phaser.Game(config);
 });
-
-//

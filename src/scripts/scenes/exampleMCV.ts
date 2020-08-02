@@ -13,6 +13,8 @@ export default class exampleMCV extends Phaser.Scene{
   private mLsLabel2: Phaser.GameObjects.BitmapText;
   private mLs: number;
   private mLs2: number;
+  private mLsG: Phaser.GameObjects.Image;
+  private mLsH: Phaser.GameObjects.Image;
   private up1: arrowButton;
   private down1: arrowButton;
   private upCoG: arrowButton;
@@ -37,21 +39,20 @@ export default class exampleMCV extends Phaser.Scene{
   private mRLabel: Phaser.GameObjects.BitmapText;
   private sPLabel: Phaser.GameObjects.BitmapText;
   private backButton: button;
-  private Acoefficient: number;
-  private Bcoefficient: number;
   private molarity: number;
   private backOutline: buttonOutline;
   private addOutline: buttonOutline;
   private mixOutline: buttonOutline;
+  private graphGH: Phaser.GameObjects.Image;
+  private dot: Phaser.GameObjects.Image;
 
     constructor(){
         super({key: "ExampleScene"});
     }
  
     create(){
-    this.molarity=0.001;
-    this.Acoefficient=3;
-    this.Bcoefficient=2;
+    this.molarity=0.0006;
+    
 
     this.background=this.add.image(200, 200, "bluebackground");
     this.background.setScale(2.0);
@@ -59,6 +60,14 @@ export default class exampleMCV extends Phaser.Scene{
     this.background2.setScale(2.0);
 
     this.abs=0;
+
+    this.add.text(10, 5, "Adjust reaction\ncoefficients:", {fill: "000000", fontFamily: "Calibri"});
+    this.add.text(190, 5, "Adjust mLs of\nreactant solution:", {fill: "000000", fontFamily: "Calibri"});
+    this.add.text(40, 55, "G", {fontSize: "25px", fill: "#e30031", fontFamily: "Calibri", fontStyle: "bold"});
+    this.add.text(120, 55, "H", {fontSize: "25px", color: "#e30031", fontFamily: "Calibri", fontStyle: "bold"});
+    
+    this.graphGH=this.add.image(600, 115, "absGraphGH");
+    this.graphGH.setScale(0.54);
 
     this.mLs=0;
     this.mLsLabel = this.add.bitmapText(195, 60, "pixelFont");
@@ -72,6 +81,11 @@ export default class exampleMCV extends Phaser.Scene{
     this.mLsLabel2.text=this.mLs2.toString();
     this.mLsLabel2.setTintFill(0x000000);
 
+    this.mLsG=this.add.image(250, 70, "mLsG");
+    this.mLsG.setScale(0.5);
+    this.mLsH=this.add.image(365, 70, "mLsH");
+    this.mLsH.setScale(0.5);
+    
     this.coG=1;
     this.coGLabel=this.add.bitmapText(15, 60, "pixelFont");
     this.coGLabel.fontSize=30;
@@ -120,11 +134,13 @@ export default class exampleMCV extends Phaser.Scene{
     this.backButton.on('pointerover', ()=>this.backOutline.enterHoverState(), this);
     this.backButton.on('pointerout', ()=>this.backOutline.exitHoverState("word"), this);
 
-    this.add.text(180, 120, "[All solutions]=0.001M", {fill: "000000", fontFamily: "Calibri"});
+    this.add.text(180, 120, "[All solutions]=0.0006M", {fill: "000000", fontFamily: "Calibri"});
 
 
     this.add.text(450, 220, "Mouse over a point for full data", {fill: "000000", fontFamily: "Calibri"});
-    }
+    this.dot = this.add.image(766, 175, "blackCircle");
+    this.dot.setScale(0.05);
+}
 
     createCuvettes(){
         this.emptyCuvette=this.add.image(100, 300, "empty cuvette");
@@ -215,23 +231,9 @@ export default class exampleMCV extends Phaser.Scene{
         else {
             this.abs=H;
         }
-        
-        /*if (this.selectedRxn=="AB"){
-          let A=(this.mLs*this.molarity*6120)/(this.Acoefficient*(this.mLs+this.mLs2));
-          let B=(this.mLs2*this.molarity*6120)/(this.Bcoefficient*(this.mLs+this.mLs2));
-          if (A<=B){
-            this.abs=A;
-          }
-          else {
-            this.abs=B;
-          }
-        }
-        if (this.selectedRxn=="CD"||this.selectedRxn=="EF"){
-          this.abs=0;
-        }
-        */
         this.changeCuvette();
         this.updateAbs();
+        console.log(this.abs);
     }
 
     updateAbs(){
@@ -247,8 +249,8 @@ export default class exampleMCV extends Phaser.Scene{
 
     graphPoint(){
         let MFB=this.findMF();
-        let x=464+MFB*304;
-        let y=180-(this.abs/2.5)*124;
+        let x=465+MFB*301;
+        let y=175-(this.abs/2)*120;
     
         this.newestDP = new dataPoint(this, x, y, this.abs, MFB, this.selectedRxn); 
         this.dataList.push(this.newestDP);

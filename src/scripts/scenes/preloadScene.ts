@@ -74,6 +74,8 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("mLsD", "assets/images/mLsD.png");
     this.load.image("mLsE", "assets/images/mLsE.png");
     this.load.image("mLsF", "assets/images/mLsF.png");
+    this.load.image("mLsG", "assets/images/mLsG.png");
+    this.load.image("mLsH", "assets/images/mLsH.png");
 
     this.load.image("empty cuvette", "assets/images/emptyCuvette.png");
     this.load.image("fullCuvette", "assets/images/fullCuvette.png");
@@ -83,6 +85,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("absGraphCD", "assets/images/absGraphCD.png");
     this.load.image("absGraphEF", "assets/images/absGraphEF.png");
     this.load.image("blackCircle", "assets/images/blackCircle.png");
+    this.load.image("absGraphGH", "assets/images/absGraphGH.png");
 
     this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
 

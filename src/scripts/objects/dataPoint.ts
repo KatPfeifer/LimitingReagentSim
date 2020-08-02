@@ -37,6 +37,9 @@ export default class dataPoint extends Phaser.GameObjects.Image{
         if (this.selectedRxn=="EF"){
             this.label.text="Selected Data Point: \nX(E): "+ (1-this.molFraction).toString().substring(0,4)+"\nX(F): "+(this.molFraction).toString().substring(0,4)+"\nA: "+(this.dataValue.toString().substring(0,4));
         }
+        if (this.selectedRxn=="GH"){
+            this.label.text="Selected Data Point: \nX(G): "+ (1-this.molFraction).toString().substring(0,4)+"\nX(H): "+(this.molFraction).toString().substring(0,4)+"\nA: "+(this.dataValue.toString().substring(0,4));
+        }
     }
 
     clearLabel(){

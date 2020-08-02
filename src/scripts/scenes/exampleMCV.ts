@@ -63,8 +63,8 @@ export default class exampleMCV extends Phaser.Scene{
 
     this.add.text(10, 5, "Adjust reaction\ncoefficients:", {fill: "000000", fontFamily: "Calibri"});
     this.add.text(190, 5, "Adjust mLs of\nreactant solution:", {fill: "000000", fontFamily: "Calibri"});
-    this.add.text(40, 55, "G", {fontSize: "25px", fill: "#e30031", fontFamily: "Calibri", fontStyle: "bold"});
-    this.add.text(120, 55, "H", {fontSize: "25px", color: "#e30031", fontFamily: "Calibri", fontStyle: "bold"});
+    this.add.text(40, 55, "G", {fontSize: "25px", fill: "#9b00e3", fontFamily: "Calibri", fontStyle: "bold"});
+    this.add.text(120, 55, "H", {fontSize: "25px", color: "#9b00e3", fontFamily: "Calibri", fontStyle: "bold"});
     
     this.graphGH=this.add.image(600, 115, "absGraphGH");
     this.graphGH.setScale(0.54);
@@ -129,6 +129,8 @@ export default class exampleMCV extends Phaser.Scene{
     
     this.dataList=[];
 
+    this.selectedRxn="GH";
+
     this.backButton=new button(this, 750, 375, "backButton", 0.7);
     this.backButton.on('pointerdown', ()=>this.goToMain(), this);this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);
     this.backButton.on('pointerover', ()=>this.backOutline.enterHoverState(), this);
@@ -138,8 +140,6 @@ export default class exampleMCV extends Phaser.Scene{
 
 
     this.add.text(450, 220, "Mouse over a point for full data", {fill: "000000", fontFamily: "Calibri"});
-    this.dot = this.add.image(766, 175, "blackCircle");
-    this.dot.setScale(0.05);
 }
 
     createCuvettes(){
@@ -170,10 +170,10 @@ export default class exampleMCV extends Phaser.Scene{
         this.upCoH.on('pointerdown', ()=>this.changeCos("upCoH"), this);
         this.downCoH=new arrowButton(this, 100, 90, "downArrow", "downCoH" );
         this.downCoH.on('pointerdown', ()=>this.changeCos("downCoH"), this);
-        this.upCoG.setTintFill(0xe30031);
-        this.downCoG.setTintFill(0xe30031);
-        this.upCoH.setTintFill(0xe30031);
-        this.downCoH.setTintFill(0xe30031);
+        this.upCoG.setTintFill(0x9b00e3);
+        this.downCoG.setTintFill(0x9b00e3);
+        this.upCoH.setTintFill(0x9b00e3);
+        this.downCoH.setTintFill(0x9b00e3);
     }
 
 
@@ -274,15 +274,8 @@ export default class exampleMCV extends Phaser.Scene{
     }
 
     updateMRLabel(){
-        if (this.selectedRxn=="AB"){
-          this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs.toString().substring(0,4));
-        }
-        if (this.selectedRxn=="CD"){
-          this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs);
-        }
-        if (this.selectedRxn=="EF"){
-          this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs);
-        }
+        this.mRLabel.text="Latest Data Point: \nX(G): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(H): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs.toString().substring(0,4));
+
     }
 
     clearGraph(){

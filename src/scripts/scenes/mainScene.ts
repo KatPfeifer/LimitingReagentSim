@@ -31,6 +31,8 @@ export default class MainScene extends Phaser.Scene {
   private PFBO: buttonOutline;
   private RLBO: buttonOutline;
   private PYBO: buttonOutline;
+  private exampleButton: button;
+  private EBO: buttonOutline;
 
 
   constructor() {
@@ -43,10 +45,15 @@ export default class MainScene extends Phaser.Scene {
 
     this.add.text(0, 0, "Main Scene");
 
-    this.MCVLabel=this.add.image(600, 50, "MCVLabel");
+    this.MCVLabel=this.add.image(600, 20, "MCVLabel");
     this.MCVLabel.setScale(0.4);
-    this.LRLabel=this.add.image(200, 50, "LRLabel");
+    this.LRLabel=this.add.image(200, 20, "LRLabel");
     this.LRLabel.setScale(0.4);
+
+    this.add.text(70, 40, "Examples", {fill: "000000", fontFamily: "Calibri", fontStyle: "bold"});
+    this.add.text(215, 40, "Practice Problems", {fill: "000000", fontFamily: "Calibri", fontStyle: "bold"});
+    this.add.text(450, 40, "Pick a reaction\n to get started", {fill: "000000", fontFamily: "Calibri", fontStyle: "bold"});
+    this.add.text(580, 110, "Or try this example", {fill: "000000", fontFamily: "Calibri", fontStyle: "bold"});
 
     this.O2Button=new button(this, 100, 100, "O2H2button", 0.3);
     this.O2Button.on('pointerdown', ()=>this.O2Picked(), this);
@@ -62,14 +69,6 @@ export default class MainScene extends Phaser.Scene {
     this.FeButton.on('pointerover', ()=>this.Feoutline.enterHoverState(), this);
     this.FeButton.on('pointerout', ()=>this.Feoutline.exitHoverState("word"), this);
 
-    /*
-    this.practiceButton=new button(this, 100, 200, "practice", 0.7);
-    this.practiceButton.on('pointerdown', ()=>this.goToPractice(), this);
-
-    this.pBOutline=new buttonOutline(this, 100, 200, "practice", 0.7, 0x02633c);
-    this.practiceButton.on('pointerover', ()=>this.pBOutline.enterHoverState(), this);
-    this.practiceButton.on('pointerout', ()=>this.pBOutline.exitHoverState("word"), this);
-*/
     this.ABbutton=new button(this, 500, 100, "ABbutton", 0.3);
     this.ABbutton.on('pointerdown', ()=>this.abPicked(), this);
     this.CDbutton=new button(this, 500, 150, "CDbutton", 0.28);
@@ -86,6 +85,13 @@ export default class MainScene extends Phaser.Scene {
     this.EFoutline=new buttonOutline(this, 500, 200, "EFbutton", 0.31, 0x3d0a57);
     this.EFbutton.on('pointerover', ()=>this.EFoutline.enterHoverState(), this);
     this.EFbutton.on('pointerout', ()=>this.EFoutline.exitHoverState("word"), this);
+
+    this.exampleButton = new button(this, 650, 150, "exampleButton", 0.7);
+    this.exampleButton.on('pointerdown', ()=>this.goToExample(), this);
+    this.EBO= new buttonOutline(this, 650, 150, "exampleButton", 0.7, 420061);
+    this.exampleButton.on('pointerover', ()=>this.EBO.enterHoverState(), this);
+    this.exampleButton.on('pointerout', ()=>this.EBO.exitHoverState("word"), this);
+
 
     this.IDLRButton = new button(this, 275, 80, "IDLR", 0.7);
     this.PFButton = new button(this, 275, 120, "PdtFormed", 0.7);
@@ -162,6 +168,10 @@ export default class MainScene extends Phaser.Scene {
 
   goToPY(){
     this.scene.start("percentYieldScene");
+  }
+
+  goToExample(){
+    this.scene.start("ExampleScene");
   }
 
 }

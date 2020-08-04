@@ -129,7 +129,7 @@ export default class exampleMCV extends Phaser.Scene{
     
     this.dataList=[];
 
-    this.selectedRxn="GH";
+    this.selectedRxn="GH"
 
     this.backButton=new button(this, 750, 375, "backButton", 0.7);
     this.backButton.on('pointerdown', ()=>this.goToMain(), this);this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);

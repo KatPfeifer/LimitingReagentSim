@@ -59,9 +59,8 @@ export default class pdtFormed extends Phaser.Scene{
         this.nextButton.on('pointerover', ()=>this.nextOutline.enterHoverState(), this);
         this.nextButton.on('pointerout', ()=>this.nextOutline.exitHoverState("word"), this);
         
-        this.qLabel = this.add.bitmapText(20, 20, "pixelFont");
+        this.qLabel = this.add.bitmapText(20, 20, "calibri");
         this.qLabel.setFontSize(25);
-        this.qLabel.setTintFill(0x000000);
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goBack(), this);
@@ -84,18 +83,14 @@ export default class pdtFormed extends Phaser.Scene{
         this.noMolespic.setScale(0.5);
         this.noMolespic.setAlpha(0.0);
 
-        this.mwALabel = this.add.bitmapText(25, 150, "pixelFont");
+        this.mwALabel = this.add.bitmapText(25, 150, "calibri");
         this.mwALabel.setFontSize(25);
-        this.mwALabel.setTintFill(0x000000);
-        this.mwBLabel = this.add.bitmapText(25, 180, "pixelFont");
+        this.mwBLabel = this.add.bitmapText(25, 180, "calibri");
         this.mwBLabel.setFontSize(25);
-        this.mwBLabel.setTintFill(0x000000);
-        this.mwCLabel = this.add.bitmapText(25, 210, "pixelFont");
+        this.mwCLabel = this.add.bitmapText(25, 210, "calibri");
         this.mwCLabel.setFontSize(25);
-        this.mwCLabel.setTintFill(0x000000);
-        this.mwDLabel = this.add.bitmapText(25, 240, "pixelFont");
+        this.mwDLabel = this.add.bitmapText(25, 240, "calibri");
         this.mwDLabel.setFontSize(25);
-        this.mwDLabel.setTintFill(0x000000);
 
         this.IDLRButton = new button(this, 330, 375, "IDLR", 0.7);
         this.IDLRButton.on('pointerdown', ()=>this.goToIDLR(), this);

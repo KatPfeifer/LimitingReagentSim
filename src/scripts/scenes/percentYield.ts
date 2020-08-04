@@ -65,15 +65,13 @@ export default class percentYield extends Phaser.Scene{
         this.nextButton.on('pointerover', ()=>this.nextOutline.enterHoverState(), this);
         this.nextButton.on('pointerout', ()=>this.nextOutline.exitHoverState("word"), this);
 
-        this.add.text(410, 170, "Round to the nearest percent", {fill: "000000"});
+        this.add.text(410, 170, "Round to the nearest percent", {fontFamily: "Calibri", fill: "000000"});
 
-        this.qLabel = this.add.bitmapText(20, 20, "pixelFont");
+        this.qLabel = this.add.bitmapText(20, 20, "calibri");
         this.qLabel.setFontSize(25);
-        this.qLabel.setTintFill(0x000000);
 
-        this.qLabel2=this.add.bitmapText(20, 100, "pixelFont");
+        this.qLabel2=this.add.bitmapText(20, 100, "calibri");
         this.qLabel2.setFontSize(25);
-        this.qLabel2.setTintFill(0x000000);
         this.qLabel2.setText("What is the percent yield of the reaction?")
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
@@ -101,19 +99,14 @@ export default class percentYield extends Phaser.Scene{
         this.decimalPic.setScale(0.45);
         this.decimalPic.setAlpha(0.0);
 
-        this.mwALabel = this.add.bitmapText(25, 200, "pixelFont");
+        this.mwALabel = this.add.bitmapText(25, 200, "calibri");
         this.mwALabel.setFontSize(25);
-        this.mwALabel.setTintFill(0x000000);
-        this.mwBLabel = this.add.bitmapText(25, 230, "pixelFont");
+        this.mwBLabel = this.add.bitmapText(25, 230, "calibri");
         this.mwBLabel.setFontSize(25);
-        this.mwBLabel.setTintFill(0x000000);
-        this.mwCLabel = this.add.bitmapText(25, 260, "pixelFont");
+        this.mwCLabel = this.add.bitmapText(25, 260, "calibri");
         this.mwCLabel.setFontSize(25);
-        this.mwCLabel.setTintFill(0x000000);
-        this.mwDLabel = this.add.bitmapText(25, 290, "pixelFont");
+        this.mwDLabel = this.add.bitmapText(25, 290, "calibri");
         this.mwDLabel.setFontSize(25);
-        this.mwDLabel.setTintFill(0x000000)
-
 
         this.IDLRButton = new button(this, 330, 375, "IDLR", 0.7);
         this.IDLRButton.on('pointerdown', ()=>this.goToIDLR(), this);

@@ -47,6 +47,7 @@ export default class pickLR extends Phaser.Scene{
     private PYBO: buttonOutline;
     private backOutline: buttonOutline;
     private nextOutline: buttonOutline;
+    private label: Phaser.GameObjects.BitmapText;
 
     constructor(){
         super({key: 'pickLRScene'});
@@ -59,15 +60,12 @@ export default class pickLR extends Phaser.Scene{
         this.nextButton.on('pointerover', ()=>this.nextOutline.enterHoverState(), this);
         this.nextButton.on('pointerout', ()=>this.nextOutline.exitHoverState("word"), this);
 
-        this.qLabel = this.add.bitmapText(20, 20, "pixelFont");
+        this.qLabel = this.add.bitmapText(20, 20, "calibri");
         this.qLabel.setFontSize(30);
-        this.qLabel.setTintFill(0x000000);
 
-        this.add.text(410, 170, "Ex. NH3 or O2", {fill: "000000"});
+        this.add.text(410, 170, "Ex. NH3 or O2", {fontFamily: "calibri", fill: "000000"});
 
-        this.qLabel2=this.add.bitmapText(20, 100, "pixelFont");
-        this.qLabel2.setFontSize(30);
-        this.qLabel2.setTintFill(0x000000);
+        this.qLabel2=this.add.bitmapText(20, 100, "calibri");
         this.qLabel2.setText("Which reactant is the limiting reactant?")
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
@@ -109,18 +107,14 @@ export default class pickLR extends Phaser.Scene{
         this.helpPic.setScale(0.4);
         this.helpPic.setAlpha(0.0);
 
-        this.mwALabel = this.add.bitmapText(25, 200, "pixelFont");
+        this.mwALabel = this.add.bitmapText(25, 200, "calibri");
         this.mwALabel.setFontSize(25);
-        this.mwALabel.setTintFill(0x000000);
-        this.mwBLabel = this.add.bitmapText(25, 230, "pixelFont");
+        this.mwBLabel = this.add.bitmapText(25, 230, "calibri");
         this.mwBLabel.setFontSize(25);
-        this.mwBLabel.setTintFill(0x000000);
-        this.mwCLabel = this.add.bitmapText(25, 260, "pixelFont");
+        this.mwCLabel = this.add.bitmapText(25, 260, "calibri");
         this.mwCLabel.setFontSize(25);
-        this.mwCLabel.setTintFill(0x000000);
-        this.mwDLabel = this.add.bitmapText(25, 290, "pixelFont");
+        this.mwDLabel = this.add.bitmapText(25, 290, "calibri");
         this.mwDLabel.setFontSize(25);
-        this.mwDLabel.setTintFill(0x000000);
 
         this.questions = new Array;
         this.questions.push(new practiceQ("SO2", 64.07, "PCl5", 208.24, "SOCl2", 118.97, "POCl3", 153.3, 1, 1, 1, 1));

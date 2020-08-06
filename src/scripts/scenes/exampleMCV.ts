@@ -70,16 +70,14 @@ export default class exampleMCV extends Phaser.Scene{
     this.graphGH.setScale(0.54);
 
     this.mLs=0;
-    this.mLsLabel = this.add.bitmapText(195, 60, "pixelFont");
+    this.mLsLabel = this.add.bitmapText(195, 55, "calibri");
     this.mLsLabel.fontSize=30;
     this.mLsLabel.text=this.mLs.toString()+"";
-    this.mLsLabel.setTintFill(0x000000);
 
     this.mLs2=20;
-    this.mLsLabel2=this.add.bitmapText(305, 60, "pixelFont");
+    this.mLsLabel2=this.add.bitmapText(295, 55, "calibri");
     this.mLsLabel2.fontSize=30;
     this.mLsLabel2.text=this.mLs2.toString();
-    this.mLsLabel2.setTintFill(0x000000);
 
     this.mLsG=this.add.image(250, 70, "mLsG");
     this.mLsG.setScale(0.5);
@@ -87,29 +85,24 @@ export default class exampleMCV extends Phaser.Scene{
     this.mLsH.setScale(0.5);
     
     this.coG=1;
-    this.coGLabel=this.add.bitmapText(15, 60, "pixelFont");
+    this.coGLabel=this.add.bitmapText(15, 55, "calibri");
     this.coGLabel.fontSize=30;
     this.coGLabel.text=this.coG.toString();
-    this.coGLabel.setTintFill(0x000000);
 
     this.coH=1;
-    this.coHLabel=this.add.bitmapText(95, 60, "pixelFont");
+    this.coHLabel=this.add.bitmapText(95, 55, "calibri");
     this.coHLabel.fontSize=30;
     this.coHLabel.text=this.coG.toString();
-    this.coHLabel.setTintFill(0x000000);
 
-    this.absLabel=this.add.bitmapText(230, 350, "pixelFont");
-    this.absLabel.fontSize=30;
+    this.absLabel=this.add.bitmapText(230, 350, "calibri");
+    this.absLabel.fontSize=25;
     this.absLabel.text="Absorbance: " + this.abs.toString();
-    this.absLabel.setTintFill(0x000000);
 
-    this.mRLabel=this.add.bitmapText(450, 250, "pixelFont");
+    this.mRLabel=this.add.bitmapText(450, 250, "calibri");
     this.mRLabel.fontSize=20;
-    this.mRLabel.setTintFill(0x000000);
 
-    this.sPLabel=this.add.bitmapText(600, 250, "pixelFont");
+    this.sPLabel=this.add.bitmapText(600, 250, "calibri");
     this.sPLabel.fontSize=20;
-    this.sPLabel.setTintFill(0x000000);
 
     this.createArrowButtons();
 
@@ -252,7 +245,7 @@ export default class exampleMCV extends Phaser.Scene{
         let x=465+MFB*301;
         let y=175-(this.abs/2)*120;
     
-        this.newestDP = new dataPoint(this, x, y, this.abs, MFB, this.selectedRxn); 
+        this.newestDP = new dataPoint(this, x, y, this.abs, MFB, this.selectedRxn, "Spec"); 
         this.dataList.push(this.newestDP);
     
         this.updateMRLabel();

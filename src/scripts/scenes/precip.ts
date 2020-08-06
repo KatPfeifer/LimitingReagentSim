@@ -76,27 +76,21 @@ export default class PrecipScene extends Phaser.Scene {
     this.background2=this.add.image(600, 200, "bluebackground");
     this.background2.setScale(2.0);
 
-    //this.add.text(0, 0, "Precip Scene");
-
     this.mLs=0;
-    this.mLsLabel = this.add.bitmapText(195, 60, "pixelFont");
+    this.mLsLabel = this.add.bitmapText(195, 55, "calibri");
     this.mLsLabel.fontSize=30;
     this.mLsLabel.text=this.mLs.toString()+"";
-    this.mLsLabel.setTintFill(0x000000);
 
     this.mLs2=20;
-    this.mLsLabel2=this.add.bitmapText(305, 60, "pixelFont");
+    this.mLsLabel2=this.add.bitmapText(295, 55, "calibri");
     this.mLsLabel2.fontSize=30;
     this.mLsLabel2.text=this.mLs2.toString();
-    this.mLsLabel2.setTintFill(0x000000);
 
-    this.mRLabel=this.add.bitmapText(450, 250, "pixelFont");
+    this.mRLabel=this.add.bitmapText(450, 250, "calibri");
     this.mRLabel.fontSize=20;
-    this.mRLabel.setTintFill(0x000000);
 
-    this.sPLabel=this.add.bitmapText(600, 250, "pixelFont");
+    this.sPLabel=this.add.bitmapText(600, 250, "calibri");
     this.sPLabel.fontSize=20;
-    this.sPLabel.setTintFill(0x000000);
 
     this.createArrowButtons();
     this.createGraphs();
@@ -112,15 +106,15 @@ export default class PrecipScene extends Phaser.Scene {
     
     this.physics.add.overlap(this.fullVial, this.balance, ()=> this.updateMassLabel(), undefined, this);
 
-    this.massLabel=this.add.bitmapText(290, 350, "pixelFont");
+    this.massLabel=this.add.bitmapText(290, 350, "calibri");
     this.massLabel.fontSize=20;
     this.massLabel.setTintFill(0x000000);
-    this.massLabel.text=this.mass.toString().substring(0,4)+" g";
+    this.massLabel.text=this.mass.toFixed(2)+" g";
 
    this.dataList=[];
 
-   this.add.text(180, 120, "[All solutions]=10.0M", {fill: "000000"});
-   this.add.text(20, 350, "Vial + cap mass: \n1.30g", {fill: "000000"});
+   this.add.text(180, 120, "[All solutions]=10.0M", {fontFamily: "calibri", fill: "000000"});
+   this.add.text(20, 350, "Vial + cap mass: \n1.30g", {fontFamily: "calibri", fill: "000000"});
 
    this.mixButton=new button(this, 200, 170, "mixSolBut", 0.6);
    this.mixButton.on('pointerdown', ()=>this.findMass(), this);
@@ -164,8 +158,8 @@ export default class PrecipScene extends Phaser.Scene {
     this.button3.on('pointerover', ()=>this.outline3.enterHoverState(), this);
     this.button3.on('pointerout', ()=>this.outline3.exitHoverState(this.selectedVersion), this);
 
-    this.add.text(10, 10, "Version: ", {fill: "000000"});
-    this.add.text(450, 220, "Mouse over a point for full data", {fill: "000000"});
+    this.add.text(25, 10, "Version: ", {fontFamily: "calibri", fill: "000000"});
+    this.add.text(450, 220, "Mouse over a point for full data", {fontFamily: "calibri", fill: "000000"});
 
   }
 
@@ -303,7 +297,7 @@ export default class PrecipScene extends Phaser.Scene {
       this.emptyVial.setAlpha(0.0);
     }
     else {
-      this.mass=0.00;
+      this.mass=0.000001;
     }
     
     this.updateMassLabel();
@@ -311,7 +305,7 @@ export default class PrecipScene extends Phaser.Scene {
 
   updateMassLabel(){
     //mass of vial = 1.3g
-    this.massLabel.text=(this.mass+1.3).toString().substring(0,4)+ " g";
+    this.massLabel.text=(this.mass+1.3).toFixed(2)+ " g";
   }
 
   graphPoint(){
@@ -320,9 +314,7 @@ export default class PrecipScene extends Phaser.Scene {
     let x=463+MFB*303;
     let y=181-124*(this.mass/4);
 
-    this.newestDP = new dataPoint(this, x, y, this.mass, MFB, this.selectedRxn); 
-    this.newestDP.on('pointerover', ()=>this.updateSPLabel(), this);
-    this.newestDP.on('pointerout', ()=>this.clearSPLabel(), this);
+    this.newestDP = new dataPoint(this, x, y, this.mass, MFB+.000001, this.selectedRxn, "Precip"); 
     this.dataList.push(this.newestDP);
 
     this.updateMRLabel();
@@ -343,30 +335,14 @@ export default class PrecipScene extends Phaser.Scene {
 
   updateMRLabel(){
     if (this.selectedRxn=="AB"){
-      this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nPM: "+(this.mass.toString().substring(0,4));
+      this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toFixed(2)+"\nX(B): "+(this.findMF()).toFixed(2)+"\nPM: "+(this.mass.toFixed(2));
     }
     if (this.selectedRxn=="CD"){
-      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nPM: "+(this.mass.toString().substring(0,4));
+      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toFixed(2)+"\nX(D): "+(this.findMF()).toFixed(2)+"\nPM: "+(this.mass.toFixed(2));
     }
     if (this.selectedRxn=="EF"){
-      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nPM: "+(this.mass.toString().substring(0,4));
+      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toFixed(2)+"\nX(F): "+(this.findMF()).toFixed(2)+"\nPM: "+(this.mass.toFixed(2));
     }
-  }
-
-  updateSPLabel(){
-    if (this.selectedRxn=="AB"){
-      this.sPLabel.text="Selected Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nPM: "+(this.mass.toString().substring(0,4));
-    }
-    if (this.selectedRxn=="CD"){
-      this.sPLabel.text="Selected Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nPM: "+(this.mass.toString().substring(0,4));
-    }
-    if (this.selectedRxn=="EF"){
-      this.sPLabel.text="Selected Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nPM: "+(this.mass.toString().substring(0,4));
-    }
-  }
-
-  clearSPLabel(){
-    this.sPLabel.text="";
   }
 
 

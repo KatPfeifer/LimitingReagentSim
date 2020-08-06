@@ -74,29 +74,24 @@ export default class SpecScene extends Phaser.Scene {
     this.abs=0;
 
     this.mLs=0;
-    this.mLsLabel = this.add.bitmapText(195, 60, "pixelFont");
+    this.mLsLabel = this.add.bitmapText(195, 55, "calibri");
     this.mLsLabel.fontSize=30;
     this.mLsLabel.text=this.mLs.toString()+"";
-    this.mLsLabel.setTintFill(0x000000);
 
     this.mLs2=20;
-    this.mLsLabel2=this.add.bitmapText(305, 60, "pixelFont");
+    this.mLsLabel2=this.add.bitmapText(295, 55, "calibri");
     this.mLsLabel2.fontSize=30;
     this.mLsLabel2.text=this.mLs2.toString();
-    this.mLsLabel2.setTintFill(0x000000);
 
-    this.absLabel=this.add.bitmapText(230, 350, "pixelFont");
-    this.absLabel.fontSize=30;
+    this.absLabel=this.add.bitmapText(230, 350, "calibri");
+    this.absLabel.fontSize=25;
     this.absLabel.text="Absorbance: " + this.abs.toString();
-    this.absLabel.setTintFill(0x000000);
 
-    this.mRLabel=this.add.bitmapText(450, 250, "pixelFont");
+    this.mRLabel=this.add.bitmapText(450, 250, "calibri");
     this.mRLabel.fontSize=20;
-    this.mRLabel.setTintFill(0x000000);
 
-    this.sPLabel=this.add.bitmapText(600, 250, "pixelFont");
+    this.sPLabel=this.add.bitmapText(600, 250, "calibri");
     this.sPLabel.fontSize=20;
-    this.sPLabel.setTintFill(0x000000);
 
     this.absGraphAB=this.add.image(600, 120, "absGraphAB");
     this.absGraphAB.setScale(0.65);
@@ -154,11 +149,11 @@ export default class SpecScene extends Phaser.Scene {
     this.button3.on('pointerover', ()=>this.outline3.enterHoverState(), this);
     this.button3.on('pointerout', ()=>this.outline3.exitHoverState(this.selectedVersion), this);
 
-    this.add.text(180, 120, "[All solutions]=0.001M", {fill: "000000"});
+    this.add.text(180, 120, "[All solutions]=0.001M", {fontFamily: "calibri", fill: "000000"});
 
-    this.add.text(10, 10, "Version: ", {fill: "000000"});
+    this.add.text(25, 10, "Version: ", {fontFamily: "calibri", fill: "000000"});
 
-    this.add.text(450, 220, "Mouse over a point for full data", {fill: "000000"});
+    this.add.text(450, 220, "Mouse over a point for full data", {fontFamily: "calibri", fill: "000000"});
   }
 
   createCuvettes(){
@@ -319,7 +314,7 @@ export default class SpecScene extends Phaser.Scene {
     let x=464+MFB*304;
     let y=180-(this.abs/2.5)*124;
 
-    this.newestDP = new dataPoint(this, x, y, this.abs, MFB, this.selectedRxn); 
+    this.newestDP = new dataPoint(this, x, y, this.abs, MFB, this.selectedRxn, "Spec"); 
     this.dataList.push(this.newestDP);
 
     this.updateMRLabel();

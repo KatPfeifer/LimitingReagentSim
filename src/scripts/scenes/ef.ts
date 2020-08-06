@@ -29,7 +29,7 @@ export default class ef extends Phaser.Scene{
         this.pdt=this.add.image(200, 200, "EFPdt");
         this.pdt.setScale(0.5);
 
-        this.add.text(400, 50, "Choose a method of analysis:", {fill: '000000'});
+        this.add.text(400, 50, "Choose a method of analysis:", {fontFamily: "calibri", fill: '000000'});
 
         this.spec=new button(this, 475, 125, "spec", 0.7);
         this.spec.on('pointerdown', ()=>this.goToSpec(), this);

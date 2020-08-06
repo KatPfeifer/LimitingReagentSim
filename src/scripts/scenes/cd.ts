@@ -28,7 +28,7 @@ export default class cd extends Phaser.Scene{
         this.pdt=this.add.image(200, 200, "CDPdt");
         this.pdt.setScale(0.4);
 
-        this.add.text(400, 50, "Choose a method of analysis:", {fill: '000000'});
+        this.add.text(400, 50, "Choose a method of analysis:", {fontFamily: "calibri", fill: '000000'});
 
         this.spec=new button(this, 475, 125, "spec", 0.7);
         this.spec.on('pointerdown', ()=>this.goToSpec(), this);

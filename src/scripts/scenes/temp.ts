@@ -77,26 +77,20 @@ export default class TempScene extends Phaser.Scene {
     this.background2.setScale(2.0);
 
     this.mLs=0;
-    this.mLsLabel = this.add.bitmapText(195, 60, "pixelFont");
+    this.mLsLabel = this.add.bitmapText(195, 55, "calibri");
     this.mLsLabel.fontSize=30;
     this.mLsLabel.text=this.mLs.toString()+"";
-    this.mLsLabel.setTintFill(0x000000);
 
     this.mLs2=20;
-    this.mLsLabel2=this.add.bitmapText(300, 60, "pixelFont");
+    this.mLsLabel2=this.add.bitmapText(295, 55, "calibri");
     this.mLsLabel2.fontSize=30;
     this.mLsLabel2.text=this.mLs2.toString();
-    this.mLsLabel2.setTintFill(0x000000);
 
-    this.mRLabel=this.add.bitmapText(450, 250, "pixelFont");
+    this.mRLabel=this.add.bitmapText(450, 250, "calibri");
     this.mRLabel.fontSize=20;
-    this.mRLabel.setTintFill(0x000000);
-
-    this.sPLabel=this.add.bitmapText(600, 250, "pixelFont");
+    
+    this.sPLabel=this.add.bitmapText(600, 250, "calibri");
     this.sPLabel.fontSize=20;
-    this.sPLabel.setTintFill(0x000000);
-
-    //this.add.text(0, 0, "Temp Scene");
 
     this.createArrowButtons();
     this.createGraphs();
@@ -107,8 +101,8 @@ export default class TempScene extends Phaser.Scene {
     this.mixButton=new button(this, 230, 170, "mixSolBut", 0.55);
     this.mixButton.on('pointerdown', ()=>this.findTemp(), this);
     this.mixOutline = new buttonOutline(this, 230, 170, "mixSolBut", 0.55, 0x184a01);
-   this.mixButton.on('pointerover', ()=>this.mixOutline.enterHoverState(), this);
-   this.mixButton.on('pointerout', ()=>this.mixOutline.exitHoverState("word"), this);
+    this.mixButton.on('pointerover', ()=>this.mixOutline.enterHoverState(), this);
+    this.mixButton.on('pointerout', ()=>this.mixOutline.exitHoverState("word"), this);
 
     this.graphButton= new button(this, 350, 170, "graphButton", 0.55);
     this.graphButton.on('pointerdown', ()=>this.graphPoint(), this);
@@ -126,10 +120,10 @@ export default class TempScene extends Phaser.Scene {
     this.thermoHead=this.add.image(300, 310, "thermoHead");
     this.thermoHead.setScale(0.28);
 
-    this.tempLabel=this.add.bitmapText(310, 310, "pixelFont");
+    this.tempLabel=this.add.bitmapText(285, 305, "calibri");
     this.tempLabel.fontSize=30;
     this.tempLabel.setTintFill(0x000000);
-    this.tempLabel.text=this.temp.toString().substring(0,4)+ " C";
+    this.tempLabel.text=this.temp.toFixed(2)+ " C";
     
     this.backButton=new button(this, 750, 375, "backButton", 0.7);
     this.backButton.on('pointerdown', ()=>this.goBack(), this);
@@ -162,10 +156,9 @@ export default class TempScene extends Phaser.Scene {
     this.button3.on('pointerout', ()=>this.outline3.exitHoverState(this.selectedVersion), this);
 
 
-    this.add.text(180, 120, "[All solutions]=0.1M", {fill: "000000"});
-    this.add.text(10, 10, "Version: ", {fill: "000000"});
-    this.add.text(450, 220, "Mouse over a point for full data", {fill: "000000"});
-
+    this.add.text(180, 120, "[All solutions]=0.1M", {fontFamily: "calibri", fill: "000000"});
+    this.add.text(25, 10, "Version: ", {fontFamily: "calibri", fill: "000000"});
+    this.add.text(450, 220, "Mouse over a point for full data", {fontFamily: "calibri", fill: "000000"});
   }
 
   createmLs(){
@@ -302,7 +295,7 @@ export default class TempScene extends Phaser.Scene {
     else {
       this.tempChange=0;
     }
-    this.temp=25+this.tempChange;
+    this.temp=25.000001+this.tempChange;
     console.log(this.tempChange);
     this.updateTempLabel();
     this.fullBeaker.setAlpha(1.0);
@@ -315,16 +308,14 @@ export default class TempScene extends Phaser.Scene {
     let y=180-124*(this.tempChange/4);
     console.log("y: "+ y);
 
-    this.newestDP = new dataPoint(this, x, y, this.tempChange, MFB, this.selectedRxn); 
-    this.newestDP.on('pointerover', ()=>this.updateSPLabel(), this);
-    this.newestDP.on('pointerout', ()=>this.clearSPLabel(), this);
+    this.newestDP = new dataPoint(this, x, y, this.tempChange, MFB, this.selectedRxn, "Temp"); 
     this.dataList.push(this.newestDP);
 
     this.updateMRLabel();
     this.fullBeaker.setAlpha(0.0);
     this.emptyBeaker.setAlpha(1.0);
     this.temp=25.0001;
-    this.tempLabel.text=this.temp.toString().substring(0,4);
+    this.tempLabel.text=this.temp.toFixed(1)+ " C";
   }
 
   //MF=mole Fraction
@@ -337,35 +328,18 @@ export default class TempScene extends Phaser.Scene {
 
   updateMRLabel(){
     if (this.selectedRxn=="AB"){
-      this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.tempChange.toString().substring(0,4));
+      this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toFixed(2)+"\nX(B): "+(this.findMF()).toFixed(2)+"\nTC: "+(this.tempChange.toFixed(2));
     }
     if (this.selectedRxn=="CD"){
-      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.tempChange);
+      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toFixed(2)+"\nX(D): "+(this.findMF()).toFixed(2)+"\nTC: "+(this.tempChange.toFixed(2));
     }
     if (this.selectedRxn=="EF"){
-      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.tempChange.toString().substring(0,4));
+      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toFixed(2)+"\nX(F): "+(this.findMF()).toFixed(2)+"\nTC: "+(this.tempChange.toFixed(2));
     }
-  }
-
-  updateSPLabel(){
-    if (this.selectedRxn=="AB"){
-      this.sPLabel.text="Selected Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.tempChange.toString().substring(0,4));
-    }
-    if (this.selectedRxn=="CD"){
-      this.sPLabel.text="Selected Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.tempChange);
-    }
-    if (this.selectedRxn=="EF"){
-      this.sPLabel.text="Selected Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nTC: "+(this.tempChange.toString().substring(0,4));
-    }
-  }
-
-  clearSPLabel(){
-    this.sPLabel.text="";
   }
 
   updateTempLabel(){
-    console.log("here");
-    this.tempLabel.text=this.temp.toString().substring(0,4)+ " C";
+    this.tempLabel.text=this.temp.toFixed(2)+ " C";
   }
 
   clearGraph(){

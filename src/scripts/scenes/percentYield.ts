@@ -68,10 +68,10 @@ export default class percentYield extends Phaser.Scene{
         this.add.text(410, 170, "Round to the nearest percent", {fontFamily: "Calibri", fill: "000000"});
 
         this.qLabel = this.add.bitmapText(20, 20, "calibri");
-        this.qLabel.setFontSize(25);
+        this.qLabel.setFontSize(20);
 
         this.qLabel2=this.add.bitmapText(20, 100, "calibri");
-        this.qLabel2.setFontSize(25);
+        this.qLabel2.setFontSize(20);
         this.qLabel2.setText("What is the percent yield of the reaction?")
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);

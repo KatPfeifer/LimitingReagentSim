@@ -64,10 +64,10 @@ export default class reactantLeft extends Phaser.Scene{
         this.nextButton.on('pointerout', ()=>this.nextOutline.exitHoverState("word"), this);
 
         this.qLabel = this.add.bitmapText(20, 20, "calibri");
-        this.qLabel.setFontSize(30);
+        this.qLabel.setFontSize(20);
 
         this.qLabel2=this.add.bitmapText(20, 100, "calibri");
-        this.qLabel2.setFontSize(30);
+        this.qLabel2.setFontSize(20);
         this.qLabel2.setText("How many grams of excess reactant remain at the end of the reaction?")
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);

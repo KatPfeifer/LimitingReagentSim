@@ -134,6 +134,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('TempScene', ['AB']);
+    this.scene.start('pickLRScene', ['AB']);
   }
 }

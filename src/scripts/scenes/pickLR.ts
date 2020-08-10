@@ -61,13 +61,13 @@ export default class pickLR extends Phaser.Scene{
         this.nextButton.on('pointerout', ()=>this.nextOutline.exitHoverState("word"), this);
 
         this.qLabel = this.add.bitmapText(20, 20, "calibri");
-        this.qLabel.setFontSize(30);
+        this.qLabel.setFontSize(20);
 
         this.add.text(410, 170, "Ex. NH3 or O2", {fontFamily: "calibri", fill: "000000"});
 
         this.qLabel2=this.add.bitmapText(20, 100, "calibri");
         this.qLabel2.setText("Which reactant is the limiting reactant?")
-
+        this.qLabel2.setFontSize(20);
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goBack(), this);
         this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);

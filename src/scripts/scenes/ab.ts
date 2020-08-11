@@ -61,16 +61,16 @@ export default class ab extends Phaser.Scene{
     }
 
     goToSpec(){
-        this.scene.start('SpecScene', ["AB"]);
+        this.scene.start('SpecScene', ["AB", []]);
     }
 
     goToPrecip(){
         console.log("in go to precip");
-        this.scene.start('PrecipScene', ["AB"]);
+        this.scene.start('PrecipScene', ["AB", []]);
     }
 
     goToTemp(){
-        this.scene.start('TempScene', ["AB"]);
+        this.scene.start('TempScene', ["AB", []]);
     }
 
     goToMain(){

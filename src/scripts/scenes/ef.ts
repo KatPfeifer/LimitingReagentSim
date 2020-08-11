@@ -61,15 +61,15 @@ export default class ef extends Phaser.Scene{
     }
 
     goToSpec(){
-        this.scene.start('SpecScene', ["EF"]);
+        this.scene.start('SpecScene', ["EF", []]);
     }
 
     goToPrecip(){
-        this.scene.start('PrecipScene', ["EF"]);
+        this.scene.start('PrecipScene', ["EF", []]);
     }
 
     goToTemp(){
-        this.scene.start('TempScene', ["EF"]);
+        this.scene.start('TempScene', ["EF", []]);
     }
 
     goToMain(){

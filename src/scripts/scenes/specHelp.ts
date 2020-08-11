@@ -36,7 +36,7 @@ export default class specHelp extends Phaser.Scene {
     }
 
     goBack(){
-        this.scene.start("SpecScene", this.info);
+        this.scene.start("SpecScene", this.info); 
     }
 
     init(data){

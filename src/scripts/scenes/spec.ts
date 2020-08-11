@@ -56,12 +56,14 @@ export default class SpecScene extends Phaser.Scene {
   private mixOutline: buttonOutline;
   private helpButton: button;
   private helpOutline: buttonOutline;
+  private oldDataPoints: any;
 
   constructor() {
     super({ key: 'SpecScene' });
   }
 
   create() {
+    console.log("in create");
     this.molarity=0.001;
     this.Acoefficient=3;
     this.Bcoefficient=2;
@@ -162,6 +164,10 @@ export default class SpecScene extends Phaser.Scene {
     this.add.text(25, 10, "Version: ", {fontFamily: "calibri", fill: "000000"});
 
     this.add.text(450, 220, "Mouse over a point for full data", {fontFamily: "calibri", fill: "000000"});
+
+    if (this.oldDataPoints.length>0){
+      this.drawDataPoints();
+    }
   }
 
   createCuvettes(){
@@ -233,12 +239,17 @@ export default class SpecScene extends Phaser.Scene {
   
 
   update() {
+    //console.log(this.dataList);
   }
 
   init(data){
+    console.log("in init");
     let ar=data;
     this.selectedRxn=ar[0].toString();
     console.log("in init: "+ this.selectedRxn);
+    if (ar.length>1){
+      this.oldDataPoints=ar[1];
+    }
   }
 
   changemLs(name: string){
@@ -321,6 +332,7 @@ export default class SpecScene extends Phaser.Scene {
     let MFB=this.findMF();
     let x=464+MFB*304;
     let y=180-(this.abs/2.5)*124;
+
 
     this.newestDP = new dataPoint(this, x, y, this.abs, MFB, this.selectedRxn, "Spec"); 
     this.dataList.push(this.newestDP);
@@ -419,6 +431,16 @@ export default class SpecScene extends Phaser.Scene {
   }
 
   goToHelp(){
-    this.scene.start("specHelpScene", [this.selectedRxn])
+    this.scene.start("specHelpScene", [this.selectedRxn, this.dataList])
+  }
+
+  drawDataPoints(){
+    console.log("in draw DP");
+    for (let i=0; i<this.oldDataPoints.length; i++ ){
+      console.log(this.oldDataPoints[i].getDataValue());
+      let newDP=this.oldDataPoints[i];
+      let DP = new dataPoint(this, newDP.getX(), newDP.getY(), newDP.getDataValue(), newDP.getMF(), this.selectedRxn, "Spec");
+
+    }
   }
 }

@@ -58,6 +58,9 @@ export default class PrecipScene extends Phaser.Scene {
   private mainOutline: buttonOutline;
   private mixOutline: buttonOutline;
   private addOutline: buttonOutline;
+  private helpButton: button;
+  private helpOutline: buttonOutline;
+  private oldDataPoints: any;
 
   constructor() {
     super({ key: 'PrecipScene' });
@@ -99,10 +102,10 @@ export default class PrecipScene extends Phaser.Scene {
     this.balance=this.physics.add.image(300, 300, "scale");
     this.balance.setScale(0.50);
 
-    this.emptyVial=this.add.image(100, 300, "emptyVial");
+    this.emptyVial=this.add.image(100, 275, "emptyVial");
     this.emptyVial.setScale(0.4);
 
-    this.fullVial=new vial(this, 100, 300);
+    this.fullVial=new vial(this, 100, 275);
     
     this.physics.add.overlap(this.fullVial, this.balance, ()=> this.updateMassLabel(), undefined, this);
 
@@ -114,7 +117,13 @@ export default class PrecipScene extends Phaser.Scene {
    this.dataList=[];
 
    this.add.text(180, 120, "[All solutions]=10.0M", {fontFamily: "calibri", fill: "000000"});
-   this.add.text(20, 350, "Vial + cap mass: \n1.30g", {fontFamily: "calibri", fill: "000000"});
+   this.add.text(20, 325, "Vial + cap mass: 1.30g", {fontFamily: "calibri", fill: "000000"});
+
+   this.helpButton=new button(this, 40, 375, "helpButton", 0.7);
+   this.helpButton.on('pointerdown', ()=>this.goToHelp(), this);
+   this.helpOutline = new buttonOutline(this, 40, 375, "helpButton", 0.7, 0x4a0101);
+   this.helpButton.on('pointerover', ()=>this.helpOutline.enterHoverState(), this);
+   this.helpButton.on('pointerout', ()=>this.helpOutline.exitHoverState("word"), this);
 
    this.mixButton=new button(this, 200, 170, "mixSolBut", 0.6);
    this.mixButton.on('pointerdown', ()=>this.findMass(), this);
@@ -161,6 +170,9 @@ export default class PrecipScene extends Phaser.Scene {
     this.add.text(25, 10, "Version: ", {fontFamily: "calibri", fill: "000000"});
     this.add.text(450, 220, "Mouse over a point for full data", {fontFamily: "calibri", fill: "000000"});
 
+    if (this.oldDataPoints.length>0){
+      this.drawDataPoints();
+    }
   }
 
   createmLs(){
@@ -232,6 +244,9 @@ export default class PrecipScene extends Phaser.Scene {
   init(data){
     let ar=data;
     this.selectedRxn=ar[0].toString();
+    if (ar.length>1){
+      this.oldDataPoints=ar[1];
+    }
   }
 
   doDrag(pointer){
@@ -408,5 +423,19 @@ export default class PrecipScene extends Phaser.Scene {
 
   goToMain(){
     this.scene.start('MainScene');
+  }
+
+  goToHelp(){
+    this.scene.start("precipHelpScene", [this.selectedRxn, this.dataList])
+  }
+
+  drawDataPoints(){
+    console.log("in draw DP");
+    for (let i=0; i<this.oldDataPoints.length; i++ ){
+      console.log(this.oldDataPoints[i].getDataValue());
+      let newDP=this.oldDataPoints[i];
+      let DP = new dataPoint(this, newDP.getX(), newDP.getY(), newDP.getDataValue(), newDP.getMF(), this.selectedRxn, "Spec");
+
+    }
   }
 }

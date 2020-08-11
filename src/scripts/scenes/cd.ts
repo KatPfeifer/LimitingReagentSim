@@ -59,15 +59,15 @@ export default class cd extends Phaser.Scene{
     }
 
     goToSpec(){
-        this.scene.start('SpecScene', ["CD"]);
+        this.scene.start('SpecScene', ["CD", []]);
     }
 
     goToPrecip(){
-        this.scene.start('PrecipScene', ["CD"]);
+        this.scene.start('PrecipScene', ["CD", []]);
     }
 
     goToTemp(){
-        this.scene.start('TempScene', ["CD"]);
+        this.scene.start('TempScene', ["CD", []]);
     }
 
     goToMain(){

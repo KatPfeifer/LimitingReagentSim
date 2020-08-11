@@ -8,6 +8,8 @@ export default class dataPoint extends Phaser.GameObjects.Image{
     private label: Phaser.GameObjects.BitmapText;
     private selectedRxn: string;
     private sceneName: string;
+    private xCor: number;
+    private yCor: number;
 
     constructor(scene: Phaser.Scene, x: number, y: number, dataVal: number, molFr: number, selRxn: string, scenename: string){
         super(scene, x, y, "blackCircle");
@@ -20,10 +22,28 @@ export default class dataPoint extends Phaser.GameObjects.Image{
         this.molFraction=molFr;
         this.selectedRxn=selRxn;
         this.sceneName=scenename;
+        this.xCor=x;
+        this.yCor=y;
 
         this.setInteractive();
         this.on('pointerover', ()=>this.updateLabel(), this);
         this.on('pointerout', ()=>this.clearLabel(), this);
+    }
+
+    getDataValue(){
+        return this.dataValue;
+    }
+
+    getMF(){
+        return this.molFraction;
+    }
+
+    getX(){
+        return this.xCor;
+    }
+
+    getY(){
+        return this.yCor;
     }
 
     updateLabel(){

@@ -110,9 +110,9 @@ export default class FeMolec extends Phaser.Scene{
       }
 
       createLabels(){
-          this.Fe2O3Label= new compoundLabel(this, 67, 290, this.Fe2O3.toString().substring(0,3));
-          this.CLabel=new compoundLabel(this, 167, 290, this.C.toString().substring(0,3));
-          this.FeLabel= new compoundLabel(this, 400, 290, this.Fe.toString().substring(0,3));
+          this.Fe2O3Label= new compoundLabel(this, 75, 290, this.Fe2O3.toString().substring(0,3));
+          this.CLabel=new compoundLabel(this, 175, 290, this.C.toString().substring(0,3));
+          this.FeLabel= new compoundLabel(this, 415, 290, this.Fe.toString().substring(0,3));
           this.CO2Label=new compoundLabel(this, 500, 290, this.CO2.toString().substring(0,3));
           this.Fe2O3LeftLabel= new compoundLabel(this, 600, 290, this.Fe2O3Left.toString().substring(0,3));
           this.CLeftLabel=new compoundLabel(this, 700, 290, this.CLeft.toString().substring(0,3));
@@ -125,11 +125,11 @@ export default class FeMolec extends Phaser.Scene{
           this.Cstack.setScale(0.19);
           this.Festack=this.add.image(450, 172, "Festack");
           this.Festack.setScale(0.16);
-          this.CO2stack=this.add.image(525, 170, "CO2stack");
+          this.CO2stack=this.add.image(535, 170, "CO2stack");
           this.CO2stack.setScale(0.19);
-          this.Fe2O3leftStack=this.add.image(600, 170, "Fe2O3stack");
+          this.Fe2O3leftStack=this.add.image(640, 170, "Fe2O3stack");
           this.Fe2O3leftStack.setScale(0.19);
-          this.CleftStack=this.add.image(675, 170, "Cstack");
+          this.CleftStack=this.add.image(720, 170, "Cstack");
           this.CleftStack.setScale(0.19);
 
           this.updateStacks();
@@ -143,7 +143,7 @@ export default class FeMolec extends Phaser.Scene{
         this.Fe2O3pic.setScale(0.1);
         this.Fe2O3pic.setTintFill(0xff0040);
 
-        this.Fe2O3leftPic=this.add.image(660, 300, "Fe2O3");
+        this.Fe2O3leftPic=this.add.image(645, 300, "Fe2O3");
         this.Fe2O3leftPic.setScale(0.1);
         this.Fe2O3leftPic.setTintFill(0x00c932);
 
@@ -151,7 +151,7 @@ export default class FeMolec extends Phaser.Scene{
         this.Cpic.setScale(0.06);
         this.Cpic.setTintFill(0xff0040);
 
-        this.CLeftPic=this.add.image(740, 300, "C");
+        this.CLeftPic=this.add.image(725, 300, "C");
         this.CLeftPic.setScale(0.06);
         this.CLeftPic.setTintFill(0x00c932);
 
@@ -159,14 +159,12 @@ export default class FeMolec extends Phaser.Scene{
         this.Fepic.setScale(0.05);
         this.Fepic.setTintFill(0x00b1ff);
 
-        this.CO2pic=this.add.image(550, 300, "CO2");
+        this.CO2pic=this.add.image(540, 300, "CO2");
         this.CO2pic.setScale(0.08);
         this.CO2pic.setTintFill(0x00b1ff);
-      }
-
-    update(){
-
     }
+
+   
 
     changeMolecs(name: string){
         if(name=="up1"&&this.Fe2O3<10){

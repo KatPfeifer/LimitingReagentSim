@@ -100,13 +100,13 @@ export default class percentYield extends Phaser.Scene{
         this.decimalPic.setAlpha(0.0);
 
         this.mwALabel = this.add.bitmapText(25, 200, "calibri");
-        this.mwALabel.setFontSize(25);
+        this.mwALabel.setFontSize(20);
         this.mwBLabel = this.add.bitmapText(25, 230, "calibri");
-        this.mwBLabel.setFontSize(25);
+        this.mwBLabel.setFontSize(20);
         this.mwCLabel = this.add.bitmapText(25, 260, "calibri");
-        this.mwCLabel.setFontSize(25);
+        this.mwCLabel.setFontSize(20);
         this.mwDLabel = this.add.bitmapText(25, 290, "calibri");
-        this.mwDLabel.setFontSize(25);
+        this.mwDLabel.setFontSize(20);
 
         this.IDLRButton = new button(this, 330, 375, "IDLR", 0.7);
         this.IDLRButton.on('pointerdown', ()=>this.goToIDLR(), this);

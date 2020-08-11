@@ -160,9 +160,8 @@ export default class SpecScene extends Phaser.Scene {
     this.button3.on('pointerout', ()=>this.outline3.exitHoverState(this.selectedVersion), this);
 
     this.add.text(180, 120, "[All solutions]=0.001M", {fontFamily: "calibri", fill: "000000"});
-
+    this.add.text(190, 5, "Adjust mLs of\nreactant solution:", {fill: "000000", fontFamily: "Calibri"});
     this.add.text(25, 10, "Version: ", {fontFamily: "calibri", fill: "000000"});
-
     this.add.text(450, 220, "Mouse over a point for full data", {fontFamily: "calibri", fill: "000000"});
 
     if (this.oldDataPoints.length>0){
@@ -235,6 +234,8 @@ export default class SpecScene extends Phaser.Scene {
     this.up1.on('pointerdown', ()=>this.changemLs("up1"));
     this.down1=new arrowButton(this, 200, 90, "downArrow", "down1");
     this.down1.on('pointerdown', ()=>this.changemLs("down1"));
+    this.up1.setTintFill(0xFFD200);
+    this.down1.setTintFill(0xFFD200);
   }
   
 

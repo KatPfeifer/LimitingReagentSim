@@ -86,7 +86,7 @@ export default class gramScene extends Phaser.Scene{
         this.CLeftBox.setScale(0.3);
         this.updateBoxHeights();
 
-        this.add.text(500, 5, "Use the arrows to change the \nnumber of grams of each\nreactant and see how the grams\nof product change", {fill: "000000"});
+        this.add.text(500, 5, "Use the arrows to change the number \nof grams of each reactant and see \nhow the grams of product change", {fill: "000000", fontFamily: "calibri"});
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goToMain(), this);

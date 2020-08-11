@@ -167,6 +167,8 @@ export default class exampleMCV extends Phaser.Scene{
         this.downCoG.setTintFill(0x9b00e3);
         this.upCoH.setTintFill(0x9b00e3);
         this.downCoH.setTintFill(0x9b00e3);
+        this.up1.setTintFill(0xFFD200);
+        this.down1.setTintFill(0xFFD200);
     }
 
 

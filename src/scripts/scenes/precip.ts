@@ -169,6 +169,8 @@ export default class PrecipScene extends Phaser.Scene {
 
     this.add.text(25, 10, "Version: ", {fontFamily: "calibri", fill: "000000"});
     this.add.text(450, 220, "Mouse over a point for full data", {fontFamily: "calibri", fill: "000000"});
+    this.add.text(190, 5, "Adjust mLs of\nreactant solution:", {fill: "000000", fontFamily: "Calibri"});
+
 
     if (this.oldDataPoints.length>0){
       this.drawDataPoints();
@@ -207,6 +209,8 @@ export default class PrecipScene extends Phaser.Scene {
     this.up1.on('pointerdown', ()=>this.changemLs("up1"));
     this.down1=new arrowButton(this, 200, 90, "downArrow", "down1");
     this.down1.on('pointerdown', ()=>this.changemLs("down1"));
+    this.up1.setTintFill(0xFFD200);
+    this.down1.setTintFill(0xFFD200);
   }
 
   createGraphs(){

@@ -116,13 +116,13 @@ export default class reactantLeft extends Phaser.Scene{
         this.RLHelpPic.setAlpha(0.0);
 
         this.mwALabel = this.add.bitmapText(25, 200, "calibri");
-        this.mwALabel.setFontSize(25);
+        this.mwALabel.setFontSize(20);
         this.mwBLabel = this.add.bitmapText(25, 230, "calibri");
-        this.mwBLabel.setFontSize(25);
+        this.mwBLabel.setFontSize(20);
         this.mwCLabel = this.add.bitmapText(25, 260, "calibri");
-        this.mwCLabel.setFontSize(25);
+        this.mwCLabel.setFontSize(20);
         this.mwDLabel = this.add.bitmapText(25, 290, "calibri");
-        this.mwDLabel.setFontSize(25);
+        this.mwDLabel.setFontSize(20);
 
         this.questions = new Array;
         this.questions.push(new practiceQ("SO2", 64.07, "PCl5", 208.24, "SOCl2", 118.97, "POCl3", 153.3, 1, 1, 1, 1));

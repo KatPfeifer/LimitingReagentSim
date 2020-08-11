@@ -95,6 +95,9 @@ export default class O2gs extends Phaser.Scene {
         this.leftovers=this.add.image(660, 340, "leftovers");
         this.leftovers.setScale(0.3);
 
+        this.add.text(500, 5, "Use the arrows to change the number \nof grams of each reactant and see \nhow the grams of product change", {fill: "000000", fontFamily: "calibri"});
+
+
         this.createArrowButtons();
         this.createLabels();
         this.updateLabels();
@@ -103,19 +106,19 @@ export default class O2gs extends Phaser.Scene {
     }
 
     createPics(){
-        this.O2=this.add.image(115, 300, "O2");
+        this.O2=this.add.image(115, 305, "O2");
         this.O2.setScale(0.1);
         this.O2.setTintFill(0xff0040);
-        this.H2=this.add.image(215, 300, "H2");
+        this.H2=this.add.image(215, 305, "H2");
         this.H2.setScale(0.1);
         this.H2.setTintFill(0xff0040);
-        this.H2O=this.add.image(480, 300, "H2O");
+        this.H2O=this.add.image(480, 305, "H2O");
         this.H2O.setScale(0.1);
         this.H2O.setTintFill(0x00b1ff);
-        this.O2Left=this.add.image(615, 300, "O2");
+        this.O2Left=this.add.image(615, 305, "O2");
         this.O2Left.setScale(0.1);
         this.O2Left.setTintFill(0x00c932);
-        this.H2Left=this.add.image(755, 300, "H2");
+        this.H2Left=this.add.image(755, 305, "H2");
         this.H2Left.setScale(0.1);
         this.H2Left.setTintFill(0x00c932);
     }

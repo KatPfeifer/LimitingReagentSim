@@ -58,6 +58,9 @@ export default class TempScene extends Phaser.Scene {
   private mainOutline: buttonOutline;
   private mixOutline: buttonOutline;
   private addOutline: buttonOutline;
+  private helpButton: button;
+  private helpOutline: buttonOutline;
+  private oldDataPoints: any;
 
   constructor() {
     super({ key: 'TempScene' });
@@ -98,6 +101,12 @@ export default class TempScene extends Phaser.Scene {
 
     this.dataList=[];
 
+    this.helpButton=new button(this, 40, 375, "helpButton", 0.7);
+    this.helpButton.on('pointerdown', ()=>this.goToHelp(), this);
+    this.helpOutline = new buttonOutline(this, 40, 375, "helpButton", 0.7, 0x4a0101);
+    this.helpButton.on('pointerover', ()=>this.helpOutline.enterHoverState(), this);
+    this.helpButton.on('pointerout', ()=>this.helpOutline.exitHoverState("word"), this);
+
     this.mixButton=new button(this, 230, 170, "mixSolBut", 0.55);
     this.mixButton.on('pointerdown', ()=>this.findTemp(), this);
     this.mixOutline = new buttonOutline(this, 230, 170, "mixSolBut", 0.55, 0x184a01);
@@ -110,10 +119,10 @@ export default class TempScene extends Phaser.Scene {
     this.graphButton.on('pointerover', ()=>this.addOutline.enterHoverState(), this);
     this.graphButton.on('pointerout', ()=>this.addOutline.exitHoverState("word"), this);
     
-    this.emptyBeaker=this.add.image(120, 250, "emptyBeaker");
+    this.emptyBeaker=this.add.image(120, 230, "emptyBeaker");
     this.emptyBeaker.setScale(0.55);
 
-    this.fullBeaker=this.add.image(120, 250, "fullBeaker");
+    this.fullBeaker=this.add.image(120, 230, "fullBeaker");
     this.fullBeaker.setScale(0.55);
     this.fullBeaker.setAlpha(0.0);
 
@@ -159,6 +168,10 @@ export default class TempScene extends Phaser.Scene {
     this.add.text(180, 120, "[All solutions]=0.1M", {fontFamily: "calibri", fill: "000000"});
     this.add.text(25, 10, "Version: ", {fontFamily: "calibri", fill: "000000"});
     this.add.text(450, 220, "Mouse over a point for full data", {fontFamily: "calibri", fill: "000000"});
+  
+    if (this.oldDataPoints.length>0){
+      this.drawDataPoints();
+    }
   }
 
   createmLs(){
@@ -233,6 +246,9 @@ export default class TempScene extends Phaser.Scene {
     this.selectedRxn=ar[0].toString();
     console.log("in init");
     console.log(this.selectedRxn);
+    if (ar.length>1){
+      this.oldDataPoints=ar[1];
+    }
   }
 
   changemLs(name: string){
@@ -404,5 +420,19 @@ export default class TempScene extends Phaser.Scene {
 
   goToMain(){
     this.scene.start('MainScene');
+  }
+
+  goToHelp(){
+    this.scene.start("tempHelpScene", [this.selectedRxn, this.dataList])
+  }
+
+  drawDataPoints(){
+    console.log("in draw DP");
+    for (let i=0; i<this.oldDataPoints.length; i++ ){
+      console.log(this.oldDataPoints[i].getDataValue());
+      let newDP=this.oldDataPoints[i];
+      let DP = new dataPoint(this, newDP.getX(), newDP.getY(), newDP.getDataValue(), newDP.getMF(), this.selectedRxn, "Temp");
+
+    }
   }
 }

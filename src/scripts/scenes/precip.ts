@@ -434,7 +434,7 @@ export default class PrecipScene extends Phaser.Scene {
     for (let i=0; i<this.oldDataPoints.length; i++ ){
       console.log(this.oldDataPoints[i].getDataValue());
       let newDP=this.oldDataPoints[i];
-      let DP = new dataPoint(this, newDP.getX(), newDP.getY(), newDP.getDataValue(), newDP.getMF(), this.selectedRxn, "Spec");
+      let DP = new dataPoint(this, newDP.getX(), newDP.getY(), newDP.getDataValue(), newDP.getMF(), this.selectedRxn, "Precip");
 
     }
   }

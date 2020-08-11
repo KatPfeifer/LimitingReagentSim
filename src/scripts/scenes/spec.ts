@@ -54,6 +54,8 @@ export default class SpecScene extends Phaser.Scene {
   private mainOutline: buttonOutline;
   private addOutline: buttonOutline;
   private mixOutline: buttonOutline;
+  private helpButton: button;
+  private helpOutline: buttonOutline;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -102,6 +104,12 @@ export default class SpecScene extends Phaser.Scene {
     this.changeGraphs();
 
     this.createArrowButtons();
+
+    this.helpButton=new button(this, 40, 375, "helpButton", 0.7);
+    this.helpButton.on('pointerdown', ()=>this.goToHelp(), this);
+    this.helpOutline = new buttonOutline(this, 40, 375, "helpButton", 0.7, 0x4a0101);
+    this.helpButton.on('pointerover', ()=>this.helpOutline.enterHoverState(), this);
+    this.helpButton.on('pointerout', ()=>this.helpOutline.exitHoverState("word"), this);
 
     this.mixButton=new button(this, 200, 170, "mixSolBut", 0.6);
     this.mixButton.on('pointerdown', ()=>this.findAbs(), this);
@@ -408,5 +416,9 @@ export default class SpecScene extends Phaser.Scene {
 
   goToMain(){
     this.scene.start('MainScene');
+  }
+
+  goToHelp(){
+    this.scene.start("specHelpScene", [this.selectedRxn])
   }
 }

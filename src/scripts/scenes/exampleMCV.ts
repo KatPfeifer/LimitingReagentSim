@@ -137,13 +137,15 @@ export default class exampleMCV extends Phaser.Scene{
 
     createCuvettes(){
         this.emptyCuvette=this.add.image(100, 300, "empty cuvette");
-        this.emptyCuvette.setScale(0.15);
+        this.emptyCuvette.setScale(0.38);
     
         this.fullCuvette=new cuvette(this, 100, 300, "fullCuvette");
         this.fullCuvette.setAlpha(0.0);
+        this.fullCuvette.setScale(0.38);
     
         this.cuvetteOutline=new cuvette(this, 100, 300, "cuvetteOutline");
         this.cuvetteOutline.setAlpha(0.0);
+        this.cuvetteOutline.setScale(0.38);
     
         this.spectro=this.physics.add.image(300, 280, "spectrophotometer");
         this.spectro.setScale(0.13);
@@ -232,7 +234,7 @@ export default class exampleMCV extends Phaser.Scene{
     }
 
     updateAbs(){
-        this.absLabel.text="Absorbance: "+ this.abs.toString().substring(0,4);
+        this.absLabel.text="Absorbance: "+ this.abs.toFixed(2);
     }
     
     changeCuvette(){

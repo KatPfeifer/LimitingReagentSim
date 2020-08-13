@@ -340,7 +340,7 @@ export default class PrecipScene extends Phaser.Scene {
     this.emptyVial.setAlpha(1.0);
     this.fullVial.setAlpha(0.0);
     this.fullVial.x=100;
-    this.fullVial.y=300;
+    this.fullVial.y=275;
     this.massLabel.text="0.00 g";
   }
 

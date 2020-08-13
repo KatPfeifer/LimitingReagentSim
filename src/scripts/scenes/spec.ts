@@ -131,7 +131,8 @@ export default class SpecScene extends Phaser.Scene {
     this.dataList=[];
 
     this.backButton=new button(this, 750, 375, "backButton", 0.7);
-    this.backButton.on('pointerdown', ()=>this.goBack(), this);this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);
+    this.backButton.on('pointerdown', ()=>this.goBack(), this);
+    this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);
     this.backButton.on('pointerover', ()=>this.backOutline.enterHoverState(), this);
     this.backButton.on('pointerout', ()=>this.backOutline.exitHoverState("word"), this);
 

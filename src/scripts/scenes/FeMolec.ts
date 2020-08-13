@@ -45,6 +45,7 @@ export default class FeMolec extends Phaser.Scene{
     private products: Phaser.GameObjects.Image;
     private reactants: Phaser.GameObjects.Image;
     private leftovers: Phaser.GameObjects.Image;
+    private backOutline: buttonOutline;
 
     constructor(){
         super({ key: 'FeMolecScene'});
@@ -76,6 +77,9 @@ export default class FeMolec extends Phaser.Scene{
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goToMain(), this);
+        this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);
+        this.backButton.on('pointerover', ()=>this.backOutline.enterHoverState(), this);
+        this.backButton.on('pointerout', ()=>this.backOutline.exitHoverState("word"), this);
 
         this.gramButton=new button(this, 50, 375, "gramButton", 0.7);
         this.gBOutline= new buttonOutline(this, 50, 375, "gramButton", 0.7,0x3d0a57);

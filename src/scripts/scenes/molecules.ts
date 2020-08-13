@@ -41,6 +41,7 @@ export default class moleculeScene extends Phaser.Scene{
     private products: Phaser.GameObjects.Image;
     private reactants: Phaser.GameObjects.Image;
     private leftovers: Phaser.GameObjects.Image;
+    private backOutline: buttonOutline;
 
     constructor(){
         super({ key: 'MoleculeScene'});
@@ -87,6 +88,9 @@ export default class moleculeScene extends Phaser.Scene{
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goToMain(), this);
+        this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);
+        this.backButton.on('pointerover', ()=>this.backOutline.enterHoverState(), this);
+        this.backButton.on('pointerout', ()=>this.backOutline.exitHoverState("word"), this);
 
         this.add.text(400, 20, "Use the arrow buttons to change the\nnumber of reactant molecules", {fill: "000000", fontFamily: "calibri"});
 

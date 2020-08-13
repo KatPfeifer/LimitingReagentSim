@@ -41,6 +41,7 @@ export default class O2gs extends Phaser.Scene {
     private products: Phaser.GameObjects.Image;
     private reactants: Phaser.GameObjects.Image;
     private leftovers: Phaser.GameObjects.Image;
+    private backOutline: buttonOutline;
 
     constructor(){
         super({ key: 'O2gsScene'});
@@ -65,6 +66,9 @@ export default class O2gs extends Phaser.Scene {
 
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goToMain(), this);
+        this.backOutline = new buttonOutline(this, 750, 375, "backButton", 0.7, 0x002607);
+    this.backButton.on('pointerover', ()=>this.backOutline.enterHoverState(), this);
+    this.backButton.on('pointerout', ()=>this.backOutline.exitHoverState("word"), this);
 
         this.O2box=this.add.image(80, 183, "compoundBox");
         this.O2box.setScale(0.3);

@@ -77,9 +77,9 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("mLsG", "assets/images/mLsG.png");
     this.load.image("mLsH", "assets/images/mLsH.png");
 
-    this.load.image("empty cuvette", "assets/images/emptyCuvette.png");
-    this.load.image("fullCuvette", "assets/images/fullCuvette.png");
-    this.load.image("cuvetteOutline", "assets/images/cuvetteOutline.png");
+    this.load.image("empty cuvette", "assets/images/emptyCuvette2.png");
+    this.load.image("fullCuvette", "assets/images/fullCuvette2.png");
+    this.load.image("cuvetteOutline", "assets/images/cuvetteOutline2.png");
     this.load.image("spectrophotometer", "assets/images/spectrophotometer.png");
     this.load.image("absGraphAB", "assets/images/absGraphAB.png");
     this.load.image("absGraphCD", "assets/images/absGraphCD.png");
@@ -135,6 +135,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('O2gsScene', ['AB', []]);
+    this.scene.start('SpecScene', ['AB', []]);
   }
 }

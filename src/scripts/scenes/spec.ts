@@ -170,14 +170,18 @@ export default class SpecScene extends Phaser.Scene {
   }
 
   createCuvettes(){
-    this.emptyCuvette=this.add.image(100, 300, "empty cuvette");
-    this.emptyCuvette.setScale(0.15);
+    this.emptyCuvette=this.add.image(100, 280, "empty cuvette");
+    this.emptyCuvette.setScale(0.38);
+    this.emptyCuvette.setTintFill(0x000000);
 
-    this.fullCuvette=new cuvette(this, 100, 300, "fullCuvette");
+    this.fullCuvette=new cuvette(this, 100, 280, "fullCuvette");
     this.fullCuvette.setAlpha(0.0);
+    this.fullCuvette.setScale(0.38);
 
-    this.cuvetteOutline=new cuvette(this, 100, 300, "cuvetteOutline");
+    this.cuvetteOutline=new cuvette(this, 100, 280, "cuvetteOutline");
     this.cuvetteOutline.setAlpha(0.0);
+    this.cuvetteOutline.setTintFill(0x000000);
+    this.cuvetteOutline.setScale(0.38);
 
     this.spectro=this.physics.add.image(300, 280, "spectrophotometer");
     this.spectro.setScale(0.13);
@@ -319,7 +323,7 @@ export default class SpecScene extends Phaser.Scene {
   }
 
   updateAbs(){
-    this.absLabel.text="Absorbance: "+ this.abs.toString().substring(0,4);
+    this.absLabel.text="Absorbance: "+ this.abs.toFixed(2);
   }
 
   changeCuvette(){
@@ -358,13 +362,13 @@ export default class SpecScene extends Phaser.Scene {
 
   updateMRLabel(){
     if (this.selectedRxn=="AB"){
-      this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(B): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs.toString().substring(0,4));
+      this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toFixed(2)+"\nX(B): "+(this.findMF()).toFixed(2)+"\nA: "+(this.abs.toFixed(2));
     }
     if (this.selectedRxn=="CD"){
-      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(D): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs);
+      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toFixed(2)+"\nX(D): "+(this.findMF()).toFixed(2)+"\nA: "+(this.abs);
     }
     if (this.selectedRxn=="EF"){
-      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(F): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs);
+      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toFixed(2)+"\nX(F): "+(this.findMF()).toFixed(2)+"\nA: "+(this.abs);
     }
   }
   

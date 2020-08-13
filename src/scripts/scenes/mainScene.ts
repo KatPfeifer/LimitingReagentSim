@@ -53,7 +53,7 @@ export default class MainScene extends Phaser.Scene {
     this.add.text(150, 100, "Examples", {fill: "000000", fontFamily: "Calibri", fontStyle: "bold"});
     this.add.text(130, 200, "Practice Problems", {fill: "000000", fontFamily: "Calibri", fontStyle: "bold"});
     this.add.text(475, 200, "Or pick a reaction to get started", {fill: "000000", fontFamily: "Calibri", fontStyle: "bold"});
-    this.add.text(525, 100, "Try this example", {fill: "000000", fontFamily: "Calibri", fontStyle: "bold"});
+    this.add.text(475, 100, "Try this example reaction: G + H ->", {fill: "000000", fontFamily: "Calibri", fontStyle: "bold"});
     this.add.text(35, 50, "Use the example reactions to see how limiting \nreagents work or try some practice problems!", {fill: "000000", fontFamily: "calibri"});
     this.add.text(420, 50, "Find the ideal mole ratio for each reaction using the \nMethod of Continuous Variation and different forms \nof analysis!", {fill: "000000", fontFamily: "calibri"});
     this.add.text(420, 300, "Each reaction has three versions, all with different ideal \nmole ratios for you to find.", {fill: "000000", fontFamily: "calibri"});

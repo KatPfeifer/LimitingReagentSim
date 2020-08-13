@@ -90,8 +90,4 @@ export default class dataPoint extends Phaser.GameObjects.Image{
     clearLabel(){
         this.label.text="";
     }
-
-
-
-
 }

@@ -17,3 +17,6 @@ https://www.chem.ucla.edu/~harding/IGOC/A/azo_dye.html
 https://arrowpng.com/red-left-arrow-png/
 http://biomodel.uah.es/en/DIY/JSME/draw.en.htm
 https://www.zazzle.com/golden_retriever_dog_great_job_teacher_reward_square_sticker-217018283010913814?social=true&view=113898528794004394&rf=238723483809835767
+http://www.clker.com/clipart-cuvette-empty.html
+http://www.clker.com/clipart-cuvette-filled-green-dark.html
+

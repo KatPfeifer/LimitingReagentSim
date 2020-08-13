@@ -88,6 +88,9 @@ export default class FeMolec extends Phaser.Scene{
         this.moleculeButton.on('pointerover', ()=>this.mBOutline.enterHoverState(), this);
         this.moleculeButton.on('pointerout', ()=>this.mBOutline.exitHoverState(this.selectedVisual), this);
 
+        this.add.text(500, 20, "Use the arrow buttons to change the\nnumber of reactant molecules", {fill: "000000", fontFamily: "calibri"});
+
+
         this.reactants=this.add.image(130, 340, "reactants");
         this.reactants.setScale(0.3);
         this.products=this.add.image(480, 340, "products");

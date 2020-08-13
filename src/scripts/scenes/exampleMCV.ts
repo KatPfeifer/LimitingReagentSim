@@ -269,7 +269,7 @@ export default class exampleMCV extends Phaser.Scene{
     }
 
     updateMRLabel(){
-        this.mRLabel.text="Latest Data Point: \nX(G): "+ (1-this.findMF()).toString().substring(0,4)+"\nX(H): "+(this.findMF()).toString().substring(0,4)+"\nA: "+(this.abs.toString().substring(0,4));
+        this.mRLabel.text="Latest Data Point: \nX(G): "+ (1-this.findMF()).toFixed(2)+"\nX(H): "+(this.findMF()).toFixed(2)+"\nA: "+(this.abs.toFixed(2));
 
     }
 

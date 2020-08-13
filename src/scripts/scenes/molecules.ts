@@ -88,7 +88,7 @@ export default class moleculeScene extends Phaser.Scene{
         this.backButton=new button(this, 750, 375, "backButton", 0.7);
         this.backButton.on('pointerdown', ()=>this.goToMain(), this);
 
-        this.add.text(400, 20, "Use the arrow buttons to change the\nnumber of reactant molecules", {fill: "000000"});
+        this.add.text(400, 20, "Use the arrow buttons to change the\nnumber of reactant molecules", {fill: "000000", fontFamily: "calibri"});
 
         this.reactants=this.add.image(130, 340, "reactants");
         this.reactants.setScale(0.3);
@@ -115,27 +115,27 @@ export default class moleculeScene extends Phaser.Scene{
     }
 
     createLabels(){
-        this.O2Label=new compoundLabel(this, 75, 290, this.O2molec.toString());
-        this.H2Label=new compoundLabel(this, 175, 290, this.H2molec.toString());
-        this.H2OLabel=new compoundLabel(this, 430, 290, this.H2Omolec.toString());
-        this.O2LeftLabel=new compoundLabel(this, 570, 290, this.O2molecLeft.toString());
-        this.H2LeftLabel=new compoundLabel(this, 710, 290, this.H2molecLeft.toString());
+        this.O2Label=new compoundLabel(this, 75, 288, this.O2molec.toString());
+        this.H2Label=new compoundLabel(this, 175, 288, this.H2molec.toString());
+        this.H2OLabel=new compoundLabel(this, 430, 288, this.H2Omolec.toString());
+        this.O2LeftLabel=new compoundLabel(this, 570, 288, this.O2molecLeft.toString());
+        this.H2LeftLabel=new compoundLabel(this, 710, 288, this.H2molecLeft.toString());
     }
 
     createPics(){
-        this.O2=this.add.image(105, 300, "O2");
+        this.O2=this.add.image(110, 305, "O2");
         this.O2.setScale(0.1);
         this.O2.setTintFill(0xff0040);
-        this.H2=this.add.image(205, 300, "H2");
+        this.H2=this.add.image(210, 305, "H2");
         this.H2.setScale(0.1);
         this.H2.setTintFill(0xff0040);
-        this.H2O=this.add.image(460, 300, "H2O");
+        this.H2O=this.add.image(475, 305, "H2O");
         this.H2O.setScale(0.1);
         this.H2O.setTintFill(0x00b1ff);
-        this.O2Left=this.add.image(595, 300, "O2");
+        this.O2Left=this.add.image(605, 305, "O2");
         this.O2Left.setScale(0.1);
         this.O2Left.setTintFill(0x00c932);
-        this.H2Left=this.add.image(735, 300, "H2");
+        this.H2Left=this.add.image(745, 305, "H2");
         this.H2Left.setScale(0.1);
         this.H2Left.setTintFill(0x00c932);
     }

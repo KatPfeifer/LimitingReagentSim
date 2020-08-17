@@ -47,7 +47,7 @@ export default class dataPoint extends Phaser.GameObjects.Image{
     }
 
     updateLabel(){
-        this.label = this.scene.add.bitmapText(600, 250, "calibri");
+        this.label = this.scene.add.bitmapText(600, 250, "calibriFont");
         this.label.fontSize=20;
         if (this.sceneName=="Spec"){
             if (this.selectedRxn=="AB"){

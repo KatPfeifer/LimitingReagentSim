@@ -78,23 +78,23 @@ export default class SpecScene extends Phaser.Scene {
     this.abs=0;
 
     this.mLs=0;
-    this.mLsLabel = this.add.bitmapText(195, 55, "calibri");
+    this.mLsLabel = this.add.bitmapText(195, 55, "calibriFont");
     this.mLsLabel.fontSize=30;
     this.mLsLabel.text=this.mLs.toString()+"";
 
     this.mLs2=20;
-    this.mLsLabel2=this.add.bitmapText(295, 55, "calibri");
+    this.mLsLabel2=this.add.bitmapText(295, 55, "calibriFont");
     this.mLsLabel2.fontSize=30;
     this.mLsLabel2.text=this.mLs2.toString();
 
-    this.absLabel=this.add.bitmapText(230, 350, "calibri");
+    this.absLabel=this.add.bitmapText(230, 350, "calibriFont");
     this.absLabel.fontSize=25;
     this.absLabel.text="Absorbance: " + this.abs.toString();
 
-    this.mRLabel=this.add.bitmapText(450, 250, "calibri");
+    this.mRLabel=this.add.bitmapText(450, 250, "calibriFont");
     this.mRLabel.fontSize=20;
 
-    this.sPLabel=this.add.bitmapText(600, 250, "calibri");
+    this.sPLabel=this.add.bitmapText(600, 250, "calibriFont");
     this.sPLabel.fontSize=20;
 
     this.absGraphAB=this.add.image(600, 120, "absGraphAB");

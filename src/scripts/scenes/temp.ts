@@ -1,13 +1,6 @@
-import ExampleObject from '../objects/exampleObject';
-import reactionButton from '../objects/reactionButton';
-import analysisButton from '../objects/analysisButton';
 import arrowButton from '../objects/arrowButton';
-import { cuvette } from '../objects/cuvette';
 import dataPoint from '../objects/dataPoint';
-import reactionHighlights from '../objects/reactionHighlights';
-import productImage from '../objects/productImage';
 import button from '../objects/button';
-import arrowIndic from '../objects/arrowIndic';
 import buttonOutline from '../objects/buttonOutline';
 
 export default class TempScene extends Phaser.Scene {
@@ -80,19 +73,19 @@ export default class TempScene extends Phaser.Scene {
     this.background2.setScale(2.0);
 
     this.mLs=0;
-    this.mLsLabel = this.add.bitmapText(195, 55, "calibri");
+    this.mLsLabel = this.add.bitmapText(195, 55, "calibriFont");
     this.mLsLabel.fontSize=30;
     this.mLsLabel.text=this.mLs.toString()+"";
 
     this.mLs2=20;
-    this.mLsLabel2=this.add.bitmapText(295, 55, "calibri");
+    this.mLsLabel2=this.add.bitmapText(295, 55, "calibriFont");
     this.mLsLabel2.fontSize=30;
     this.mLsLabel2.text=this.mLs2.toString();
 
-    this.mRLabel=this.add.bitmapText(450, 250, "calibri");
+    this.mRLabel=this.add.bitmapText(450, 250, "calibriFont");
     this.mRLabel.fontSize=20;
     
-    this.sPLabel=this.add.bitmapText(600, 250, "calibri");
+    this.sPLabel=this.add.bitmapText(600, 250, "calibriFont");
     this.sPLabel.fontSize=20;
 
     this.createArrowButtons();
@@ -129,7 +122,7 @@ export default class TempScene extends Phaser.Scene {
     this.thermoHead=this.add.image(300, 310, "thermoHead");
     this.thermoHead.setScale(0.28);
 
-    this.tempLabel=this.add.bitmapText(285, 305, "calibri");
+    this.tempLabel=this.add.bitmapText(285, 305, "calibriFont");
     this.tempLabel.fontSize=30;
     this.tempLabel.setTintFill(0x000000);
     this.tempLabel.text=this.temp.toFixed(2)+ " C";

@@ -80,19 +80,19 @@ export default class PrecipScene extends Phaser.Scene {
     this.background2.setScale(2.0);
 
     this.mLs=0;
-    this.mLsLabel = this.add.bitmapText(195, 55, "calibri");
+    this.mLsLabel = this.add.bitmapText(195, 55, "calibriFont");
     this.mLsLabel.fontSize=30;
     this.mLsLabel.text=this.mLs.toString()+"";
 
     this.mLs2=20;
-    this.mLsLabel2=this.add.bitmapText(295, 55, "calibri");
+    this.mLsLabel2=this.add.bitmapText(295, 55, "calibriFont");
     this.mLsLabel2.fontSize=30;
     this.mLsLabel2.text=this.mLs2.toString();
 
-    this.mRLabel=this.add.bitmapText(450, 250, "calibri");
+    this.mRLabel=this.add.bitmapText(450, 250, "calibriFont");
     this.mRLabel.fontSize=20;
 
-    this.sPLabel=this.add.bitmapText(600, 250, "calibri");
+    this.sPLabel=this.add.bitmapText(600, 250, "calibriFont");
     this.sPLabel.fontSize=20;
 
     this.createArrowButtons();
@@ -109,7 +109,7 @@ export default class PrecipScene extends Phaser.Scene {
     
     this.physics.add.overlap(this.fullVial, this.balance, ()=> this.updateMassLabel(), undefined, this);
 
-    this.massLabel=this.add.bitmapText(290, 350, "calibri");
+    this.massLabel=this.add.bitmapText(290, 350, "calibriFont");
     this.massLabel.fontSize=20;
     this.massLabel.setTintFill(0x000000);
     this.massLabel.text=this.mass.toFixed(2)+" g";

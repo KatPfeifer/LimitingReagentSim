@@ -88,7 +88,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("absGraphGH", "assets/images/absGraphGH.png");
 
     this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
-    //this.load.bitmapFont("calibriFont", "assets/font/font2.png", "assets/font/font2.xml");
+    this.load.bitmapFont("calibriFont", "assets/font/calibriFont_0.png", "assets/font/calibriFont.fnt");
     this.load.bitmapFont("calibri", "assets/font/calibri_with_scripts_0.png", 
                          "assets/font/calibri_with_scripts.fnt");
 

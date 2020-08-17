@@ -332,6 +332,11 @@ export default class PrecipScene extends Phaser.Scene {
     let MFB=this.findMF();
     let x=463+MFB*303;
     let y=181-124*(this.mass/4);
+    for (let i=0; i<this.dataList.length; i++){
+      if (y==this.dataList[i].getY()){
+        return;
+      }
+    }    
 
     this.newestDP = new dataPoint(this, x, y, this.mass, MFB+.000001, this.selectedRxn, "Precip"); 
     this.dataList.push(this.newestDP);
@@ -420,9 +425,12 @@ export default class PrecipScene extends Phaser.Scene {
     }
 
     this.mLs=0;
+    this.mLsLabel.text="0";
     this.mLs2=20;
+    this.mLsLabel2.text="20";
     this.clearGraph();
     this.mRLabel.text="";
+    this.dataList=[];
   }
 
   goToMain(){

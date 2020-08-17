@@ -125,7 +125,7 @@ export default class TempScene extends Phaser.Scene {
     this.tempLabel=this.add.bitmapText(285, 305, "calibriFont");
     this.tempLabel.fontSize=30;
     this.tempLabel.setTintFill(0x000000);
-    this.tempLabel.text=this.temp.toFixed(2)+ " C";
+    this.tempLabel.text=this.temp.toFixed(1)+ " C";
     
     this.backButton=new button(this, 750, 375, "backButton", 0.7);
     this.backButton.on('pointerdown', ()=>this.goBack(), this);
@@ -295,7 +295,7 @@ export default class TempScene extends Phaser.Scene {
     console.log(this.Fcoefficient);
     let E=(this.mLs*this.molarity*485000)/(1000*this.Ecoefficient*4.19*(this.mLs+this.mLs2));
     let F=(this.mLs2*this.molarity*485000)/(1000*this.Fcoefficient*4.19*(this.mLs+this.mLs2));
-      if (E>=F){
+      if (E<=F){
         this.tempChange=E;
         console.log("E is "+ E);
       }
@@ -307,7 +307,7 @@ export default class TempScene extends Phaser.Scene {
     else {
       this.tempChange=0;
     }
-    this.temp=25.000001+this.tempChange;
+    this.temp=25.000001-this.tempChange;
     console.log(this.tempChange);
     this.updateTempLabel();
     this.fullBeaker.setAlpha(1.0);
@@ -317,8 +317,14 @@ export default class TempScene extends Phaser.Scene {
     let MFB=this.findMF();
     let x=467+MFB*302;
     console.log("x: " + x);
-    let y=180-124*(this.tempChange/4);
+    console.log("temp change: " + this.tempChange);
+    let y=180-124*(1-this.tempChange/4);
     console.log("y: "+ y);
+    for (let i=0; i<this.dataList.length; i++){
+      if (y==this.dataList[i].getY()){
+        return;
+      }
+    }
 
     this.newestDP = new dataPoint(this, x, y, this.tempChange, MFB, this.selectedRxn, "Temp"); 
     this.dataList.push(this.newestDP);
@@ -340,18 +346,18 @@ export default class TempScene extends Phaser.Scene {
 
   updateMRLabel(){
     if (this.selectedRxn=="AB"){
-      this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toFixed(2)+"\nX(B): "+(this.findMF()).toFixed(2)+"\nTC: "+(this.tempChange.toFixed(2));
+      this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toFixed(2)+"\nX(B): "+(this.findMF()).toFixed(2)+"\nTC: -"+(this.tempChange.toFixed(1));
     }
     if (this.selectedRxn=="CD"){
-      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toFixed(2)+"\nX(D): "+(this.findMF()).toFixed(2)+"\nTC: "+(this.tempChange.toFixed(2));
+      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toFixed(2)+"\nX(D): "+(this.findMF()).toFixed(2)+"\nTC: -"+(this.tempChange.toFixed(1));
     }
     if (this.selectedRxn=="EF"){
-      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toFixed(2)+"\nX(F): "+(this.findMF()).toFixed(2)+"\nTC: "+(this.tempChange.toFixed(2));
+      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toFixed(2)+"\nX(F): "+(this.findMF()).toFixed(2)+"\nTC: -"+(this.tempChange.toFixed(1));
     }
   }
 
   updateTempLabel(){
-    this.tempLabel.text=this.temp.toFixed(2)+ " C";
+    this.tempLabel.text=this.temp.toFixed(1)+ " C";
   }
 
   clearGraph(){
@@ -397,9 +403,12 @@ export default class TempScene extends Phaser.Scene {
     }
 
     this.mLs=0;
+    this.mLsLabel.text="0";
     this.mLs2=20;
+    this.mLsLabel2.text="20";
     this.clearGraph();
     this.mRLabel.text="";
+    this.dataList=[];
   }
 
   goBack(){

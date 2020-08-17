@@ -65,13 +65,13 @@ export default class dataPoint extends Phaser.GameObjects.Image{
         }
         if (this.sceneName=="Temp"){
             if (this.selectedRxn=="AB"){
-                this.label.text="Selected Data Point: \nX(A): "+ (1-this.molFraction).toFixed(2)+"\nX(B): "+(this.molFraction).toFixed(2)+"\nTC: "+(this.dataValue.toFixed(1));
+                this.label.text="Selected Data Point: \nX(A): "+ (1-this.molFraction).toFixed(2)+"\nX(B): "+(this.molFraction).toFixed(2)+"\nTC: -"+(this.dataValue.toFixed(1));
             }
             if (this.selectedRxn=="CD"){
-                this.label.text="Selected Data Point: \nX(C): "+ (1-this.molFraction).toFixed(2)+"\nX(D): "+(this.molFraction).toFixed(2)+"\nTC: "+(this.dataValue.toFixed(1));
+                this.label.text="Selected Data Point: \nX(C): "+ (1-this.molFraction).toFixed(2)+"\nX(D): "+(this.molFraction).toFixed(2)+"\nTC: -"+(this.dataValue.toFixed(1));
             }
             if (this.selectedRxn=="EF"){
-                this.label.text="Selected Data Point: \nX(E): "+ (1-this.molFraction).toFixed(2)+"\nX(F): "+(this.molFraction).toFixed(2)+"\nTC: "+(this.dataValue.toFixed(1));
+                this.label.text="Selected Data Point: \nX(E): "+ (1-this.molFraction).toFixed(2)+"\nX(F): "+(this.molFraction).toFixed(2)+"\nTC: -"+(this.dataValue.toFixed(1));
             }
         }
         if (this.sceneName=="Precip"){

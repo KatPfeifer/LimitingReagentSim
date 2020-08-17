@@ -338,7 +338,11 @@ export default class SpecScene extends Phaser.Scene {
     let MFB=this.findMF();
     let x=464+MFB*304;
     let y=180-(this.abs/2.5)*124;
-
+    for (let i=0; i<this.dataList.length; i++){
+      if (y==this.dataList[i].getY()){
+        return;
+      }
+    }
 
     this.newestDP = new dataPoint(this, x, y, this.abs, MFB, this.selectedRxn, "Spec"); 
     this.dataList.push(this.newestDP);
@@ -415,9 +419,12 @@ export default class SpecScene extends Phaser.Scene {
     }
 
     this.mLs=0;
+    this.mLsLabel.text="0";
     this.mLs2=0;
+    this.mLsLabel2.text="20";
     this.clearGraph();
     this.mRLabel.text="";
+    this.dataList=[];
   }
 
   goBack(){

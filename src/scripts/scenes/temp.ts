@@ -54,6 +54,7 @@ export default class TempScene extends Phaser.Scene {
   private helpButton: button;
   private helpOutline: buttonOutline;
   private oldDataPoints: any;
+  private dot: any;
 
   constructor() {
     super({ key: 'TempScene' });
@@ -205,11 +206,11 @@ export default class TempScene extends Phaser.Scene {
   }
 
   createGraphs(){
-    this.tempGraphAB=this.add.image(600, 120, "tempGraphAB");
+    this.tempGraphAB=this.add.image(600, 115, "tempGraphAB");
     this.tempGraphAB.setScale(0.65);
-    this.tempGraphCD=this.add.image(600, 120, "tempGraphCD");
+    this.tempGraphCD=this.add.image(600, 115, "tempGraphCD");
     this.tempGraphCD.setScale(0.65);
-    this.tempGraphEF=this.add.image(600, 120, "tempGraphEF");
+    this.tempGraphEF=this.add.image(600, 115, "tempGraphEF");
     this.tempGraphEF.setScale(0.65);
     this.changeGraphs();
   }
@@ -315,10 +316,10 @@ export default class TempScene extends Phaser.Scene {
 
   graphPoint(){
     let MFB=this.findMF();
-    let x=467+MFB*302;
+    let x=463+MFB*305;
     console.log("x: " + x);
     console.log("temp change: " + this.tempChange);
-    let y=180-124*(1-this.tempChange/4);
+    let y=175-120*(1-this.tempChange/4);
     console.log("y: "+ y);
     for (let i=0; i<this.dataList.length; i++){
       if (y==this.dataList[i].getY()){

@@ -57,6 +57,7 @@ export default class SpecScene extends Phaser.Scene {
   private helpButton: button;
   private helpOutline: buttonOutline;
   private oldDataPoints: any;
+  private dot: any;
 
   constructor() {
     super({ key: 'SpecScene' });
@@ -97,11 +98,11 @@ export default class SpecScene extends Phaser.Scene {
     this.sPLabel=this.add.bitmapText(600, 250, "calibriFont");
     this.sPLabel.fontSize=20;
 
-    this.absGraphAB=this.add.image(600, 120, "absGraphAB");
+    this.absGraphAB=this.add.image(600, 115, "absGraphAB");
     this.absGraphAB.setScale(0.65);
-    this.absGraphCD=this.add.image(600, 120, "absGraphCD");
+    this.absGraphCD=this.add.image(600, 115, "absGraphCD");
     this.absGraphCD.setScale(0.65);
-    this.absGraphEF=this.add.image(600, 120, "absGraphEF");
+    this.absGraphEF=this.add.image(600, 115, "absGraphEF");
     this.absGraphEF.setScale(0.65);
     this.changeGraphs();
 
@@ -168,6 +169,10 @@ export default class SpecScene extends Phaser.Scene {
     if (this.oldDataPoints.length>0){
       this.drawDataPoints();
     }
+    
+    
+    this.dot=this.add.image(769, 175, "blackCircle");
+    this.dot.setScale(0.05);
   }
 
   createCuvettes(){
@@ -317,7 +322,7 @@ export default class SpecScene extends Phaser.Scene {
       }
     }
     if (this.selectedRxn=="CD"||this.selectedRxn=="EF"){
-      this.abs=0;
+      this.abs=0.0001;
     }
     this.changeCuvette();
     this.updateAbs();
@@ -336,8 +341,8 @@ export default class SpecScene extends Phaser.Scene {
 
   graphPoint(){
     let MFB=this.findMF();
-    let x=464+MFB*304;
-    let y=180-(this.abs/2.5)*124;
+    let x=461+MFB*308;
+    let y=175-(this.abs/2)*120;
     for (let i=0; i<this.dataList.length; i++){
       if (y==this.dataList[i].getY()){
         return;
@@ -370,10 +375,10 @@ export default class SpecScene extends Phaser.Scene {
       this.mRLabel.text="Latest Data Point: \nX(A): "+ (1-this.findMF()).toFixed(2)+"\nX(B): "+(this.findMF()).toFixed(2)+"\nA: "+(this.abs.toFixed(2));
     }
     if (this.selectedRxn=="CD"){
-      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toFixed(2)+"\nX(D): "+(this.findMF()).toFixed(2)+"\nA: "+(this.abs);
+      this.mRLabel.text="Latest Data Point: \nX(C): "+ (1-this.findMF()).toFixed(2)+"\nX(D): "+(this.findMF()).toFixed(2)+"\nA: "+(this.abs.toFixed(2));
     }
     if (this.selectedRxn=="EF"){
-      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toFixed(2)+"\nX(F): "+(this.findMF()).toFixed(2)+"\nA: "+(this.abs);
+      this.mRLabel.text="Latest Data Point: \nX(E): "+ (1-this.findMF()).toFixed(2)+"\nX(F): "+(this.findMF()).toFixed(2)+"\nA: "+(this.abs).toFixed(2);
     }
   }
   

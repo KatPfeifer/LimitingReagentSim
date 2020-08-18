@@ -67,7 +67,7 @@ export default class exampleMCV extends Phaser.Scene{
     this.add.text(120, 55, "H", {fontSize: "25px", color: "#9b00e3", fontFamily: "Calibri", fontStyle: "bold"});
     
     this.graphGH=this.add.image(600, 115, "absGraphGH");
-    this.graphGH.setScale(0.54);
+    this.graphGH.setScale(.65);
 
     this.mLs=0;
     this.mLsLabel = this.add.bitmapText(195, 55, "calibriFont");
@@ -130,7 +130,6 @@ export default class exampleMCV extends Phaser.Scene{
     this.backButton.on('pointerout', ()=>this.backOutline.exitHoverState("word"), this);
 
     this.add.text(180, 120, "[All solutions]=0.0006M", {fill: "000000", fontFamily: "Calibri"});
-
 
     this.add.text(450, 220, "Mouse over a point for full data", {fill: "000000", fontFamily: "Calibri"});
 }
@@ -246,7 +245,7 @@ export default class exampleMCV extends Phaser.Scene{
 
     graphPoint(){
         let MFB=this.findMF();
-        let x=465+MFB*301;
+        let x=461+MFB*308;
         let y=175-(this.abs/2)*120;
     
         this.newestDP = new dataPoint(this, x, y, this.abs, MFB, this.selectedRxn, "Spec"); 

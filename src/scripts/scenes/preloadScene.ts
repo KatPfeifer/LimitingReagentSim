@@ -136,6 +136,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('TempScene', ['EF', []]);
+    this.scene.start('SpecScene', ['EF', []]);
   }
 }

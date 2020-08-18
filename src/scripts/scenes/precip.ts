@@ -61,6 +61,7 @@ export default class PrecipScene extends Phaser.Scene {
   private helpButton: button;
   private helpOutline: buttonOutline;
   private oldDataPoints: any;
+  private dot: any;
 
   constructor() {
     super({ key: 'PrecipScene' });
@@ -214,11 +215,11 @@ export default class PrecipScene extends Phaser.Scene {
   }
 
   createGraphs(){
-    this.precipGraphAB=this.add.image(600, 120, "precipGraphAB");
+    this.precipGraphAB=this.add.image(600, 115, "precipGraphAB");
     this.precipGraphAB.setScale(0.65);
-    this.precipGraphCD=this.add.image(600, 120, "precipGraphCD");
+    this.precipGraphCD=this.add.image(600, 115, "precipGraphCD");
     this.precipGraphCD.setScale(0.65);
-    this.precipGraphEF=this.add.image(600, 120, "precipGraphCD");
+    this.precipGraphEF=this.add.image(600, 115, "precipGraphCD");
     this.precipGraphEF.setScale(0.65);
     this.changeGraphs();
   }
@@ -330,8 +331,8 @@ export default class PrecipScene extends Phaser.Scene {
   graphPoint(){
     //MFB = mole fraction B
     let MFB=this.findMF();
-    let x=463+MFB*303;
-    let y=181-124*(this.mass/4);
+    let x=463+MFB*307;
+    let y=175-120*(this.mass/4);
     for (let i=0; i<this.dataList.length; i++){
       if (y==this.dataList[i].getY()){
         return;

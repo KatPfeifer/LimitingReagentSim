@@ -4,6 +4,26 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/LimitingReagentSim/finalassets/citations.md"
   },
   {
+    "revision": "65cfb7b50bcc2382752d4a561babb8d5",
+    "url": "/LimitingReagentSim/finalassets/font/calibriFont.fnt"
+  },
+  {
+    "revision": "2d091dacaff449cbf0e1f6ae93c12b71",
+    "url": "/LimitingReagentSim/finalassets/font/calibriFont_0.png"
+  },
+  {
+    "revision": "513b420b4adcd2654354a0a73044d62b",
+    "url": "/LimitingReagentSim/finalassets/font/calibri_with_scripts.fnt"
+  },
+  {
+    "revision": "71ed3a7aa1c803a275d4c8ed0fdef2b0",
+    "url": "/LimitingReagentSim/finalassets/font/calibri_with_scripts_0.png"
+  },
+  {
+    "revision": "3683c1d20ce22a70ce7d1f6e64ed9297",
+    "url": "/LimitingReagentSim/finalassets/font/calibri_with_scripts_0.tga"
+  },
+  {
     "revision": "9d79a2ec01455afa082d23e42f457801",
     "url": "/LimitingReagentSim/finalassets/font/font.png"
   },
@@ -280,19 +300,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/LimitingReagentSim/finalassets/images/absGraph.png"
   },
   {
-    "revision": "128c8f8609ab1c38e9a65618a2d6b549",
+    "revision": "ba2d965d8fb8716de26fb5ff3d8221ee",
     "url": "/LimitingReagentSim/finalassets/images/absGraphAB.png"
   },
   {
-    "revision": "cb3b2292b3ebd09031dc91effb752a7f",
+    "revision": "7b764aca9ef0c9ec418eae0408fa5151",
     "url": "/LimitingReagentSim/finalassets/images/absGraphCD.png"
   },
   {
-    "revision": "fddd50e4c73157e3e99eb7d9ff9e0b32",
+    "revision": "4157c7c0e373a33794c54c55c8810d25",
     "url": "/LimitingReagentSim/finalassets/images/absGraphEF.png"
   },
   {
-    "revision": "27cfc6f81130f54ea147ae77f8394cb3",
+    "revision": "18a219a170db5c44357e78632a2d0e98",
     "url": "/LimitingReagentSim/finalassets/images/absGraphGH.png"
   },
   {
@@ -472,15 +492,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/LimitingReagentSim/finalassets/images/precipButton2.png"
   },
   {
-    "revision": "bfaf0569d8e9e6298f0b8d81cd049e09",
+    "revision": "e1e17f54304abd1d46b8dc2d8a4c077a",
     "url": "/LimitingReagentSim/finalassets/images/precipGraphAB.png"
   },
   {
-    "revision": "3457d3e6b0c9b332322cb26d6c598f2a",
+    "revision": "0e6719654f3030145b1b20d1e2ba20a8",
     "url": "/LimitingReagentSim/finalassets/images/precipGraphCD.png"
   },
   {
-    "revision": "62c45d52db468f377e96aedaa3a2bcbb",
+    "revision": "286af784fcb7a3210a5d76c861f03d79",
     "url": "/LimitingReagentSim/finalassets/images/precipGraphEF.png"
   },
   {
@@ -536,15 +556,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/LimitingReagentSim/finalassets/images/tempButton2.png"
   },
   {
-    "revision": "a6435e5f9b4bc6566b70320134d8daac",
+    "revision": "ac90c10bc2e804f86a22ffb5de17ed3e",
     "url": "/LimitingReagentSim/finalassets/images/tempGraphAB.png"
   },
   {
-    "revision": "b52c21beb4b00145ff631899ca66736c",
+    "revision": "4e3ffc163b39a6f02a07b3323ea33aaf",
     "url": "/LimitingReagentSim/finalassets/images/tempGraphCD.png"
   },
   {
-    "revision": "f1f257071982ac1ef09672a02fc56167",
+    "revision": "2dbe19adb73eeb1d2a45d2543b08d513",
     "url": "/LimitingReagentSim/finalassets/images/tempGraphEF.png"
   },
   {
@@ -572,19 +592,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/LimitingReagentSim/finalfavicon.ico"
   },
   {
-    "revision": "4d859ee7310828506b6d",
-    "url": "/LimitingReagentSim/finalgen.main.68d872b42c1d885d2f57.bundle.js"
+    "revision": "a9a21168def2c5134135",
+    "url": "/LimitingReagentSim/finalgen.main.7f621f21ad5c4501706b.bundle.js"
   },
   {
     "revision": "6e83cce80712b9bf21e5",
     "url": "/LimitingReagentSim/finalgen.vendors.a2aedf0e1e15451e0697.bundle.js"
   },
   {
-    "revision": "5806aff7c5080b66e0b2cbaef2ee1ac9",
+    "revision": "a2b8603cb005bc38bf8c0e981a37c884",
     "url": "/LimitingReagentSim/finalindex.html"
   },
   {
-    "revision": "003187cab0ecf7a20e343e2ba6db4a34",
+    "revision": "8ba42ca36ad267eec5d61b38a8e645e3",
     "url": "/LimitingReagentSim/finalmanifest.json"
   },
   {
